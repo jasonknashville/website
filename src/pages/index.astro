@@ -11,20 +11,12 @@ const heroImage = 'https://kvcore-library.s3.amazonaws.com/remax1stchoice8207/im
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="container hero-content">
       <p class="hero-kicker">Clear answers for your next move</p>
-      <h1>Real estate decisions are easier when the numbers make sense.</h1>
-      <p class="hero-copy">Practical calculators, local context, and candid guidance for buying, selling, or moving up in Nashville and Middle Tennessee.</p>
+      <h1>Make the next real estate decision clearer.</h1>
+      <p class="hero-copy">Use practical calculators and candid local guidance for buying, selling, or moving up in Nashville and Middle Tennessee.</p>
       <div class="hero-actions">
-        <a class="button" href="/tools/">Explore the planning tools</a>
-        <a class="button secondary" href="/about/">Why these tools exist</a>
+        <a class="button" href="/tools/">Use the planning tools</a>
       </div>
-    </div>
-  </section>
-
-  <section class="trust-strip" aria-label="Jason Kaczmarski credentials">
-    <div class="container trust-grid">
-      <div><strong>Licensed since 2007</strong><span>Middle Tennessee experience</span></div>
-      <div><strong>RE/MAX Hall of Fame</strong><span>Proven client representation</span></div>
-      <div><strong>Local, practical guidance</strong><span>No-pressure planning first</span></div>
+      <p class="hero-proof">Jason Kaczmarski <span aria-hidden="true">·</span> Licensed since 2007 <span aria-hidden="true">·</span> RE/MAX Hall of Fame</p>
     </div>
   </section>
 
@@ -32,76 +24,61 @@ const heroImage = 'https://kvcore-library.s3.amazonaws.com/remax1stchoice8207/im
     <div class="container">
       <div class="section-heading">
         <span class="eyebrow">Start with your question</span>
-        <h2>Tools built around real decisions—not generic lead forms.</h2>
-        <p>Use the numbers privately, change the assumptions, and reach out only if a conversation would help.</p>
+        <h2>Choose the decision you want to make clearer.</h2>
+        <p>Change the assumptions privately and reach out only if a conversation would help.</p>
       </div>
       <div class="tool-grid">
-        {tools.slice(0, 4).map((tool) => <ToolCard tool={tool} />)}
+        {tools.slice(0, 3).map((tool) => <ToolCard tool={tool} />)}
       </div>
       <a class="all-tools" href="/tools/">See all planning tools <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
-  <section class="section local-section">
-    <div class="container local-grid">
-      <div>
-        <span class="eyebrow">Middle Tennessee context</span>
-        <h2>Useful nationally. More helpful locally.</h2>
+  <section class="section contact-section">
+    <div class="container contact-card">
+      <div class="contact-copy">
+        <span class="eyebrow">Prefer a conversation?</span>
+        <h2>Talk through the next step with us.</h2>
+        <p>No pressure and no need to have every number figured out first.</p>
       </div>
-      <div>
-        <p>Mortgage math is only part of the decision. Property taxes, commutes, new-construction incentives, school timing, sale contingencies, and neighborhood inventory all change the answer.</p>
-        <p>This site is being built to connect the calculation with the realities of Nashville, Wilson County, Williamson County, and the communities around them.</p>
-        <a href="/areas/">Explore local area resources →</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section about-preview">
-    <div class="container about-card">
-      <div>
-        <span class="eyebrow">The person behind the tools</span>
-        <h2>Advice should be useful before it becomes a sales conversation.</h2>
-      </div>
-      <div>
-        <p>Jason Kaczmarski has represented Middle Tennessee buyers and sellers since 2007. These tools are designed to help people understand their options and ask better questions—even when a move is still months or years away.</p>
-        <a class="button light" href="/about/">Meet Jason</a>
+      <div class="contact-actions">
+        <a href="https://jasonk.remax.com/contact.php">Contact Jason</a>
+        <a href="https://ashlyn-sheppard.remax.com/contact.php">Contact Ashlyn</a>
+        <a href="https://the-jason-kaczmarski-team-springfield-tn.remax.com/">Search for homes</a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .hero { position: relative; min-height: min(820px, calc(100vh - 74px)); display: grid; align-items: end; overflow: hidden; background: var(--navy-950); color: white; }
+  .hero { position: relative; min-height: min(680px, calc(100vh - 74px)); display: grid; align-items: end; overflow: hidden; background: var(--navy-950); color: white; }
   .hero-photo, .hero-shade { position: absolute; inset: 0; }
   .hero-photo { background-image: var(--hero-image); background-size: cover; background-position: center; transform: scale(1.01); }
   .hero-shade { background: linear-gradient(90deg, rgba(7,24,45,.96) 0%, rgba(7,24,45,.75) 48%, rgba(7,24,45,.25) 100%), linear-gradient(0deg, rgba(7,24,45,.88) 0%, transparent 60%); }
-  .hero-content { position: relative; z-index: 2; padding-bottom: clamp(4rem, 9vw, 7.5rem); }
-  .hero-content h1 { max-width: 900px; margin-bottom: 1.4rem; }
+  .hero-content { position: relative; z-index: 2; padding-bottom: clamp(3.5rem, 7vw, 5.5rem); }
+  .hero-content h1 { max-width: 780px; margin-bottom: 1.2rem; }
   .hero-kicker { margin-bottom: 1rem; color: #f29aa6; font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
   .hero-copy { max-width: 700px; margin-bottom: 2rem; color: rgba(255,255,255,.78); font-size: clamp(1.05rem, 2vw, 1.28rem); }
   .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
-  .trust-strip { background: var(--navy-900); color: white; }
-  .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-  .trust-grid div { padding: 1.5rem 2rem; border-left: 1px solid rgba(255,255,255,.12); }
-  .trust-grid div:last-child { border-right: 1px solid rgba(255,255,255,.12); }
-  .trust-grid strong, .trust-grid span { display: block; }
-  .trust-grid strong { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
-  .trust-grid span { color: rgba(255,255,255,.58); font-size: .78rem; }
+  .hero-proof { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.5rem; color: rgba(255,255,255,.62); font-size: .78rem; font-weight: 600; letter-spacing: .03em; }
   .tools-preview { background: var(--mist); }
-  .tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .all-tools { display: inline-flex; gap: .5rem; margin-top: 2rem; color: var(--navy-900); font-weight: 700; text-decoration: none; }
-  .local-section { background: var(--sand); }
-  .local-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 8vw, 8rem); align-items: start; }
-  .local-grid p { color: #4f5866; font-size: 1.08rem; }
-  .local-grid a { color: var(--red-600); font-weight: 700; text-decoration: none; }
-  .about-preview { background: var(--paper); }
-  .about-card { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; padding: clamp(2rem, 5vw, 4.5rem); border-radius: var(--radius-lg); background: var(--navy-900); color: white; }
-  .about-card p { color: rgba(255,255,255,.72); font-size: 1.06rem; }
+  .contact-section { background: var(--paper); }
+  .contact-card { display: grid; grid-template-columns: minmax(0, .85fr) minmax(480px, 1.15fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; padding: clamp(2rem, 5vw, 4rem); border-radius: var(--radius-lg); background: var(--navy-900); color: white; }
+  .contact-copy h2 { margin-bottom: .65rem; }
+  .contact-copy p { margin: 0; color: rgba(255,255,255,.68); }
+  .contact-actions { display: grid; gap: .75rem; }
+  .contact-actions a { display: flex; align-items: center; justify-content: space-between; min-height: 3.35rem; padding: .8rem 1.15rem; border: 1px solid rgba(255,255,255,.2); border-radius: .85rem; color: white; font-weight: 700; text-decoration: none; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+  .contact-actions a::after { content: '→'; color: #f2cfd4; }
+  .contact-actions a:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.08); }
+  @media(max-width: 980px) {
+    .tool-grid, .contact-card { grid-template-columns: 1fr; }
+  }
   @media(max-width: 760px) {
-    .hero { min-height: 720px; }
+    .hero { min-height: 620px; }
     .hero-shade { background: linear-gradient(0deg, rgba(7,24,45,.98) 0%, rgba(7,24,45,.76) 70%, rgba(7,24,45,.35) 100%); }
-    .trust-grid, .tool-grid, .local-grid, .about-card { grid-template-columns: 1fr; }
-    .trust-grid div { border-left: 0; border-bottom: 1px solid rgba(255,255,255,.12); padding-inline: .4rem; }
-    .trust-grid div:last-child { border-right: 0; }
+    .hero-proof { display: block; line-height: 1.65; }
+    .hero-proof span { padding-inline: .25rem; }
   }
 </style>
