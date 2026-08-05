@@ -1,0 +1,339 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import rates from '../../../data/mortgage-rates.json';
+import '../../../styles/calculator.css';
+---
+
+<BaseLayout
+  title="Move-Up Mortgage Calculator"
+  description="Estimate usable proceeds from selling your current home, compare keeping it as a rental, and see the estimated payment on your next Middle Tennessee home."
+>
+  <section class="calculator-hero">
+    <div class="container">
+      <span class="eyebrow">Equity and next-home planning</span>
+      <h1>What could your current home make possible?</h1>
+      <p>Start with the money you may actually have after selling costs and reserves—or compare the monthly picture if you keep the home as a rental.</p>
+      <div class="rate-note">
+        Default 30-year rate: {rates.thirtyYear.toFixed(2)}% · As of {rates.asOf} ·
+        <a href={rates.sourceUrl} target="_blank" rel="noopener">Freddie Mac PMMS</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section calculator-shell">
+    <div class="container calculator-grid" id="moveUpCalculator" data-default-rate={rates.thirtyYear}>
+      <form class="calculator-card" id="calculatorInputs">
+        <div class="mode-tabs" role="tablist" aria-label="Current home plan">
+          <button class="mode-tab" type="button" role="tab" id="sellTab" aria-selected="true" aria-controls="sellFields" data-mode="sell">Sell and use proceeds</button>
+          <button class="mode-tab" type="button" role="tab" id="rentalTab" aria-selected="false" aria-controls="rentalFields" data-mode="rental">Keep as a rental</button>
+        </div>
+
+        <section class="input-section">
+          <h2>Your next home</h2>
+          <p>Adjust any assumption. The payment updates as you type.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="nextPrice">Target purchase price</label>
+              <input id="nextPrice" type="number" min="0" step="1000" value="525000" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="interestRate">Interest rate</label>
+              <input id="interestRate" type="number" min="0" step="0.01" value={rates.thirtyYear} inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="loanTerm">Loan term</label>
+              <select id="loanTerm">
+                <option value="30">30 years</option>
+                <option value="20">20 years</option>
+                <option value="15">15 years</option>
+                <option value="10">10 years</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="taxRate">Property taxes (%/year)</label>
+              <input id="taxRate" type="number" min="0" step="0.01" value="0.50" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="insuranceAnnual">Home insurance (annual)</label>
+              <input id="insuranceAnnual" type="number" min="0" step="50" value="1500" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="hoaMonthly">HOA (monthly)</label>
+              <input id="hoaMonthly" type="number" min="0" step="5" value="0" inputmode="decimal" />
+            </div>
+            <div class="field full">
+              <label for="pmiRate">Estimated PMI (% of loan/year)</label>
+              <input id="pmiRate" type="number" min="0" step="0.05" value="0.50" inputmode="decimal" />
+              <small>Applied only when the calculated down payment is below 20%.</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="input-section" id="sellFields" role="tabpanel" aria-labelledby="sellTab">
+          <h2>Selling your current home</h2>
+          <p>Usable proceeds are calculated after the mortgage payoff, estimated selling costs, and the cash you want to keep available.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="salePrice">Estimated sale price</label>
+              <input id="salePrice" type="number" min="0" step="1000" value="450000" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="mortgagePayoff">Estimated mortgage payoff</label>
+              <input id="mortgagePayoff" type="number" min="0" step="1000" value="225000" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="sellingCostRate">Selling costs (% of sale price)</label>
+              <input id="sellingCostRate" type="number" min="0" max="25" step="0.25" value="7" inputmode="decimal" />
+              <small>Planning allowance for commission, taxes, title/closing costs, concessions, and related expenses.</small>
+            </div>
+            <div class="field">
+              <label for="otherSellingCosts">Other repairs or costs</label>
+              <input id="otherSellingCosts" type="number" min="0" step="500" value="0" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="cashReserve">Cash to keep in reserve</label>
+              <input id="cashReserve" type="number" min="0" step="1000" value="15000" inputmode="decimal" />
+              <small>This amount stays out of the new-home down payment.</small>
+            </div>
+            <div class="field">
+              <label for="additionalCash">Additional cash for down payment</label>
+              <input id="additionalCash" type="number" min="0" step="1000" value="0" inputmode="decimal" />
+            </div>
+          </div>
+        </section>
+
+        <section class="input-section hidden" id="rentalFields" role="tabpanel" aria-labelledby="rentalTab">
+          <h2>Keeping your current home</h2>
+          <p>This is a cash-flow planning view. Mortgage underwriting may use a different percentage of rent and different documentation rules.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="rentalDownPayment">Down payment on next home (%)</label>
+              <input id="rentalDownPayment" type="number" min="0" max="100" step="0.25" value="5" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="expectedRent">Expected monthly rent</label>
+              <input id="expectedRent" type="number" min="0" step="50" value="2500" inputmode="decimal" />
+            </div>
+            <div class="field full">
+              <label for="currentHousingPayment">Current total housing payment</label>
+              <input id="currentHousingPayment" type="number" min="0" step="25" value="1300" inputmode="decimal" />
+              <small>Include mortgage principal and interest, taxes, insurance, and HOA.</small>
+            </div>
+            <div class="field">
+              <label for="vacancyReserve">Vacancy reserve (% of rent)</label>
+              <input id="vacancyReserve" type="number" min="0" max="100" step="1" value="5" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="maintenanceReserve">Maintenance/capital reserve (% of rent)</label>
+              <input id="maintenanceReserve" type="number" min="0" max="100" step="1" value="10" inputmode="decimal" />
+            </div>
+            <div class="field full">
+              <label for="managementRate">Property management (% of rent)</label>
+              <input id="managementRate" type="number" min="0" max="100" step="1" value="0" inputmode="decimal" />
+              <small>Leave at 0% if you expect to self-manage.</small>
+            </div>
+          </div>
+        </section>
+      </form>
+
+      <aside class="calculator-card results-panel" aria-live="polite">
+        <h2 id="resultsHeading">Sell-and-buy estimate</h2>
+        <p class="results-intro" id="resultsIntro">Your estimated next-home payment after applying usable sale proceeds.</p>
+
+        <div class="primary-result">
+          <span>Estimated next-home payment</span>
+          <strong id="nextPayment">$0</strong>
+        </div>
+
+        <div id="sellResults">
+          <div class="result-group">
+            <h3>From your sale</h3>
+            <dl class="result-list">
+              <div class="result-row"><dt>Gross equity</dt><dd id="grossEquity">$0</dd></div>
+              <div class="result-row"><dt>Estimated selling costs</dt><dd id="sellingCosts">$0</dd></div>
+              <div class="result-row"><dt>Net sale proceeds</dt><dd id="netProceeds">$0</dd></div>
+              <div class="result-row"><dt>Cash kept in reserve</dt><dd id="reserveResult">$0</dd></div>
+              <div class="result-row"><dt>Usable sale proceeds</dt><dd id="usableProceeds">$0</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div id="rentalResults" class="hidden">
+          <div class="result-group">
+            <h3>Current-home rental</h3>
+            <dl class="result-list">
+              <div class="result-row"><dt>Vacancy reserve</dt><dd id="vacancyResult">$0</dd></div>
+              <div class="result-row"><dt>Maintenance reserve</dt><dd id="maintenanceResult">$0</dd></div>
+              <div class="result-row"><dt>Management allowance</dt><dd id="managementResult">$0</dd></div>
+              <div class="result-row"><dt>Estimated rental cash flow</dt><dd id="rentalCashFlow">$0</dd></div>
+              <div class="result-row"><dt>Effective combined housing cost</dt><dd id="effectiveHousing">$0</dd></div>
+            </dl>
+          </div>
+          <div class="assumption-note">This rental cash-flow estimate is not the same as lender qualifying income. Ask a lender how rent will be documented and counted.</div>
+        </div>
+
+        <div class="result-group">
+          <h3>Next-home financing</h3>
+          <dl class="result-list">
+            <div class="result-row"><dt>Total down payment</dt><dd id="downPayment">$0</dd></div>
+            <div class="result-row"><dt>Estimated loan amount</dt><dd id="loanAmount">$0</dd></div>
+            <div class="result-row"><dt>Principal and interest</dt><dd id="principalInterest">$0</dd></div>
+            <div class="result-row"><dt>Taxes, insurance, PMI and HOA</dt><dd id="otherMonthly">$0</dd></div>
+          </dl>
+        </div>
+
+        <div class="result-actions">
+          <button type="button" id="copyScenario">Copy scenario link</button>
+          <button type="button" id="emailScenario">Email results</button>
+        </div>
+        <p class="calculation-disclosure">Planning estimates only—not a loan quote, appraisal, tax opinion, property-management projection, or guarantee. Actual costs and lender requirements vary.</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const form = document.getElementById('calculatorInputs');
+  const inputs = Array.from(form.querySelectorAll('input, select'));
+  let mode = 'sell';
+
+  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const value = (id) => Math.max(0, Number(document.getElementById(id)?.value || 0));
+  const text = (id, next, negative = false) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    element.textContent = typeof next === 'number' ? money.format(next) : next;
+    element.classList.toggle('negative', negative);
+  };
+  const payment = (principal, annualRate, years) => {
+    if (principal <= 0) return 0;
+    const months = years * 12;
+    const monthlyRate = annualRate / 100 / 12;
+    if (monthlyRate === 0) return principal / months;
+    const growth = Math.pow(1 + monthlyRate, months);
+    return principal * (monthlyRate * growth) / (growth - 1);
+  };
+
+  function calculate() {
+    const price = value('nextPrice');
+    const rate = value('interestRate');
+    const term = value('loanTerm') || 30;
+    let down = 0;
+
+    if (mode === 'sell') {
+      const salePrice = value('salePrice');
+      const payoff = value('mortgagePayoff');
+      const percentCosts = salePrice * value('sellingCostRate') / 100;
+      const costs = percentCosts + value('otherSellingCosts');
+      const grossEquity = salePrice - payoff;
+      const netProceeds = Math.max(0, grossEquity - costs);
+      const usable = Math.max(0, netProceeds - value('cashReserve'));
+      down = Math.min(price, usable + value('additionalCash'));
+      text('grossEquity', grossEquity, grossEquity < 0);
+      text('sellingCosts', costs);
+      text('netProceeds', netProceeds);
+      text('reserveResult', Math.min(value('cashReserve'), netProceeds));
+      text('usableProceeds', usable);
+    } else {
+      down = Math.min(price, price * value('rentalDownPayment') / 100);
+    }
+
+    const loan = Math.max(0, price - down);
+    const pi = payment(loan, rate, term);
+    const taxes = price * value('taxRate') / 100 / 12;
+    const insurance = value('insuranceAnnual') / 12;
+    const hoa = value('hoaMonthly');
+    const ltv = price > 0 ? loan / price : 0;
+    const pmi = ltv > .80 ? loan * value('pmiRate') / 100 / 12 : 0;
+    const other = taxes + insurance + hoa + pmi;
+    const nextMonthly = pi + other;
+
+    text('nextPayment', nextMonthly);
+    text('downPayment', down);
+    text('loanAmount', loan);
+    text('principalInterest', pi);
+    text('otherMonthly', other);
+
+    if (mode === 'rental') {
+      const rent = value('expectedRent');
+      const vacancy = rent * value('vacancyReserve') / 100;
+      const maintenance = rent * value('maintenanceReserve') / 100;
+      const management = rent * value('managementRate') / 100;
+      const cashFlow = rent - vacancy - maintenance - management - value('currentHousingPayment');
+      const effective = nextMonthly - cashFlow;
+      text('vacancyResult', vacancy);
+      text('maintenanceResult', maintenance);
+      text('managementResult', management);
+      text('rentalCashFlow', cashFlow, cashFlow < 0);
+      text('effectiveHousing', effective, effective < 0);
+    }
+  }
+
+  function switchMode(nextMode) {
+    mode = nextMode;
+    document.querySelectorAll('.mode-tab').forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.mode === mode)));
+    document.getElementById('sellFields').classList.toggle('hidden', mode !== 'sell');
+    document.getElementById('sellResults').classList.toggle('hidden', mode !== 'sell');
+    document.getElementById('rentalFields').classList.toggle('hidden', mode !== 'rental');
+    document.getElementById('rentalResults').classList.toggle('hidden', mode !== 'rental');
+    document.getElementById('resultsHeading').textContent = mode === 'sell' ? 'Sell-and-buy estimate' : 'Keep-and-rent estimate';
+    document.getElementById('resultsIntro').textContent = mode === 'sell'
+      ? 'Your estimated next-home payment after applying usable sale proceeds.'
+      : 'Your next-home payment and estimated cash flow from the current home.';
+    calculate();
+  }
+
+  function scenarioQuery() {
+    const query = new URLSearchParams({ mode });
+    inputs.forEach((input) => query.set(input.id, input.value));
+    return query;
+  }
+
+  function applyQuery() {
+    const query = new URLSearchParams(window.location.search);
+    inputs.forEach((input) => {
+      if (query.has(input.id)) input.value = query.get(input.id);
+    });
+    switchMode(query.get('mode') === 'rental' ? 'rental' : 'sell');
+  }
+
+  document.querySelectorAll('.mode-tab').forEach((tab) => tab.addEventListener('click', () => switchMode(tab.dataset.mode)));
+  inputs.forEach((input) => input.addEventListener('input', calculate));
+
+  document.getElementById('copyScenario').addEventListener('click', async () => {
+    const link = `${window.location.origin}${window.location.pathname}?${scenarioQuery()}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      document.getElementById('copyScenario').textContent = 'Link copied';
+      setTimeout(() => document.getElementById('copyScenario').textContent = 'Copy scenario link', 1800);
+    } catch {
+      window.prompt('Copy this link:', link);
+    }
+    window.dataLayer?.push({ event: 'move_up_scenario_copy', calculator_mode: mode });
+  });
+
+  document.getElementById('emailScenario').addEventListener('click', () => {
+    calculate();
+    const recipient = window.prompt('What email address should receive a copy?');
+    if (!recipient) return;
+    const subject = encodeURIComponent('My Move-Up Calculator scenario');
+    const scenarioLink = `${window.location.origin}${window.location.pathname}?${scenarioQuery()}`;
+    const body = encodeURIComponent([
+      'Here is my Move-Up Calculator scenario:',
+      '',
+      `Plan: ${mode === 'sell' ? 'Sell and use proceeds' : 'Keep current home as a rental'}`,
+      `Next-home payment estimate: ${document.getElementById('nextPayment').textContent}`,
+      `Down payment estimate: ${document.getElementById('downPayment').textContent}`,
+      `Loan amount estimate: ${document.getElementById('loanAmount').textContent}`,
+      mode === 'sell' ? `Usable sale proceeds: ${document.getElementById('usableProceeds').textContent}` : `Rental cash flow estimate: ${document.getElementById('rentalCashFlow').textContent}`,
+      '',
+      scenarioLink,
+      '',
+      'Planning estimates only. Actual costs, rates, and lender requirements vary.'
+    ].join('\n'));
+    window.location.href = `mailto:jason@jasonknashville.com?cc=${encodeURIComponent(recipient.trim())}&subject=${subject}&body=${body}`;
+    window.dataLayer?.push({ event: 'move_up_email_results_click', calculator_mode: mode });
+  });
+
+  applyQuery();
+</script>
