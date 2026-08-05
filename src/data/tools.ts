@@ -19,10 +19,10 @@ export const tools: Tool[] = [
   {
     title: '30-Year vs. 15-Year Mortgage',
     description: 'Compare payments, total interest, payoff time, and the effect of paying extra on a 30-year loan.',
-    href: 'https://jasonknashville.github.io/30-yr-vs-15-year/',
+    href: '/tools/30-vs-15-calculator/',
     eyebrow: 'Loan term comparison',
     featured: true,
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: 'Move Now or Wait 12 Months',

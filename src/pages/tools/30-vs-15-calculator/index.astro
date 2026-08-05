@@ -1,0 +1,326 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import rates from '../../../data/mortgage-rates.json';
+import '../../../styles/calculator.css';
+---
+
+<BaseLayout
+  title="30-Year vs. 15-Year Mortgage Calculator"
+  description="Compare 30-year and 15-year mortgage payments, total interest, payoff time, and the effect of paying extra toward a 30-year loan."
+>
+  <section class="calculator-hero">
+    <div class="container">
+      <span class="eyebrow">Loan-term comparison</span>
+      <h1>30 years, 15 years, or something in between?</h1>
+      <p>Compare the required payments and total interest—then see how optional extra payments can shorten a 30-year loan without locking in the 15-year payment.</p>
+      <div class="rate-note">
+        Defaults: 30-year {rates.thirtyYear.toFixed(2)}% · 15-year {rates.fifteenYear.toFixed(2)}% · As of {rates.asOf} ·
+        <a href={rates.sourceUrl} target="_blank" rel="noopener">Freddie Mac PMMS</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section calculator-shell">
+    <div class="container comparison-layout">
+      <form class="calculator-card comparison-inputs" id="termInputs">
+        <div class="input-section">
+          <h2>Your loan</h2>
+          <p>Rates are editable. Results update as you type.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="homePrice">Home price</label>
+              <input id="homePrice" type="number" min="0" step="1000" value="450000" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="downPaymentPercent">Down payment (%)</label>
+              <input id="downPaymentPercent" type="number" min="0" max="100" step="0.5" value="20" inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="rate30">30-year interest rate</label>
+              <input id="rate30" type="number" min="0" max="25" step="0.01" value={rates.thirtyYear} inputmode="decimal" />
+            </div>
+            <div class="field">
+              <label for="rate15">15-year interest rate</label>
+              <input id="rate15" type="number" min="0" max="25" step="0.01" value={rates.fifteenYear} inputmode="decimal" />
+            </div>
+            <div class="field full">
+              <label for="extraPayment">Optional extra payment on the 30-year (monthly)</label>
+              <input id="extraPayment" type="number" min="0" step="25" value="250" inputmode="decimal" />
+              <small>This is added to the required principal-and-interest payment and applied toward principal.</small>
+            </div>
+          </div>
+        </div>
+        <div class="loan-summary" aria-live="polite">
+          <span>Estimated loan amount</span>
+          <strong id="loanAmount">$0</strong>
+          <small id="downPaymentAmount">$0 down payment</small>
+        </div>
+        <p class="calculation-disclosure">Principal and interest only. Property taxes, homeowners insurance, mortgage insurance, HOA dues, closing costs, and other expenses are not included.</p>
+      </form>
+
+      <div class="comparison-results" aria-live="polite">
+        <div class="term-grid">
+          <article class="calculator-card term-card term-30">
+            <div class="term-heading">
+              <div>
+                <span>Lower required payment</span>
+                <h2>30-year fixed</h2>
+              </div>
+              <span class="term-chip">360 payments</span>
+            </div>
+            <div class="term-payment">
+              <span>Required monthly P&amp;I</span>
+              <strong id="payment30">$0</strong>
+            </div>
+            <dl class="result-list">
+              <div class="result-row"><dt>Total interest</dt><dd id="interest30">$0</dd></div>
+              <div class="result-row"><dt>Scheduled payoff</dt><dd>30 years</dd></div>
+            </dl>
+          </article>
+
+          <article class="calculator-card term-card term-15">
+            <div class="term-heading">
+              <div>
+                <span>Faster required payoff</span>
+                <h2>15-year fixed</h2>
+              </div>
+              <span class="term-chip">180 payments</span>
+            </div>
+            <div class="term-payment">
+              <span>Required monthly P&amp;I</span>
+              <strong id="payment15">$0</strong>
+            </div>
+            <dl class="result-list">
+              <div class="result-row"><dt>Total interest</dt><dd id="interest15">$0</dd></div>
+              <div class="result-row"><dt>Scheduled payoff</dt><dd>15 years</dd></div>
+            </dl>
+          </article>
+        </div>
+
+        <article class="calculator-card takeaway-card">
+          <span class="eyebrow">The required-payment tradeoff</span>
+          <h2 id="headlineTakeaway">Comparing your two options</h2>
+          <p id="takeawayCopy"></p>
+        </article>
+
+        <article class="calculator-card accelerated-card">
+          <div class="accelerated-heading">
+            <div>
+              <span class="eyebrow">Flexible middle ground</span>
+              <h2 id="acceleratedTitle">30-year with extra principal</h2>
+            </div>
+            <p>The lower 30-year payment remains the contractual minimum; the extra amount is optional.</p>
+          </div>
+          <div class="accelerated-grid">
+            <div><span>Total monthly P&amp;I</span><strong id="acceleratedPayment">$0</strong></div>
+            <div><span>Estimated payoff</span><strong id="acceleratedPayoff">—</strong></div>
+            <div><span>Time saved</span><strong id="timeSaved">—</strong></div>
+            <div><span>Interest saved</span><strong id="interestSaved">$0</strong></div>
+          </div>
+          <p class="accelerated-comparison" id="acceleratedComparison"></p>
+        </article>
+
+        <div class="result-actions comparison-actions">
+          <button type="button" id="copyScenario">Copy scenario link</button>
+          <button type="button" id="emailScenario">Email results</button>
+        </div>
+        <p class="calculation-disclosure">Planning estimates only—not a loan quote, lending recommendation, or guarantee. Actual rates, payments, loan costs, and prepayment rules vary. Confirm that your loan permits extra principal payments and that they are applied correctly.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .comparison-layout { display: grid; gap: 1.25rem; }
+  .comparison-inputs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .34fr); gap: clamp(1.25rem, 4vw, 3rem); align-items: center; }
+  .loan-summary { padding: 1.25rem; border-radius: var(--radius-md); background: var(--navy-900); color: white; }
+  .loan-summary span, .loan-summary small { display: block; color: rgba(255,255,255,.66); }
+  .loan-summary span { font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .loan-summary strong { display: block; margin: .25rem 0; font-size: clamp(2rem, 4vw, 3rem); line-height: 1; }
+  .loan-summary small { font-size: .78rem; }
+  .comparison-inputs > .calculation-disclosure { grid-column: 1 / -1; margin: 0; }
+  .comparison-results { display: grid; gap: 1.25rem; }
+  .term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .term-card { position: relative; overflow: hidden; }
+  .term-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--blue-600); }
+  .term-15::before { background: var(--red-600); }
+  .term-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: start; }
+  .term-heading span:first-child { color: var(--muted); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .term-heading h2 { margin-top: .15rem; }
+  .term-chip { padding: .35rem .6rem; border-radius: 999px; background: var(--mist); color: var(--navy-900); font-size: .72rem; font-weight: 700; white-space: nowrap; }
+  .term-payment { margin: 1.15rem 0 .5rem; padding: 1rem; border-radius: .8rem; background: var(--mist); }
+  .term-payment span { display: block; color: var(--muted); font-size: .78rem; }
+  .term-payment strong { display: block; margin-top: .2rem; color: var(--navy-900); font-size: clamp(2rem, 5vw, 3rem); line-height: 1; }
+  .takeaway-card { background: var(--navy-900); color: white; }
+  .takeaway-card .eyebrow { color: #f2cfd4; }
+  .takeaway-card h2 { margin: .35rem 0 .6rem; }
+  .takeaway-card p { margin: 0; max-width: 900px; color: rgba(255,255,255,.72); font-size: 1.02rem; }
+  .accelerated-heading { display: grid; grid-template-columns: 1fr minmax(260px, .55fr); gap: 2rem; align-items: end; }
+  .accelerated-heading h2 { margin-top: .35rem; }
+  .accelerated-heading p { margin: 0; color: var(--muted); font-size: .86rem; }
+  .accelerated-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin-top: 1.25rem; }
+  .accelerated-grid div { padding: 1rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--mist); }
+  .accelerated-grid span { display: block; min-height: 2.4em; color: var(--muted); font-size: .76rem; }
+  .accelerated-grid strong { display: block; margin-top: .25rem; color: var(--navy-900); font-size: 1.35rem; }
+  .accelerated-comparison { margin: 1rem 0 0; color: var(--muted); font-size: .88rem; }
+  .comparison-actions { max-width: 520px; }
+  @media (max-width: 900px) {
+    .comparison-inputs, .accelerated-heading { grid-template-columns: 1fr; }
+    .term-grid { grid-template-columns: 1fr; }
+    .accelerated-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .accelerated-grid { grid-template-columns: 1fr; }
+    .accelerated-grid span { min-height: 0; }
+  }
+</style>
+
+<script is:inline>
+  const form = document.getElementById('termInputs');
+  const inputs = Array.from(form.querySelectorAll('input'));
+  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const number = (id, maximum = Infinity) => Math.min(maximum, Math.max(0, Number(document.getElementById(id)?.value || 0)));
+  const setMoney = (id, amount) => { document.getElementById(id).textContent = money.format(Number.isFinite(amount) ? amount : 0); };
+
+  function amortize(principal, annualRate, termMonths, extra = 0) {
+    if (principal <= 0) return { requiredPayment: 0, totalPayment: 0, months: 0, totalInterest: 0 };
+    const monthlyRate = annualRate / 100 / 12;
+    const requiredPayment = monthlyRate === 0
+      ? principal / termMonths
+      : principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
+    const totalPayment = requiredPayment + Math.max(0, extra);
+    let balance = principal;
+    let totalInterest = 0;
+    let months = 0;
+
+    while (balance > .005 && months < 1200) {
+      const interest = balance * monthlyRate;
+      const principalPayment = Math.min(balance, totalPayment - interest);
+      if (principalPayment <= 0) return { requiredPayment, totalPayment, months: Infinity, totalInterest: Infinity };
+      totalInterest += interest;
+      balance -= principalPayment;
+      months += 1;
+    }
+    return { requiredPayment, totalPayment, months, totalInterest };
+  }
+
+  function duration(months) {
+    if (!Number.isFinite(months) || months <= 0) return '—';
+    const years = Math.floor(months / 12);
+    const remainder = months % 12;
+    const parts = [];
+    if (years) parts.push(`${years} ${years === 1 ? 'yr' : 'yrs'}`);
+    if (remainder) parts.push(`${remainder} ${remainder === 1 ? 'mo' : 'mos'}`);
+    return parts.join(' ') || '0 mos';
+  }
+
+  function calculate() {
+    const price = number('homePrice');
+    const downPercent = number('downPaymentPercent', 100);
+    const down = price * downPercent / 100;
+    const loan = Math.max(0, price - down);
+    const extra = number('extraPayment');
+    const thirty = amortize(loan, number('rate30', 25), 360);
+    const fifteen = amortize(loan, number('rate15', 25), 180);
+    const accelerated = amortize(loan, number('rate30', 25), 360, extra);
+
+    setMoney('loanAmount', loan);
+    document.getElementById('downPaymentAmount').textContent = `${money.format(down)} down payment (${downPercent.toLocaleString('en-US', { maximumFractionDigits: 1 })}%)`;
+    setMoney('payment30', thirty.requiredPayment);
+    setMoney('interest30', thirty.totalInterest);
+    setMoney('payment15', fifteen.requiredPayment);
+    setMoney('interest15', fifteen.totalInterest);
+
+    const paymentDifference = fifteen.requiredPayment - thirty.requiredPayment;
+    const interestDifference = thirty.totalInterest - fifteen.totalInterest;
+    const headline = document.getElementById('headlineTakeaway');
+    const copy = document.getElementById('takeawayCopy');
+    if (loan <= 0) {
+      headline.textContent = 'Enter a home price to compare the terms.';
+      copy.textContent = 'The calculator will show the required payment and total interest for each option.';
+    } else if (paymentDifference >= 0 && interestDifference >= 0) {
+      headline.textContent = `The 15-year requires ${money.format(paymentDifference)} more per month.`;
+      copy.textContent = `In exchange, it pays off 15 years sooner and saves an estimated ${money.format(interestDifference)} in total interest compared with the scheduled 30-year loan.`;
+    } else {
+      headline.textContent = 'The rate assumptions changed the usual tradeoff.';
+      copy.textContent = `With the rates entered, the monthly-payment difference is ${money.format(Math.abs(paymentDifference))} and the total-interest difference is ${money.format(Math.abs(interestDifference))}. Compare actual loan estimates before choosing a term.`;
+    }
+
+    document.getElementById('acceleratedTitle').textContent = extra > 0
+      ? `30-year with ${money.format(extra)} extra each month`
+      : '30-year with extra principal';
+    setMoney('acceleratedPayment', accelerated.totalPayment);
+    document.getElementById('acceleratedPayoff').textContent = duration(accelerated.months);
+    document.getElementById('timeSaved').textContent = duration(Math.max(0, thirty.months - accelerated.months));
+    setMoney('interestSaved', Math.max(0, thirty.totalInterest - accelerated.totalInterest));
+
+    const comparison = document.getElementById('acceleratedComparison');
+    if (extra <= 0 || loan <= 0) {
+      comparison.textContent = 'Add an optional amount above to see how it changes the 30-year payoff.';
+    } else {
+      const monthGap = accelerated.months - fifteen.months;
+      const paymentGap = accelerated.totalPayment - fifteen.requiredPayment;
+      const timeText = monthGap > 0
+        ? `${duration(monthGap)} later than the 15-year`
+        : monthGap < 0 ? `${duration(Math.abs(monthGap))} sooner than the 15-year` : 'at the same time as the 15-year';
+      const paymentText = paymentGap >= 0
+        ? `${money.format(paymentGap)} more per month than the 15-year requires`
+        : `${money.format(Math.abs(paymentGap))} less per month than the 15-year requires`;
+      comparison.textContent = `At this extra-payment level, the 30-year pays off ${timeText} while costing ${paymentText}. The extra remains optional; the required 30-year payment does not change.`;
+    }
+  }
+
+  function scenarioQuery() {
+    const query = new URLSearchParams();
+    inputs.forEach((input) => query.set(input.id, input.value));
+    return query;
+  }
+
+  function applyQuery() {
+    const query = new URLSearchParams(window.location.search);
+    inputs.forEach((input) => {
+      if (query.has(input.id)) input.value = query.get(input.id);
+    });
+    calculate();
+  }
+
+  inputs.forEach((input) => input.addEventListener('input', calculate));
+
+  document.getElementById('copyScenario').addEventListener('click', async () => {
+    const link = `${window.location.origin}${window.location.pathname}?${scenarioQuery()}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      document.getElementById('copyScenario').textContent = 'Link copied';
+      setTimeout(() => document.getElementById('copyScenario').textContent = 'Copy scenario link', 1800);
+    } catch {
+      window.prompt('Copy this link:', link);
+    }
+    window.dataLayer?.push({ event: 'term_comparison_scenario_copy' });
+  });
+
+  document.getElementById('emailScenario').addEventListener('click', () => {
+    calculate();
+    const recipient = window.prompt('What email address should receive a copy?');
+    if (!recipient) return;
+    const link = `${window.location.origin}${window.location.pathname}?${scenarioQuery()}`;
+    const subject = encodeURIComponent('My 30-year vs. 15-year mortgage comparison');
+    const body = encodeURIComponent([
+      'Here is my 30-year vs. 15-year mortgage comparison:',
+      '',
+      `Loan amount: ${document.getElementById('loanAmount').textContent}`,
+      `30-year monthly P&I: ${document.getElementById('payment30').textContent}`,
+      `15-year monthly P&I: ${document.getElementById('payment15').textContent}`,
+      `30-year total interest: ${document.getElementById('interest30').textContent}`,
+      `15-year total interest: ${document.getElementById('interest15').textContent}`,
+      `30-year with extra payoff: ${document.getElementById('acceleratedPayoff').textContent}`,
+      '',
+      link,
+      '',
+      'Planning estimates only. Actual rates, costs, and loan terms vary.'
+    ].join('\n'));
+    window.location.href = `mailto:jason@jasonknashville.com?cc=${encodeURIComponent(recipient.trim())}&subject=${subject}&body=${body}`;
+    window.dataLayer?.push({ event: 'term_comparison_email_results_click' });
+  });
+
+  applyQuery();
+</script>
