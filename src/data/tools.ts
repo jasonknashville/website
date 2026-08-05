@@ -11,10 +11,10 @@ export const tools: Tool[] = [
   {
     title: 'Move-Up Mortgage Calculator',
     description: 'Estimate net sale proceeds, compare selling with keeping your current home, and see the effect on your next payment.',
-    href: 'https://jasonknashville.github.io/Move-Up-Mortgage-Calc/',
+    href: '/tools/move-up-calculator/',
     eyebrow: 'Equity & next payment',
     featured: true,
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: '30-Year vs. 15-Year Mortgage',
