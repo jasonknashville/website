@@ -6,15 +6,6 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   title="Ideal Home Quiz | 60-Second Clarity Check"
   description="Identify what is missing from your current home, name every obstacle to moving, and get practical next-step tools tailored to your answers."
 >
-  <section class="quiz-hero">
-    <div class="container">
-      <span class="eyebrow">A 60-second clarity check</span>
-      <h1>How far are you from your ideal home?</h1>
-      <p>Not the perfect house. The home you would choose if you were starting from scratch today.</p>
-      <div class="privacy-note">Your answers stay in this browser. The optional money section uses rough ranges only.</div>
-    </div>
-  </section>
-
   <section class="section quiz-section">
     <div class="container quiz-container">
       <div id="idealHomeQuiz" class="quiz-app" aria-live="polite"></div>
@@ -387,6 +378,290 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     .quiz-card { padding: 1rem; }
     .quiz-nav { flex-direction: column-reverse; }
   }
+
+  /* The quiz intentionally keeps the softer, more conversational visual
+     language of the original tool while using the shared site shell. */
+  .quiz-section {
+    min-height: calc(100vh - 150px);
+    padding: clamp(1.75rem, 5vw, 3.25rem) 0 clamp(3rem, 7vw, 5rem);
+    background: #f4f6fa;
+  }
+  .quiz-container { max-width: 800px; }
+  .quiz-app { min-height: 410px; }
+  .quiz-card {
+    padding: clamp(1.35rem, 4vw, 2rem);
+    border: 1px solid #e4e9f2;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(16, 38, 76, .08);
+  }
+  .quiz-intro {
+    gap: 1rem;
+    padding: clamp(1.6rem, 5vw, 2.5rem) clamp(1.35rem, 5vw, 2.25rem);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #003da5 0%, #0356c9 100%);
+    box-shadow: 0 10px 30px rgba(16, 38, 76, .11);
+  }
+  .quiz-intro .eyebrow {
+    margin-bottom: .1rem;
+    color: #e3c65f;
+  }
+  .quiz-intro h2 {
+    max-width: 660px;
+    font-size: clamp(1.75rem, 4.5vw, 2.45rem);
+  }
+  .quiz-intro p {
+    max-width: 640px;
+    color: rgba(255, 255, 255, .9);
+    font-size: .98rem;
+  }
+  .quiz-intro-meta { color: rgba(255, 255, 255, .72); }
+  .intro-button {
+    width: 100%;
+    margin-top: .45rem;
+  }
+  .quiz-progress { margin-bottom: 1.45rem; }
+  .quiz-progress-track {
+    height: 8px;
+    background: #e9eef6;
+  }
+  .quiz-progress-fill {
+    background: linear-gradient(90deg, #003da5, #0356c9);
+    transition: width .4s cubic-bezier(.4, 0, .2, 1);
+  }
+  .quiz-progress-label {
+    margin-top: .5rem;
+    color: #566479;
+    font-size: .78rem;
+    letter-spacing: .02em;
+    text-align: left;
+    text-transform: none;
+  }
+  .question-label {
+    margin-bottom: .5rem;
+    color: #dc1c2e;
+    font-size: .78rem;
+    letter-spacing: .1em;
+  }
+  .quiz-card h2 {
+    margin-bottom: .35rem;
+    font-size: clamp(1.35rem, 3vw, 1.65rem);
+  }
+  .question-help {
+    margin-bottom: 1.3rem;
+    color: #566479;
+    font-size: .92rem;
+  }
+  .option-grid { gap: .65rem; }
+  .quiz-option {
+    min-height: 3.45rem;
+    padding: .9rem 1rem;
+    border: 1.5px solid #e4e9f2;
+    border-radius: 12px;
+    color: #1a2b45;
+    font-size: .98rem;
+    font-weight: 500;
+    transition: border-color .15s ease, background .15s ease, transform .08s ease;
+  }
+  .quiz-option:hover {
+    transform: none;
+    border-color: #b9c6dc;
+    background: #fafbfe;
+  }
+  .quiz-option:active { transform: scale(.99); }
+  .quiz-option.selected {
+    border-color: #003da5;
+    background: #eef4ff;
+    color: #1a2b45;
+  }
+  .option-check {
+    flex-basis: 22px;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #c6d0e0;
+    border-radius: 6px;
+  }
+  .option-grid.two-wide .option-check { border-radius: 50%; }
+  .quiz-option.selected .option-check {
+    border-color: #003da5;
+    background: #003da5;
+  }
+  .selection-note {
+    margin-top: .85rem;
+    color: #566479;
+    font-size: .82rem;
+    text-align: center;
+  }
+  .quiz-textarea {
+    min-height: 100px;
+    border: 1.5px solid #e4e9f2;
+    border-radius: 12px;
+  }
+  .quiz-textarea:focus { border-color: #003da5; outline: none; }
+  .quiz-nav { margin-top: 1.75rem; }
+  .quiz-button {
+    min-height: 3rem;
+    padding: .8rem 1.65rem;
+    border: 0;
+    border-radius: 12px;
+    font-size: .98rem;
+    transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .quiz-button:active { transform: translateY(1px); }
+  .quiz-button.primary {
+    background: #dc1c2e;
+    box-shadow: 0 6px 18px rgba(220, 28, 46, .28);
+  }
+  .quiz-button.primary:hover { background: #c1162a; }
+  .quiz-button.primary:disabled {
+    background: #d9b3b8;
+    box-shadow: none;
+  }
+  .quiz-button.secondary {
+    padding-inline: .5rem;
+    background: transparent;
+    color: #566479;
+    box-shadow: none;
+  }
+  .quiz-button.secondary:hover {
+    background: transparent;
+    color: #1a2b45;
+  }
+  .skip-button { color: #566479; font-size: .88rem; }
+  .range-row {
+    border-color: #e4e9f2;
+    border-radius: 12px;
+    background: #f7f9fd;
+  }
+  .range-heading strong { color: #003da5; }
+  .range-row input { accent-color: #dc1c2e; }
+  .range-row input[type='range'] {
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: #e2e9f4;
+    outline: none;
+  }
+  .range-row input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    border: 3px solid white;
+    border-radius: 50%;
+    background: #dc1c2e;
+    box-shadow: 0 2px 8px rgba(220, 28, 46, .4);
+    cursor: pointer;
+  }
+  .range-row input[type='range']::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-radius: 50%;
+    background: #dc1c2e;
+    box-shadow: 0 2px 8px rgba(220, 28, 46, .4);
+    cursor: pointer;
+  }
+  .result-stack {
+    gap: .85rem;
+    padding: clamp(1.35rem, 4vw, 2rem);
+    border: 1px solid #e4e9f2;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(16, 38, 76, .08);
+  }
+  .result-hero {
+    padding: .35rem .5rem .75rem;
+    border-radius: 0;
+    background: white;
+    color: #1a2b45;
+    text-align: center;
+  }
+  .result-hero .eyebrow {
+    display: block;
+    margin-bottom: .55rem;
+    color: #c9a227;
+  }
+  .result-hero .eyebrow::before { display: none; }
+  .result-hero h2 {
+    margin-bottom: .45rem;
+    font-size: clamp(1.65rem, 4vw, 2.1rem);
+  }
+  .result-hero p {
+    max-width: 620px;
+    margin-inline: auto;
+    color: #566479;
+  }
+  .result-panel {
+    border-color: #e4e9f2;
+    border-left: 4px solid #003da5;
+    border-radius: 12px;
+    background: #f7f9fd;
+    box-shadow: none;
+  }
+  .priority-tag {
+    border: 1px solid #d5e2f7;
+    background: #eef4ff;
+    color: #003da5;
+  }
+  .one-thing,
+  .blocker-item {
+    border-color: #e4e9f2;
+    border-left: 4px solid #003da5;
+    border-radius: 12px;
+    background: #f7f9fd;
+  }
+  .equity-box {
+    border-radius: 12px;
+    background: linear-gradient(135deg, #003da5, #0356c9);
+    color: white;
+    text-align: center;
+  }
+  .equity-box span,
+  .equity-box small,
+  .equity-box strong { color: white; }
+  .equity-panel {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .equity-panel > h3 { display: none; }
+  .equity-panel > .selection-note { margin-bottom: 0; }
+  .recommendation-grid { gap: .65rem; }
+  .recommendation-card {
+    min-height: 155px;
+    border-color: #e4e9f2;
+    border-radius: 12px;
+    background: #f7f9fd;
+  }
+  .recommendation-card:hover {
+    border-color: #b9c6dc;
+    box-shadow: 0 8px 20px rgba(16, 38, 76, .07);
+  }
+  .recommendation-card span { color: #dc1c2e; }
+  .recommendation-card strong { color: #003da5; }
+  .contact-strip {
+    margin-top: .2rem;
+    padding: 1.4rem .25rem .4rem;
+    border: 0;
+    border-top: 1px dashed #e4e9f2;
+    border: 1px solid #e4e9f2;
+    border-width: 1px 0 0;
+    border-radius: 0;
+    background: white;
+    box-shadow: none;
+  }
+  .contact-buttons .quiz-button.secondary {
+    padding-inline: 1.25rem;
+    border: 1.5px solid #003da5;
+    color: #003da5;
+  }
+  .result-actions .quiz-button.secondary {
+    padding-inline: .85rem;
+    text-decoration: underline;
+  }
+  @media (max-width: 700px) {
+    .quiz-section { padding-top: 1rem; }
+    .quiz-container { width: min(calc(100% - 1rem), 800px); }
+  }
 </style>
 
 <script is:inline>
@@ -579,11 +854,12 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     function renderIntro() {
       app.innerHTML =
         '<div class="quiz-intro">' +
-          '<span class="eyebrow">Ideal-home clarity check</span>' +
-          '<h2>A move becomes easier to evaluate when the questions are separated.</h2>' +
-          '<p>Name what your current home is missing, identify every real obstacle, and get a short set of planning tools matched to your answers.</p>' +
-          '<div class="quiz-intro-meta">About 60 seconds · No sign-in · Nothing is submitted</div>' +
-          '<button class="quiz-button primary intro-button" id="startQuiz" type="button">Start the clarity check →</button>' +
+          '<span class="eyebrow">A 60-second clarity check</span>' +
+          '<h2>How far are you from your <em>ideal</em> home?</h2>' +
+          '<p>Not your current home. The one you would choose if you were starting from scratch today.</p>' +
+          '<p>Most homeowners are not actively looking to move—but plenty are not living in the home they would actually pick. This takes about a minute, with no pressure and no obligation.</p>' +
+          '<div class="quiz-intro-meta">A few quick questions · The money part is optional · Nothing is submitted</div>' +
+          '<button class="quiz-button primary intro-button" id="startQuiz" type="button">Let\'s get you clarity →</button>' +
         '</div>';
       document.getElementById('startQuiz').addEventListener('click', next);
     }
@@ -622,7 +898,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
       questionShell(
         'Question 1',
         'Do you own or rent right now?',
-        'This changes which financial questions are useful.',
+        '',
         '<div class="option-grid two-wide">' +
           optionMarkup('Own', state.ownRent === 'Own') +
           optionMarkup('Rent', state.ownRent === 'Rent') +
@@ -653,7 +929,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
       questionShell(
         'Question 2',
         "What's missing from your current home?",
-        'Choose up to three. These are priorities, not a commitment to move.',
+        'Pick the things you would fix if you could. Up to three.',
         '<div class="option-grid">' + options + '</div>' +
         '<p class="selection-note" id="missingNote">Choose up to 3</p>',
         { skipLabel: 'Skip this question' }
@@ -694,7 +970,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
       questionShell(
         'Question 3',
         'If you could change one thing tomorrow, what would it be?',
-        'Optional, but this answer often reveals more than a feature checklist.',
+        'Optional—but this is usually the most telling answer.',
         '<textarea class="quiz-textarea" id="oneThing" placeholder="A first-floor primary. A real garage. A shorter commute. A kitchen where everyone can gather.">' +
           escapeHtml(state.oneThing) +
         '</textarea>',
@@ -714,7 +990,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
       questionShell(
         'Question 4',
         "What's actually stopping you from making a move?",
-        'Select every answer that applies. Your result will address all of them.',
+        "Be honest—there is no wrong answer. Select every one that applies, and your result will address all of them.",
         '<div class="option-grid">' + options + '</div>' +
         '<p class="selection-note">Choose as many as apply</p>',
         { nextLabel: state.ownRent === 'Own' ? 'Next →' : 'See my results →', skipLabel: "Nothing is stopping me" }
@@ -866,15 +1142,15 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
       var blockerCount = state.blockers.length;
 
       if (!priorityCount && !blockerCount) {
-        return 'You may be early in the process, which is useful. There is no need to manufacture urgency; keep the tools for the moment a specific question appears.';
+        return 'You may just be curious right now, and that is useful too. You have a baseline for whenever a more specific question comes up.';
       }
       if (blockerCount > 1) {
-        return 'This is not one obstacle. You named ' + blockerCount + ' separate planning questions, so the clearest path is to solve them one at a time instead of treating the move as one giant decision.';
+        return 'You named ' + blockerCount + ' things that make a move feel complicated. That is useful: each one can be looked at separately, so you do not have to solve the whole move at once.';
       }
       if (blockerCount === 1) {
-        return 'You identified one main planning question. Put a real number or next action beside it before deciding whether a move makes sense.';
+        return 'You named one clear question standing between curiosity and clarity. Put a real number or next step beside it before deciding whether a move makes sense.';
       }
-      return 'Your answers are more about what you want from a home than what is stopping you. The next step is deciding whether those priorities are worth pricing out.';
+      return 'Your answers are more about what you want from a home than what is stopping you. It may be worth simply seeing what those priorities would look like in the real world.';
     }
 
     function renderResults() {
@@ -895,7 +1171,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
       if (state.ownRent === 'Own' && state.wantNumbers === true) {
         var grossEquity = Math.max(0, state.homeValue - state.mortgageBalance);
         equityHtml =
-          '<section class="result-panel">' +
+          '<section class="result-panel equity-panel">' +
             '<h3>Your rough numbers</h3>' +
             '<div class="equity-box">' +
               '<div>' +
@@ -912,7 +1188,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
         '<div class="result-stack">' +
           '<section class="result-hero">' +
             '<span class="eyebrow">Your clarity check</span>' +
-            '<h2>Here is what your answers point to.</h2>' +
+            '<h2>You are closer to clarity than it may have felt.</h2>' +
             '<p>' + escapeHtml(resultSummary()) + '</p>' +
           '</section>' +
           '<section class="result-panel">' +
@@ -922,19 +1198,19 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
           '</section>' +
           '<section class="result-panel">' +
             '<h3>Every obstacle you named</h3>' +
-            '<p>None of these has been discarded or reduced to a single “primary” blocker.</p>' +
+            '<p>You named all of these, so none gets ignored just because it was not first.</p>' +
             blockersMarkup() +
           '</section>' +
           equityHtml +
           '<section class="result-panel">' +
-            '<h3>Best next tools for these answers</h3>' +
-            '<p>Start with the one that answers the most immediate question. You do not need to use all of them.</p>' +
+            '<h3>A few good next steps</h3>' +
+            '<p>Start with whichever one answers the question that is taking up the most space in your head. You do not need to use them all.</p>' +
             '<div class="recommendation-grid">' + recommendationsMarkup() + '</div>' +
           '</section>' +
           '<div class="contact-strip">' +
             '<div>' +
-              '<h3>Prefer a conversation?</h3>' +
-              '<p>Talk through the priorities and blockers without needing every number figured out first.</p>' +
+              '<h3>Would talking it through be easier?</h3>' +
+              '<p>You do not need every number figured out first. That is often the point of the conversation.</p>' +
             '</div>' +
             '<div class="contact-buttons">' +
               '<a class="quiz-button primary" href="https://jasonk.remax.com/contact.php" data-contact="Jason">Contact Jason</a>' +
