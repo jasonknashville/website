@@ -1,0 +1,59 @@
+---
+const currentPath = Astro.url.pathname;
+const nav = [
+  { href: '/tools/', label: 'Tools' },
+  { href: '/guides/', label: 'Guides' },
+  { href: '/areas/', label: 'Areas' },
+  { href: '/about/', label: 'About' },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Jason Kaczmarski Team home">
+      <span class="brand-mark">JK</span>
+      <span><strong>Jason Kaczmarski Team</strong><small>RE/MAX 1st Choice · Middle Tennessee</small></span>
+    </a>
+    <nav aria-label="Primary navigation">
+      {nav.map((item) => <a class:list={{ active: currentPath.startsWith(item.href) }} href={item.href}>{item.label}</a>)}
+    </nav>
+    <a class="contact" href="https://jasonk.remax.com/contact.php">Talk with Jason</a>
+    <details class="mobile-menu">
+      <summary aria-label="Open navigation">Menu</summary>
+      <div>
+        {nav.map((item) => <a class:list={{ active: currentPath.startsWith(item.href) }} href={item.href}>{item.label}</a>)}
+        <a href="https://the-jason-kaczmarski-team-springfield-tn.remax.com/">Search homes</a>
+      </div>
+    </details>
+  </div>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.94); border-bottom: 1px solid rgba(11,36,66,.1); backdrop-filter: blur(14px); }
+  .header-inner { min-height: 74px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.5rem; }
+  .brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; min-width: 0; }
+  .brand-mark { display: grid; place-items: center; width: 2.45rem; aspect-ratio: 1; border-radius: 50%; background: var(--navy-900); color: white; font-family: 'Playfair Display', serif; font-weight: 700; }
+  .brand strong, .brand small { display: block; white-space: nowrap; }
+  .brand strong { color: var(--navy-900); font-size: .92rem; }
+  .brand small { color: var(--muted); font-size: .68rem; }
+  nav { display: flex; gap: 1.45rem; }
+  nav a { color: var(--muted); font-size: .88rem; font-weight: 700; text-decoration: none; }
+  nav a:hover, nav a.active { color: var(--navy-900); }
+  .contact { justify-self: end; color: var(--red-600); font-size: .88rem; font-weight: 700; text-decoration: none; }
+  .mobile-menu { display: none; position: relative; justify-self: end; }
+  .mobile-menu summary { cursor: pointer; color: var(--navy-900); font-size: .82rem; font-weight: 700; list-style: none; }
+  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .mobile-menu div { position: absolute; right: 0; top: 2rem; min-width: 210px; padding: .6rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; box-shadow: var(--shadow); }
+  .mobile-menu a { display: block; padding: .7rem .8rem; border-radius: .5rem; color: var(--muted); font-size: .9rem; font-weight: 700; text-decoration: none; }
+  .mobile-menu a:hover, .mobile-menu a.active { color: var(--navy-900); background: var(--mist); }
+  @media (max-width: 880px) {
+    .header-inner { grid-template-columns: 1fr auto auto; }
+    nav { display: none; }
+    .mobile-menu { display: block; }
+  }
+  @media (max-width: 520px) {
+    .brand small { display: none; }
+    .contact { display: none; }
+    .header-inner { grid-template-columns: 1fr auto; }
+  }
+</style>

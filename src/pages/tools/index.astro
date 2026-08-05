@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { tools } from '../../data/tools';
+---
+
+<BaseLayout title="Home Buying & Selling Calculators" description="Free calculators for mortgage terms, home equity, down payments, affordability, commute costs, and planning a move in Middle Tennessee.">
+  <section class="tools-hero">
+    <div class="container">
+      <span class="eyebrow">The Jason Kaczmarski Team tools</span>
+      <h1>Clear numbers.<br /><em>Better questions.</em></h1>
+      <p>Planning tools for the decisions buyers and homeowners face before they are ready to make a move.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="tool-grid">{tools.map((tool) => <ToolCard tool={tool} />)}</div>
+      <aside>
+        <strong>A note about the numbers</strong>
+        <p>These tools provide planning estimates—not loan quotes, appraisals, or guarantees. Each migrated tool will show its assumptions, source dates, and calculation methodology.</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tools-hero { padding: clamp(5rem, 12vw, 9rem) 0; background: var(--navy-900); color: white; }
+  .tools-hero h1 { margin-bottom: 1.25rem; }
+  .tools-hero h1 em { color: #e5c88f; font-weight: 600; }
+  .tools-hero p { max-width: 660px; color: rgba(255,255,255,.68); font-size: 1.18rem; }
+  .tools-hero .eyebrow { color: #f29aa6; }
+  .tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  aside { display: grid; grid-template-columns: .35fr 1fr; gap: 2rem; margin-top: 3rem; padding: 1.4rem 0; border-top: 1px solid var(--line); color: var(--muted); }
+  aside strong { color: var(--navy-900); }
+  @media(max-width: 720px) { .tool-grid, aside { grid-template-columns: 1fr; } }
+</style>

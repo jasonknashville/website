@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
+:root {
+  --navy-950: #07182d;
+  --navy-900: #0b2442;
+  --navy-800: #11365e;
+  --blue-600: #165fac;
+  --red-600: #d61f35;
+  --red-700: #b8172a;
+  --gold-500: #cba45b;
+  --ink: #132238;
+  --muted: #59677a;
+  --line: #dce3eb;
+  --paper: #ffffff;
+  --mist: #f3f6f9;
+  --sand: #f3ede3;
+  --radius-sm: 0.65rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --shadow: 0 18px 50px rgba(7, 24, 45, 0.12);
+  --content: 1180px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::selection { background: #dcecff; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+h1 { font-size: clamp(2.75rem, 6vw, 5.6rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.4rem); }
+h3 { font-size: clamp(1.35rem, 2vw, 1.7rem); }
+.container { width: min(calc(100% - 2rem), var(--content)); margin-inline: auto; }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: 1rem;
+  color: var(--red-600);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.eyebrow::before { content: ''; width: 1.8rem; height: 2px; background: currentColor; }
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  min-height: 3rem;
+  padding: .75rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--red-600);
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.button:hover { background: var(--red-700); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(214,31,53,.2); }
+.button.secondary { background: transparent; border-color: rgba(255,255,255,.55); }
+.button.secondary:hover { background: rgba(255,255,255,.1); }
+.button.light { background: var(--paper); color: var(--navy-900); }
+.section { padding: clamp(4rem, 8vw, 7rem) 0; }
+.section-heading { max-width: 760px; margin-bottom: 2.2rem; }
+.section-heading p { color: var(--muted); font-size: 1.06rem; max-width: 64ch; }
+.skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 1000; padding: .75rem 1rem; background: white; }
+.skip-link:focus { top: 1rem; }
+@media (max-width: 760px) {
+  .container { width: min(calc(100% - 1.25rem), var(--content)); }
+  .section { padding: 4rem 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}

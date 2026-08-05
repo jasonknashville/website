@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+type Props = {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+};
+
+const { title, description, image = 'https://kvcore-library.s3.amazonaws.com/remax1stchoice8207/images/36e9d94a41744196b10ed128cf51dce2.jpeg', noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title.includes('Jason Kaczmarski') ? title : `${title} | Jason Kaczmarski Team`;
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: 'The Jason Kaczmarski Team',
+  url: 'https://jasonknashville.com',
+  telephone: '+1-615-384-7355',
+  image,
+  parentOrganization: { '@type': 'Organization', name: 'RE/MAX 1st Choice' },
+  areaServed: ['Nashville', 'Middle Tennessee', 'Wilson County', 'Williamson County'],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main"><slot /></main>
+    <SiteFooter />
+  </body>
+</html>
