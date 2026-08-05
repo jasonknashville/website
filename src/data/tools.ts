@@ -33,10 +33,11 @@ export const tools: Tool[] = [
   },
   {
     title: 'Ideal Home Clarity Check',
-    description: 'Identify what is missing, what is holding you back, and which planning tools can clarify your next step.',
-    href: 'https://jasonknashville.github.io/Ideal-Home/',
+    description: 'Identify what is missing, name every obstacle, and get planning tools tailored to your answers.',
+    href: '/tools/ideal-home-quiz/',
     eyebrow: '60-second quiz',
-    status: 'migrating',
+    featured: true,
+    status: 'live',
   },
   {
     title: 'Home Affordability Calculator',
