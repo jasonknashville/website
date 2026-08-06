@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Far Are You From Your Ideal Home? | Jason Kaczmarski Team</title>
+  <meta name="description" content="A quick, no-pressure tool to see how far your current home is from the one you would actually choose today." />
+  <link rel="canonical" href="https://jasonknashville.com/tools/ideal-home-quiz/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="How Far Are You From Your Ideal Home? | Jason Kaczmarski Team" />
+  <meta property="og:description" content="A quick, no-pressure tool to see how far your current home is from the one you would actually choose today." />
+  <meta property="og:url" content="https://jasonknashville.com/tools/ideal-home-quiz/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MH9X9NGV');
+  </script>
+  <style is:global>
+    :root{
+      --remax-red:#DC1C2E;
+      --remax-blue:#003DA5;
+      --remax-blue-2:#0356C9;
+      --gold:#C9A227;
+      --ink:#1A2B45;
+      --slate:#566479;
+      --bg:#F4F6FA;
+      --card:#FFFFFF;
+      --line:#E4E9F2;
+      --good:#1F9D6B;
+      --shadow:0 10px 30px rgba(16,38,76,.08);
+      --radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+    }
+    h1,h2,h3{font-family:'Playfair Display',Georgia,serif;line-height:1.15;font-weight:700}
+    button,input,textarea{font:inherit}
+
+    .ihq-header{
+      position:sticky;top:0;z-index:50;
+      background:var(--remax-red);
+      color:#fff;
+      box-shadow:0 2px 12px rgba(0,0,0,.12);
+    }
+    .ihq-header-inner{
+      max-width:760px;margin:0 auto;padding:12px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .ihq-brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .ihq-brand-text{font-weight:700;font-size:.95rem;letter-spacing:.2px;white-space:nowrap}
+    .ihq-brand-text small{display:block;font-weight:500;opacity:.85;font-size:.72rem;letter-spacing:.4px}
+    .ihq-header a{color:#fff;text-decoration:none;font-weight:600;font-size:.85rem;opacity:.95}
+    .ihq-header a:hover{opacity:1;text-decoration:underline}
+
+    .ihq-wrap{max-width:760px;margin:0 auto;padding:28px 20px 60px;min-height:calc(100vh - 260px)}
+    .ihq-card{
+      background:var(--card);border:1px solid var(--line);
+      border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:32px;
+    }
+    @media(max-width:560px){.ihq-card{padding:22px}}
+
+    .ihq-progress{margin-bottom:24px}
+    .ihq-progress-bar{height:8px;background:#E9EEF6;border-radius:99px;overflow:hidden}
+    .ihq-progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--remax-blue),var(--remax-blue-2));border-radius:99px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+    .ihq-progress-label{margin-top:8px;font-size:.78rem;color:var(--slate);font-weight:600;letter-spacing:.3px}
+
+    .ihq-hero{
+      background:linear-gradient(135deg,var(--remax-blue) 0%,var(--remax-blue-2) 100%);
+      color:#fff;border-radius:var(--radius);padding:40px 34px;box-shadow:var(--shadow);
+    }
+    .ihq-eyebrow{
+      display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:1.6px;
+      text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+    }
+    .ihq-hero h1{font-size:2rem;margin-bottom:14px}
+    .ihq-hero p{font-size:1.05rem;opacity:.94;margin-bottom:10px;max-width:54ch}
+    .ihq-hero .ihq-sub{opacity:.8;font-size:.95rem;margin-top:18px}
+    @media(max-width:560px){.ihq-hero{padding:30px 22px}.ihq-hero h1{font-size:1.6rem}}
+
+    .ihq-step{animation:ihqFade .4s ease}
+    @keyframes ihqFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .ihq-q-num{font-size:.78rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--remax-red);margin-bottom:8px}
+    .ihq-q-title{font-size:1.45rem;margin-bottom:6px}
+    .ihq-q-help{color:var(--slate);font-size:.92rem;margin-bottom:22px}
+    @media(max-width:560px){.ihq-q-title{font-size:1.25rem}}
+
+    .ihq-options{display:grid;gap:10px}
+    .ihq-options.two,.ihq-options.grid{grid-template-columns:1fr 1fr}
+    @media(max-width:480px){.ihq-options.two,.ihq-options.grid{grid-template-columns:1fr}}
+    .ihq-opt{
+      display:flex;align-items:center;gap:12px;
+      padding:15px 16px;border:1.5px solid var(--line);border-radius:12px;
+      background:#fff;cursor:pointer;font-weight:500;font-size:.98rem;
+      transition:border-color .15s,background .15s,transform .08s;
+      text-align:left;width:100%;color:var(--ink);
+    }
+    .ihq-opt:hover{border-color:#B9C6DC;background:#FAFBFE}
+    .ihq-opt:active{transform:scale(.99)}
+    .ihq-opt.selected{border-color:var(--remax-blue);background:#EEF4FF}
+    .ihq-check{
+      width:22px;height:22px;border-radius:6px;border:2px solid #C6D0E0;flex:none;
+      display:grid;place-items:center;transition:all .15s;
+    }
+    .ihq-opt.round .ihq-check{border-radius:50%}
+    .ihq-opt.selected .ihq-check{background:var(--remax-blue);border-color:var(--remax-blue)}
+    .ihq-check svg{width:13px;height:13px;opacity:0;transition:opacity .15s}
+    .ihq-opt.selected .ihq-check svg{opacity:1}
+    .ihq-cap-note{margin-top:14px;font-size:.82rem;color:var(--slate);text-align:center}
+    .ihq-cap-note.warn{color:var(--remax-red);font-weight:600}
+
+    .ihq-textarea{
+      width:100%;border:1.5px solid var(--line);border-radius:12px;
+      padding:14px 15px;font-family:inherit;font-size:1rem;color:var(--ink);background:#fff;
+      transition:border-color .15s;min-height:96px;resize:vertical;
+    }
+    .ihq-textarea:focus{outline:none;border-color:var(--remax-blue)}
+
+    .ihq-slider-block{margin-bottom:26px}
+    .ihq-slider-top{display:flex;justify-content:space-between;align-items:baseline;gap:18px;margin-bottom:10px}
+    .ihq-slider-label{font-weight:600;font-size:.98rem}
+    .ihq-slider-val{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--remax-blue);white-space:nowrap}
+    input[type=range]{
+      -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
+      background:#E2E9F4;outline:none;
+    }
+    input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;
+      background:var(--remax-red);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 8px rgba(220,28,46,.4);
+    }
+    input[type=range]::-moz-range-thumb{
+      width:20px;height:20px;border-radius:50%;background:var(--remax-red);cursor:pointer;
+      border:3px solid #fff;box-shadow:0 2px 8px rgba(220,28,46,.4);
+    }
+
+    .ihq-nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:28px}
+    .ihq-btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      font-family:inherit;font-weight:700;font-size:1rem;border:none;cursor:pointer;
+      padding:14px 28px;border-radius:12px;transition:transform .08s,box-shadow .15s,background .15s;
+      text-decoration:none;
+    }
+    .ihq-btn:active{transform:translateY(1px)}
+    .ihq-btn-primary{background:var(--remax-red);color:#fff;box-shadow:0 6px 18px rgba(220,28,46,.28)}
+    .ihq-btn-primary:hover{background:#c1162a}
+    .ihq-btn-primary:disabled{background:#D9B3B8;cursor:not-allowed;box-shadow:none}
+    .ihq-btn-ghost{background:transparent;color:var(--slate);padding:14px 8px;box-shadow:none}
+    .ihq-btn-ghost:hover{color:var(--ink)}
+    .ihq-btn-blue{background:var(--remax-blue);color:#fff;box-shadow:0 6px 18px rgba(0,61,165,.25)}
+    .ihq-btn-blue:hover{background:#00347f}
+    .ihq-btn-full{width:100%;text-align:center}
+    .ihq-skip{display:block;text-align:center;margin-top:14px;background:none;border:none;color:var(--slate);font-family:inherit;font-size:.88rem;cursor:pointer;text-decoration:underline}
+    .ihq-skip:hover{color:var(--ink)}
+
+    .ihq-result-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:10px}
+    .ihq-result h2{font-size:1.9rem;text-align:center;margin-bottom:16px}
+    .ihq-result-summary{text-align:center;color:var(--slate);margin-bottom:22px;max-width:48ch;margin-left:auto;margin-right:auto}
+    @media(max-width:560px){.ihq-result h2{font-size:1.5rem}}
+    .ihq-reflect{background:#F7F9FD;border:1px solid var(--line);border-left:4px solid var(--remax-blue);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+    .ihq-reflect h3{font-size:1.05rem;margin-bottom:6px;font-family:'DM Sans',sans-serif;font-weight:700}
+    .ihq-reflect p{color:var(--slate);font-size:.95rem}
+    .ihq-reflect .ihq-quote{font-style:italic;color:var(--ink);font-size:1.05rem;font-weight:500}
+    .ihq-equity{background:linear-gradient(135deg,var(--remax-blue),var(--remax-blue-2));color:#fff;border-radius:12px;padding:22px;margin:8px 0 16px;text-align:center}
+    .ihq-equity-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;margin:4px 0}
+    .ihq-equity small{opacity:.85;font-size:.82rem;display:block;margin-top:6px}
+    .ihq-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .ihq-tag{background:#EEF4FF;color:var(--remax-blue);border:1px solid #D5E2F7;border-radius:99px;padding:5px 13px;font-size:.85rem;font-weight:600}
+    .ihq-tool-list{display:grid;gap:10px;margin-top:12px}
+    .ihq-tool{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      padding:13px 14px;border:1.5px solid #D5E2F7;border-radius:12px;
+      background:#fff;color:var(--ink);text-decoration:none;font-weight:600;
+      transition:border-color .15s,background .15s,transform .08s;
+    }
+    .ihq-tool:hover{border-color:var(--remax-blue);background:#EEF4FF}
+    .ihq-tool:active{transform:scale(.99)}
+    .ihq-tool span{color:var(--remax-blue);font-size:1.1rem}
+    .ihq-optin{margin-top:22px;border-top:1px dashed var(--line);padding-top:24px}
+    .ihq-optin h3{font-family:'Playfair Display',serif;font-size:1.3rem;text-align:center;margin-bottom:6px}
+    .ihq-optin p{text-align:center;color:var(--slate);font-size:.92rem;margin-bottom:18px;max-width:46ch;margin-left:auto;margin-right:auto}
+    .ihq-contact-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .ihq-result-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:20px}
+    .ihq-result-actions .ihq-btn{font-size:.88rem;padding:10px 16px}
+    .ihq-privacy{text-align:center;font-size:.76rem;color:#8a95a8;margin-top:12px}
+
+    .ihq-footer{background:var(--remax-blue);color:#fff;margin-top:50px}
+    .ihq-footer-inner{max-width:760px;margin:0 auto;padding:28px 20px;text-align:center}
+    .ihq-footer strong{display:block;font-size:1rem;margin-bottom:4px}
+    .ihq-footer p{opacity:.8;font-size:.82rem;margin:4px 0}
+    .ihq-footer a{color:#fff;font-weight:600}
+    .ihq-disclaimer{opacity:.6;font-size:.72rem;margin-top:14px;line-height:1.5}
+    @media(max-width:480px){
+      .ihq-contact-actions{grid-template-columns:1fr}
+      .ihq-slider-top{align-items:flex-start}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MH9X9NGV" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <header class="ihq-header">
+    <div class="ihq-header-inner">
+      <div class="ihq-brand">
+        <div class="ihq-brand-text">Jason Kaczmarski Team<small>RE/MAX 1ST CHOICE</small></div>
+      </div>
+      <a href="https://jasonk.remax.com/contact.php">Contact</a>
+    </div>
+  </header>
+
+  <main class="ihq-wrap">
+    <div id="ihq-app"></div>
+    <noscript>
+      <div class="ihq-card">
+        <h2>JavaScript is needed for this quiz.</h2>
+        <p>Please visit the planning tools page instead.</p>
+      </div>
+    </noscript>
+  </main>
+
+  <footer class="ihq-footer">
+    <div class="ihq-footer-inner">
+      <strong>Jason Kaczmarski Team &middot; RE/MAX 1st Choice</strong>
+      <p>Serving Nashville &amp; Middle Tennessee</p>
+      <p><a href="https://jasonk.remax.com/contact.php">Get in touch</a></p>
+      <p class="ihq-disclaimer">Information is deemed reliable but not guaranteed. Data sourced in part from Realtracs. Any estimates provided by this tool are rough, for educational purposes only, and are not an appraisal, loan approval, or offer. Each office independently owned and operated.</p>
+    </div>
+  </footer>
+
+  <script is:inline>
+    (function(){
+      'use strict';
+
+      var state = {
+        ownRent: null,
+        missing: [],
+        oneThing: '',
+        blockers: [],
+        wantNumbers: null,
+        homeValue: 400000,
+        mortgageBalance: 200000,
+        comfortPayment: 2500
+      };
+
+      var missingOptions = ['More space','Better location','Larger yard','Less maintenance','Better schools','Home office','Newer home','More privacy','Better layout','Nothing — just curious'];
+      var blockerOptions = ['Interest rates',"Don't know what my home is worth","Don't know what I can afford",'Inventory is too low','Kids / school timing','Need to sell first','Too much uncertainty',"We haven't seriously considered moving",'Other'];
+
+      var blockerDetails = {
+        'Interest rates': {
+          reframe: 'Rates move. Your equity, payment, and timing usually matter more than the headline number alone.',
+          tool: ['30-Year vs. 15-Year Calculator','/tools/30-vs-15-calculator/']
+        },
+        "Don't know what my home is worth": {
+          reframe: 'That is one of the easiest questions to solve. A realistic value range takes a lot of guesswork out of the rest.',
+          tool: ['Move-Up Mortgage Calculator','/tools/move-up-calculator/']
+        },
+        "Don't know what I can afford": {
+          reframe: 'Start with a payment that feels comfortable, then work backward to a price range instead of beginning with a lender maximum.',
+          tool: ['Home Affordability Calculator','https://jasonknashville.github.io/What-Can-I-Afford-Calc/']
+        },
+        'Inventory is too low': {
+          reframe: 'Inventory changes by neighborhood, price, property type, and week. A focused search is more useful than the broad headline.',
+          tool: ['Search Middle Tennessee Homes','https://the-jason-kaczmarski-team-springfield-tn.remax.com/']
+        },
+        'Kids / school timing': {
+          reframe: 'Plenty of moves get built around the school calendar. The useful question is what waiting changes financially and logistically.',
+          tool: ['Move Now or Wait 12 Months','https://jasonknashville.github.io/Move-Now-vs-Wait-12-Months/']
+        },
+        'Need to sell first': {
+          reframe: 'Selling first is the most common path there is. The key is knowing the likely proceeds and choosing a clean sequence.',
+          tool: ['Move-Up Mortgage Calculator','/tools/move-up-calculator/']
+        },
+        'Too much uncertainty': {
+          reframe: 'Clarity comes from separating value, payment, timing, and home priorities into smaller questions.',
+          tool: ['Real Estate Planning Tools','/tools/']
+        },
+        "We haven't seriously considered moving": {
+          reframe: 'No pressure at all. Now you have a baseline for whenever the question comes up.',
+          tool: ['Real Estate Planning Tools','/tools/']
+        },
+        'Other': {
+          reframe: 'Some obstacles do not fit neatly into a calculator. A short conversation can help separate the real constraint from the noise.',
+          tool: ['Contact Jason','https://jasonk.remax.com/contact.php']
+        }
+      };
+
+      var app = document.getElementById('ihq-app');
+      var idx = 0;
+      var check = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+      function steps(){
+        var base = ['intro','ownRent','missing','oneThing','blockers','numbersGate'];
+        if(state.wantNumbers === true) base.push('numbers');
+        base.push('results');
+        return base;
+      }
+      function totalForBar(){return steps().filter(function(key){return key !== 'intro' && key !== 'results';}).length}
+      function answeredForBar(){return steps().slice(0,idx).filter(function(key){return key !== 'intro' && key !== 'results';}).length}
+      function money(value){return '$' + Number(value).toLocaleString('en-US')}
+      function escapeHtml(value){return String(value || '').replace(/[&<>"']/g,function(character){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]})}
+      function element(html){var wrapper=document.createElement('div');wrapper.innerHTML=html.trim();return wrapper.firstChild}
+      function progressHtml(){
+        var total=totalForBar();
+        var answered=answeredForBar();
+        var percent=Math.round((answered/total)*100);
+        return '<div class="ihq-progress"><div class="ihq-progress-bar"><div class="ihq-progress-fill" style="width:'+percent+'%"></div></div><div class="ihq-progress-label">Question '+Math.min(answered+1,total)+' of '+total+'</div></div>';
+      }
+      function render(){
+        var key=steps()[idx];
+        if(key === 'intro') renderIntro();
+        if(key === 'ownRent') renderOwnRent();
+        if(key === 'missing') renderMissing();
+        if(key === 'oneThing') renderOneThing();
+        if(key === 'blockers') renderBlockers();
+        if(key === 'numbersGate') renderNumbersGate();
+        if(key === 'numbers') renderNumbers();
+        if(key === 'results') renderResults();
+      }
+      function renderIntro(){
+        app.innerHTML='';
+        var node=element('<div class="ihq-step"><div class="ihq-hero"><span class="ihq-eyebrow">A 60-second clarity check</span><h1>How far are you from your <em>ideal</em> home?</h1><p>Not your current home. The one you would choose if you were starting from scratch today.</p><p>Most homeowners are not looking to move—but plenty are not living in the home they would actually pick. This takes about a minute, no pressure, no obligation.</p><div class="ihq-sub">A few quick questions &middot; The money part is optional</div></div><button class="ihq-btn ihq-btn-primary ihq-btn-full" style="margin-top:18px" id="ihq-start">Let\'s get you clarity &rarr;</button></div>');
+        app.appendChild(node);
+        document.getElementById('ihq-start').onclick=next;
+      }
+      function questionShell(number,title,help,bodyHtml,options){
+        options=options||{};
+        app.innerHTML='';
+        var node=element('<div class="ihq-step">'+progressHtml()+'<div class="ihq-card"><div class="ihq-q-num">'+number+'</div><h2 class="ihq-q-title">'+title+'</h2>'+(help?'<p class="ihq-q-help">'+help+'</p>':'')+'<div>'+bodyHtml+'</div><div class="ihq-nav"><button class="ihq-btn ihq-btn-ghost" id="ihq-back">&larr; Back</button><button class="ihq-btn ihq-btn-primary" id="ihq-next">'+(options.nextLabel||'Next')+'</button></div>'+(options.skip?'<button class="ihq-skip" id="ihq-skip">'+options.skip+'</button>':'')+'</div></div>');
+        app.appendChild(node);
+        document.getElementById('ihq-back').onclick=previous;
+        document.getElementById('ihq-next').onclick=next;
+        if(options.skip) document.getElementById('ihq-skip').onclick=next;
+      }
+      function optionHtml(value,selected,round){return '<button class="ihq-opt'+(round?' round':'')+(selected?' selected':'')+'" data-v="'+escapeHtml(value)+'"><span class="ihq-check">'+check+'</span>'+escapeHtml(value)+'</button>'}
+      function renderOwnRent(){
+        questionShell('Question 1','Do you own or rent right now?','', '<div class="ihq-options two">'+optionHtml('Own',state.ownRent==='Own',true)+optionHtml('Rent',state.ownRent==='Rent',true)+'</div>');
+        var nextButton=document.getElementById('ihq-next');
+        nextButton.disabled=!state.ownRent;
+        bindSingle('ownRent',function(){nextButton.disabled=!state.ownRent});
+      }
+      function renderMissing(){
+        var html='<div class="ihq-options grid">'+missingOptions.map(function(option){return optionHtml(option,state.missing.indexOf(option)>-1,false)}).join('')+'</div><div class="ihq-cap-note" id="ihq-cap">Choose up to 3</div>';
+        questionShell('Question 2',"What's missing from your current home?","Pick the things you would fix if you could. Up to three.",html,{skip:'Skip this one'});
+        bindMulti('missing',3,'ihq-cap','Choose up to 3');
+      }
+      function renderOneThing(){
+        questionShell('Question 3','If you could change ONE thing tomorrow, what would it be?','Optional—but this is usually the most telling answer.','<textarea class="ihq-textarea" id="ihq-onething" placeholder="e.g. A first-floor primary. A real garage. Not hearing the neighbor\'s dog. A bigger kitchen.">'+escapeHtml(state.oneThing)+'</textarea>',{skip:'Skip this one'});
+        document.getElementById('ihq-onething').oninput=function(event){state.oneThing=event.target.value};
+      }
+      function renderBlockers(){
+        var html='<div class="ihq-options grid">'+blockerOptions.map(function(option){return optionHtml(option,state.blockers.indexOf(option)>-1,false)}).join('')+'</div><div class="ihq-cap-note">Select any that apply</div>';
+        questionShell('Question 4',"What's actually stopping you from making a move?","Most agents never ask this. Be honest—there is no wrong answer.",html,{skip:"Nothing's stopping me"});
+        bindMulti('blockers',99,null,null);
+      }
+      function renderNumbersGate(){
+        var html='<div class="ihq-options two">'+optionHtml('Yes, show me rough numbers',state.wantNumbers===true,true)+optionHtml('No thanks, skip it',state.wantNumbers===false,true)+'</div><div class="ihq-cap-note">Totally optional. Ranges only—nothing exact, nothing shared.</div>';
+        questionShell('Almost done','Want a rough sense of the numbers?',"If you add a few estimates, I will show a ballpark of the equity you may have to work with.",html,{nextLabel:'See my results'});
+        var nextButton=document.getElementById('ihq-next');
+        nextButton.disabled=state.wantNumbers===null;
+        app.querySelectorAll('.ihq-opt').forEach(function(button){button.onclick=function(){app.querySelectorAll('.ihq-opt').forEach(function(item){item.classList.remove('selected')});button.classList.add('selected');state.wantNumbers=button.getAttribute('data-v').indexOf('Yes')===0;nextButton.disabled=false}});
+      }
+      function sliderBlock(label,key,min,max,step){return '<div class="ihq-slider-block"><div class="ihq-slider-top"><span class="ihq-slider-label">'+label+'</span><span class="ihq-slider-val" id="val-'+key+'">'+money(state[key])+'</span></div><input type="range" id="rng-'+key+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+state[key]+'"></div>'}
+      function renderNumbers(){
+        var html=sliderBlock('Estimated home value','homeValue',100000,2000000,25000)+sliderBlock('Mortgage balance remaining','mortgageBalance',0,1500000,25000)+sliderBlock('Comfortable monthly payment','comfortPayment',1000,10000,250)+'<div class="ihq-cap-note">Rough is fine—drag to the closest estimate.</div>';
+        questionShell('The optional math','A few quick estimates','Ranges only. Slide to whatever feels close.',html,{nextLabel:'See my results'});
+        ['homeValue','mortgageBalance','comfortPayment'].forEach(bindSlider);
+      }
+      function recommendations(){
+        var items=[];
+        state.blockers.forEach(function(blocker){if(blockerDetails[blocker])items.push(blockerDetails[blocker].tool)});
+        if(state.wantNumbers===true) items.unshift(['Move-Up Mortgage Calculator','/tools/move-up-calculator/']);
+        if(!items.length) items.push(['Real Estate Planning Tools','/tools/']);
+        var seen={};
+        return items.filter(function(item){if(seen[item[1]])return false;seen[item[1]]=true;return true}).slice(0,4);
+      }
+      function clarityLine(){
+        if(state.wantNumbers===true){return 'With roughly '+money(Math.max(0,state.homeValue-state.mortgageBalance))+' in estimated gross equity, the move toward your ideal home may be more reachable than it feels day-to-day.'}
+        if(state.blockers.length>1){return 'You named '+state.blockers.length+' things that make a move feel complicated. Looking at them one at a time can make the decision much clearer.'}
+        return "Here is the honest read: you may be closer to clarity than it feels day-to-day.";
+      }
+      function renderResults(){
+        app.innerHTML='';
+        var priorities=state.missing.filter(function(item){return item!=='Nothing — just curious'});
+        var tagsHtml=priorities.length?'<div class="ihq-tags">'+priorities.map(function(item){return '<span class="ihq-tag">'+escapeHtml(item)+'</span>'}).join('')+'</div>':'';
+        var prioritiesBlock=tagsHtml?'<div class="ihq-reflect"><h3>The home you would actually choose</h3><p>You would want more of this:</p>'+tagsHtml+'</div>':'';
+        var oneThingBlock=state.oneThing.trim()?'<div class="ihq-reflect"><h3>The one thing you would change</h3><p class="ihq-quote">&ldquo;'+escapeHtml(state.oneThing.trim())+'&rdquo;</p><p style="margin-top:8px">That is not really about real estate. It is about how you want your days to feel—and that is exactly the kind of thing worth planning around.</p></div>':'';
+        var blockerBlocks=state.blockers.map(function(blocker){var detail=blockerDetails[blocker]||blockerDetails.Other;return '<div class="ihq-reflect"><h3>What is in the way: '+escapeHtml(blocker)+'</h3><p>'+escapeHtml(detail.reframe)+'</p></div>'}).join('');
+        var equityBlock=state.wantNumbers===true?'<div class="ihq-equity"><div>Rough estimated gross equity</div><div class="ihq-equity-num">'+money(Math.max(0,state.homeValue-state.mortgageBalance))+'</div><small>Home value minus mortgage balance. Selling costs and your preferred cash reserve are not yet deducted.</small></div>':'';
+        var toolsHtml=recommendations().map(function(item){var external=item[1].indexOf('http')===0;return '<a class="ihq-tool" href="'+item[1]+'"'+(external?' target="_blank" rel="noopener"':'')+' data-tool="'+escapeHtml(item[0])+'">'+escapeHtml(item[0])+'<span>&rarr;</span></a>'}).join('');
+        var node=element('<div class="ihq-step ihq-result"><div class="ihq-card"><div class="ihq-result-eyebrow">Your clarity check</div><h2>You are not as far as you think</h2><p class="ihq-result-summary">'+escapeHtml(clarityLine())+'</p>'+prioritiesBlock+oneThingBlock+blockerBlocks+equityBlock+'<div class="ihq-reflect"><h3>A few good next steps</h3><p>Start with the question taking up the most space in your head. You do not need to use them all.</p><div class="ihq-tool-list">'+toolsHtml+'</div></div><div class="ihq-optin"><h3>Want the full picture?</h3><p>Talk through your results or get a no-pressure look at what your home could actually sell for today.</p><div class="ihq-contact-actions"><a class="ihq-btn ihq-btn-blue" href="https://jasonk.remax.com/contact.php" data-contact="Jason">Contact Jason</a><a class="ihq-btn ihq-btn-primary" href="https://ashlyn-sheppard.remax.com/contact.php" data-contact="Ashlyn">Contact Ashlyn</a></div><p class="ihq-privacy">Your answers stayed in this browser and were not submitted.</p></div><div class="ihq-result-actions"><button class="ihq-btn ihq-btn-ghost" id="ihq-copy">Copy results</button><button class="ihq-btn ihq-btn-ghost" id="ihq-restart">Start over</button><a class="ihq-btn ihq-btn-ghost" href="/tools/">See all tools</a></div></div></div>');
+        app.appendChild(node);
+        window.dataLayer=window.dataLayer||[];
+        window.dataLayer.push({event:'ideal_home_quiz_complete',ownership:state.ownRent,priority_count:priorities.length,blocker_count:state.blockers.length,included_numbers:state.wantNumbers===true});
+        app.querySelectorAll('[data-tool]').forEach(function(link){link.onclick=function(){window.dataLayer.push({event:'ideal_home_quiz_recommendation_click',recommendation:link.getAttribute('data-tool')})}});
+        app.querySelectorAll('[data-contact]').forEach(function(link){link.onclick=function(){window.dataLayer.push({event:'ideal_home_quiz_contact_click',contact:link.getAttribute('data-contact')})}});
+        document.getElementById('ihq-copy').onclick=copyResults;
+        document.getElementById('ihq-restart').onclick=restart;
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+      function bindSingle(key,after){app.querySelectorAll('.ihq-opt').forEach(function(button){button.onclick=function(){app.querySelectorAll('.ihq-opt').forEach(function(item){item.classList.remove('selected')});button.classList.add('selected');state[key]=button.getAttribute('data-v');if(after)after()}})}
+      function bindMulti(key,max,capId,capText){app.querySelectorAll('.ihq-opt').forEach(function(button){button.onclick=function(){var value=button.getAttribute('data-v');var list=state[key];var index=list.indexOf(value);if(index>-1){list.splice(index,1);button.classList.remove('selected')}else{if(list.length>=max){if(capId){var cap=document.getElementById(capId);cap.textContent='That is '+max+'—tap one to swap';cap.classList.add('warn');setTimeout(function(){cap.textContent=capText;cap.classList.remove('warn')},1400)}return}list.push(value);button.classList.add('selected')}}})}
+      function bindSlider(key){var range=document.getElementById('rng-'+key);var value=document.getElementById('val-'+key);range.oninput=function(){state[key]=parseInt(range.value,10);value.textContent=money(state[key])}}
+      function next(){if(idx<steps().length-1){idx++;render();window.scrollTo({top:0,behavior:'smooth'})}}
+      function previous(){if(idx>0){idx--;render();window.scrollTo({top:0,behavior:'smooth'})}}
+      function restart(){state={ownRent:null,missing:[],oneThing:'',blockers:[],wantNumbers:null,homeValue:400000,mortgageBalance:200000,comfortPayment:2500};idx=0;render();window.scrollTo({top:0,behavior:'smooth'})}
+      function copyResults(){
+        var lines=['My Ideal Home Clarity Check','','Current situation: '+(state.ownRent||'Not answered'),'Home priorities: '+(state.missing.join(', ')||'None selected'),'One thing I would change: '+(state.oneThing.trim()||'Not answered'),'Planning blockers: '+(state.blockers.join(', ')||'None selected')];
+        if(state.wantNumbers===true)lines.push('Estimated gross equity: '+money(Math.max(0,state.homeValue-state.mortgageBalance)));
+        var text=lines.join('\n');
+        if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(function(){var button=document.getElementById('ihq-copy');button.textContent='Results copied';setTimeout(function(){button.textContent='Copy results'},1800)}).catch(function(){window.prompt('Copy your results:',text)})}else{window.prompt('Copy your results:',text)}
+      }
+      render();
+    })();
+  </script>
+</body>
+</html>
