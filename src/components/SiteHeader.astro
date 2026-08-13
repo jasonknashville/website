@@ -12,7 +12,7 @@ const nav = [
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="Jason Kaczmarski home">
       <img src="https://kvcore-library.s3.amazonaws.com/remax1stchoice8207/images/03b9616f75a8e185d56a93c799829fdf.png" width="48" height="48" alt="" />
-      <span><strong>Jason Kaczmarski</strong><small>The Jason Kaczmarski Team · RE/MAX 1st Choice</small></span>
+      <span><strong>RE/MAX 1st Choice</strong><small>Jason Kaczmarski · The Jason Kaczmarski Team</small></span>
     </a>
     <nav aria-label="Primary navigation">
       {nav.map((item) => <a class:list={{ active: currentPath.startsWith(item.href) }} href={item.href}>{item.label}</a>)}
@@ -34,8 +34,8 @@ const nav = [
   .brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; min-width: 0; }
   .brand img { width: 48px; height: 48px; object-fit: contain; }
   .brand strong, .brand small { display: block; white-space: nowrap; }
-  .brand strong { color: var(--ink); font-size: .92rem; font-weight: 600; letter-spacing: .01em; }
-  .brand small { color: var(--muted); font-size: .64rem; letter-spacing: .02em; }
+  .brand strong { color: var(--ink); font-size: 1rem; font-weight: 600; letter-spacing: .01em; }
+  .brand small { color: var(--muted); font-size: .66rem; letter-spacing: .02em; }
   nav { display: flex; gap: 1.45rem; }
   nav a { padding: .25rem 0; border-bottom: 1px solid transparent; color: var(--muted); font-size: .82rem; font-weight: 500; text-decoration: none; }
   nav a:hover, nav a.active { border-color: var(--ink); color: var(--ink); }
