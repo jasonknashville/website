@@ -1,0 +1,428 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Social Photo Prep"
+  description="A private working tool for preparing listing photos for Instagram."
+  noindex={true}
+>
+  <section class="prep-shell">
+    <div class="container">
+      <header class="tool-heading">
+        <span class="eyebrow">Unlisted working tool</span>
+        <h1>Social Photo Prep</h1>
+        <p>Select the listing photos you want, put them in posting order, and download a finished Instagram set. Processing happens only in this browser.</p>
+      </header>
+
+      <div class="privacy-note" role="note">
+        <strong>Your photos stay on your device.</strong>
+        <span>This page does not upload or store them.</span>
+      </div>
+
+      <section class="panel dropbox-panel" aria-labelledby="dropbox-heading">
+        <div>
+          <span class="step">Optional starting point</span>
+          <h2 id="dropbox-heading">Open the photographer’s Dropbox folder</h2>
+          <p>Paste the shared folder link, open it, then download the photos you want—or the full folder—and add them below.</p>
+        </div>
+        <div class="dropbox-row">
+          <label class="sr-only" for="dropbox-url">Dropbox shared-folder link</label>
+          <input id="dropbox-url" type="url" inputmode="url" placeholder="Paste Dropbox link" autocomplete="off" />
+          <button class="button dark" id="open-dropbox" type="button">Open Dropbox</button>
+        </div>
+        <p class="field-message" id="dropbox-message" aria-live="polite"></p>
+      </section>
+
+      <section class="panel upload-panel" aria-labelledby="upload-heading">
+        <div class="upload-copy">
+          <span class="step">Step 1</span>
+          <h2 id="upload-heading">Add listing photos</h2>
+          <p>Choose as many JPG, PNG, HEIC, or WebP images as you like. Large batches may take a moment to create previews.</p>
+        </div>
+        <label class="drop-zone" id="drop-zone" for="photo-input">
+          <span class="drop-icon" aria-hidden="true">＋</span>
+          <strong>Choose photos</strong>
+          <span>or drag a group here</span>
+          <input id="photo-input" type="file" accept="image/*,.heic,.heif" multiple />
+        </label>
+      </section>
+
+      <section class="workspace" id="workspace" hidden>
+        <section class="panel settings-panel" aria-labelledby="settings-heading">
+          <div class="settings-intro">
+            <div>
+              <span class="step">Step 2</span>
+              <h2 id="settings-heading">Choose the finish</h2>
+            </div>
+            <button class="text-button" id="clear-all" type="button">Clear all</button>
+          </div>
+
+          <div class="setting-grid">
+            <fieldset>
+              <legend>Canvas</legend>
+              <label class="choice"><input type="radio" name="format" value="portrait" checked /><span><strong>Portrait 4:5</strong><small>1080 × 1350 · best feed coverage</small></span></label>
+              <label class="choice"><input type="radio" name="format" value="square" /><span><strong>Square 1:1</strong><small>1080 × 1080 · SquareFit style</small></span></label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Background</legend>
+              <label class="choice"><input type="radio" name="background" value="white" checked /><span><strong>White</strong><small>Clean and consistent</small></span></label>
+              <label class="choice"><input type="radio" name="background" value="blur" /><span><strong>Soft blur</strong><small>Fills the canvas with the photo</small></span></label>
+              <label class="choice"><input type="radio" name="background" value="black" /><span><strong>Black</strong><small>High-contrast border</small></span></label>
+            </fieldset>
+
+            <label class="range-setting" for="padding-range">
+              <span><strong>Photo margin</strong><output id="padding-output">28 px</output></span>
+              <input id="padding-range" type="range" min="0" max="80" value="28" step="4" />
+              <small>Use 0 for the largest possible image. Increase it for more breathing room.</small>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel selection-panel" aria-labelledby="selection-heading">
+          <div class="selection-heading">
+            <div>
+              <span class="step">Step 3</span>
+              <h2 id="selection-heading">Select and order</h2>
+              <p>Only checked photos will be exported. Drag cards—or use the arrow buttons—to set carousel order.</p>
+            </div>
+            <div class="selection-actions">
+              <button class="text-button" id="select-all" type="button">Select all</button>
+              <button class="text-button" id="select-none" type="button">Select none</button>
+            </div>
+          </div>
+          <div class="photo-grid" id="photo-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="export-bar" aria-labelledby="export-heading">
+          <div>
+            <span class="step light-step">Step 4</span>
+            <h2 id="export-heading">Download the finished set</h2>
+            <p id="export-summary">0 photos selected</p>
+          </div>
+          <button class="button light export-button" id="download-zip" type="button" disabled>
+            <span>Download Instagram ZIP</span>
+          </button>
+          <p class="export-status" id="export-status" aria-live="polite"></p>
+        </section>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import JSZip from 'jszip';
+
+  type PhotoItem = {
+    id: string;
+    file: File;
+    url: string;
+    selected: boolean;
+  };
+
+  const input = document.querySelector<HTMLInputElement>('#photo-input')!;
+  const dropZone = document.querySelector<HTMLElement>('#drop-zone')!;
+  const workspace = document.querySelector<HTMLElement>('#workspace')!;
+  const grid = document.querySelector<HTMLElement>('#photo-grid')!;
+  const padding = document.querySelector<HTMLInputElement>('#padding-range')!;
+  const paddingOutput = document.querySelector<HTMLOutputElement>('#padding-output')!;
+  const summary = document.querySelector<HTMLElement>('#export-summary')!;
+  const status = document.querySelector<HTMLElement>('#export-status')!;
+  const downloadButton = document.querySelector<HTMLButtonElement>('#download-zip')!;
+  const dropboxInput = document.querySelector<HTMLInputElement>('#dropbox-url')!;
+  const dropboxMessage = document.querySelector<HTMLElement>('#dropbox-message')!;
+  let photos: PhotoItem[] = [];
+  let draggedId: string | null = null;
+
+  const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  })[character] || character);
+
+  const selectedCount = () => photos.filter((photo) => photo.selected).length;
+
+  function updateSummary() {
+    const count = selectedCount();
+    summary.textContent = `${count} photo${count === 1 ? '' : 's'} selected`;
+    downloadButton.disabled = count === 0;
+  }
+
+  function renderPhotos() {
+    workspace.hidden = photos.length === 0;
+    grid.innerHTML = photos.map((photo, index) => `
+      <article class="photo-card ${photo.selected ? 'is-selected' : ''}" draggable="true" data-id="${photo.id}">
+        <div class="photo-preview">
+          <img src="${photo.url}" alt="Preview of ${escapeHtml(photo.file.name)}" />
+          <span class="order-number">${index + 1}</span>
+          <label class="select-toggle">
+            <input type="checkbox" ${photo.selected ? 'checked' : ''} aria-label="Include ${escapeHtml(photo.file.name)}" />
+            <span aria-hidden="true">✓</span>
+          </label>
+        </div>
+        <div class="photo-meta">
+          <span title="${escapeHtml(photo.file.name)}">${escapeHtml(photo.file.name)}</span>
+          <div class="order-buttons">
+            <button type="button" data-move="up" aria-label="Move ${escapeHtml(photo.file.name)} earlier" ${index === 0 ? 'disabled' : ''}>←</button>
+            <button type="button" data-move="down" aria-label="Move ${escapeHtml(photo.file.name)} later" ${index === photos.length - 1 ? 'disabled' : ''}>→</button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+
+    grid.querySelectorAll<HTMLElement>('.photo-card').forEach((card) => {
+      const id = card.dataset.id!;
+      card.querySelector<HTMLInputElement>('input[type="checkbox"]')!.addEventListener('change', (event) => {
+        const photo = photos.find((item) => item.id === id)!;
+        photo.selected = (event.currentTarget as HTMLInputElement).checked;
+        renderPhotos();
+      });
+      card.querySelectorAll<HTMLButtonElement>('[data-move]').forEach((button) => button.addEventListener('click', () => {
+        const index = photos.findIndex((item) => item.id === id);
+        const target = button.dataset.move === 'up' ? index - 1 : index + 1;
+        if (target < 0 || target >= photos.length) return;
+        [photos[index], photos[target]] = [photos[target], photos[index]];
+        renderPhotos();
+      }));
+      card.addEventListener('dragstart', () => { draggedId = id; card.classList.add('is-dragging'); });
+      card.addEventListener('dragend', () => { draggedId = null; card.classList.remove('is-dragging'); });
+      card.addEventListener('dragover', (event) => { event.preventDefault(); card.classList.add('is-dragover'); });
+      card.addEventListener('dragleave', () => card.classList.remove('is-dragover'));
+      card.addEventListener('drop', (event) => {
+        event.preventDefault();
+        card.classList.remove('is-dragover');
+        if (!draggedId || draggedId === id) return;
+        const from = photos.findIndex((item) => item.id === draggedId);
+        const to = photos.findIndex((item) => item.id === id);
+        const [moved] = photos.splice(from, 1);
+        photos.splice(to, 0, moved);
+        renderPhotos();
+      });
+    });
+    updateSummary();
+  }
+
+  function addFiles(fileList: FileList | File[]) {
+    const imageFiles = Array.from(fileList).filter((file) => file.type.startsWith('image/') || /\.(heic|heif)$/i.test(file.name));
+    const existing = new Set(photos.map((photo) => `${photo.file.name}:${photo.file.size}:${photo.file.lastModified}`));
+    imageFiles.forEach((file) => {
+      const fingerprint = `${file.name}:${file.size}:${file.lastModified}`;
+      if (!existing.has(fingerprint)) {
+        photos.push({ id: crypto.randomUUID(), file, url: URL.createObjectURL(file), selected: true });
+        existing.add(fingerprint);
+      }
+    });
+    renderPhotos();
+  }
+
+  input.addEventListener('change', () => { if (input.files) addFiles(input.files); input.value = ''; });
+  ['dragenter', 'dragover'].forEach((type) => dropZone.addEventListener(type, (event) => {
+    event.preventDefault();
+    dropZone.classList.add('is-dragover');
+  }));
+  ['dragleave', 'drop'].forEach((type) => dropZone.addEventListener(type, (event) => {
+    event.preventDefault();
+    dropZone.classList.remove('is-dragover');
+  }));
+  dropZone.addEventListener('drop', (event: DragEvent) => { if (event.dataTransfer?.files) addFiles(event.dataTransfer.files); });
+
+  document.querySelector('#open-dropbox')!.addEventListener('click', () => {
+    const value = dropboxInput.value.trim();
+    if (!value) { dropboxMessage.textContent = 'Paste the Dropbox folder link first.'; return; }
+    try {
+      const url = new URL(value);
+      if (!/(^|\.)dropbox\.com$/i.test(url.hostname)) throw new Error('Not Dropbox');
+      dropboxMessage.textContent = 'Dropbox opened in a new tab. Download your chosen photos, then add them here.';
+      window.open(url.toString(), '_blank', 'noopener,noreferrer');
+    } catch {
+      dropboxMessage.textContent = 'That does not look like a valid Dropbox link.';
+    }
+  });
+
+  padding.addEventListener('input', () => { paddingOutput.value = `${padding.value} px`; });
+  document.querySelector('#select-all')!.addEventListener('click', () => { photos.forEach((photo) => photo.selected = true); renderPhotos(); });
+  document.querySelector('#select-none')!.addEventListener('click', () => { photos.forEach((photo) => photo.selected = false); renderPhotos(); });
+  document.querySelector('#clear-all')!.addEventListener('click', () => {
+    photos.forEach((photo) => URL.revokeObjectURL(photo.url));
+    photos = [];
+    status.textContent = '';
+    renderPhotos();
+  });
+
+  function loadImage(photo: PhotoItem): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error(`Could not read ${photo.file.name}`));
+      image.src = photo.url;
+    });
+  }
+
+  function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+    return new Promise((resolve, reject) => canvas.toBlob(
+      (blob) => blob ? resolve(blob) : reject(new Error('Could not create image file.')),
+      'image/jpeg',
+      0.94
+    ));
+  }
+
+  function drawCover(context: CanvasRenderingContext2D, image: HTMLImageElement, width: number, height: number) {
+    const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+    const drawWidth = image.naturalWidth * scale;
+    const drawHeight = image.naturalHeight * scale;
+    context.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
+  }
+
+  async function processPhoto(photo: PhotoItem, width: number, height: number, background: string, margin: number) {
+    const image = await loadImage(photo);
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d')!;
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+
+    if (background === 'blur') {
+      context.save();
+      context.filter = 'blur(42px) brightness(.82)';
+      context.translate(-60, -60);
+      drawCover(context, image, width + 120, height + 120);
+      context.restore();
+    } else {
+      context.fillStyle = background === 'black' ? '#050505' : '#ffffff';
+      context.fillRect(0, 0, width, height);
+    }
+
+    const availableWidth = Math.max(1, width - margin * 2);
+    const availableHeight = Math.max(1, height - margin * 2);
+    const scale = Math.min(availableWidth / image.naturalWidth, availableHeight / image.naturalHeight);
+    const drawWidth = image.naturalWidth * scale;
+    const drawHeight = image.naturalHeight * scale;
+    context.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
+    return canvasToBlob(canvas);
+  }
+
+  downloadButton.addEventListener('click', async () => {
+    const selected = photos.filter((photo) => photo.selected);
+    if (!selected.length) return;
+    downloadButton.disabled = true;
+    const buttonLabel = downloadButton.querySelector('span')!;
+    buttonLabel.textContent = 'Preparing…';
+    status.textContent = `Preparing 1 of ${selected.length}…`;
+
+    const format = document.querySelector<HTMLInputElement>('input[name="format"]:checked')!.value;
+    const background = document.querySelector<HTMLInputElement>('input[name="background"]:checked')!.value;
+    const [width, height] = format === 'square' ? [1080, 1080] : [1080, 1350];
+    const zip = new JSZip();
+
+    try {
+      for (let index = 0; index < selected.length; index += 1) {
+        status.textContent = `Preparing ${index + 1} of ${selected.length}: ${selected[index].file.name}`;
+        const blob = await processPhoto(selected[index], width, height, background, Number(padding.value));
+        const number = String(index + 1).padStart(2, '0');
+        const baseName = selected[index].file.name.replace(/\.[^.]+$/, '').replace(/[^a-z0-9-_]+/gi, '-');
+        zip.file(`${number}-${baseName}.jpg`, blob);
+      }
+      status.textContent = 'Packaging your ZIP…';
+      const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+      const url = URL.createObjectURL(zipBlob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `instagram-listing-photos-${format}.zip`;
+      anchor.click();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      status.textContent = `Done—${selected.length} finished photo${selected.length === 1 ? '' : 's'} downloaded in posting order.`;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'The photos could not be processed.';
+      status.textContent = `${message} If the file is HEIC, export it as JPG from Photos and try again.`;
+    } finally {
+      buttonLabel.textContent = 'Download Instagram ZIP';
+      downloadButton.disabled = selectedCount() === 0;
+    }
+  });
+</script>
+
+<style>
+  .prep-shell { min-height: 80vh; padding: clamp(3.5rem, 8vw, 6.5rem) 0; background: linear-gradient(180deg, #eef3f8 0%, #fff 38rem); }
+  .tool-heading { max-width: 780px; margin-bottom: 2rem; }
+  .tool-heading h1 { margin-bottom: 1rem; color: var(--navy-900); font-size: clamp(2.8rem, 6vw, 5rem); }
+  .tool-heading p { color: var(--muted); font-size: 1.1rem; }
+  .privacy-note { display: flex; flex-wrap: wrap; gap: .35rem .6rem; margin-bottom: 1.2rem; padding: .8rem 1rem; border: 1px solid #bfd9cf; border-radius: var(--radius-sm); background: #eff9f5; color: #245e49; font-size: .9rem; }
+  .panel { margin-bottom: 1rem; padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius-lg); background: white; box-shadow: 0 12px 36px rgba(7,24,45,.07); }
+  .panel h2, .export-bar h2 { margin-bottom: .45rem; color: var(--navy-900); font-size: clamp(1.55rem, 3vw, 2.15rem); }
+  .panel p { margin-bottom: 0; color: var(--muted); }
+  .step { display: block; margin-bottom: .55rem; color: var(--red-600); font-size: .7rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+  .dropbox-panel { display: grid; grid-template-columns: 1fr minmax(340px, .8fr); gap: 1.5rem 2rem; align-items: end; }
+  .dropbox-row { display: flex; gap: .6rem; }
+  input[type='url'] { width: 100%; min-height: 3.1rem; padding: .75rem 1rem; border: 1px solid #bbc7d4; border-radius: 999px; background: #fbfcfd; color: var(--ink); }
+  input[type='url']:focus, input[type='range']:focus-visible, button:focus-visible, .drop-zone:focus-within { outline: 3px solid rgba(22,95,172,.25); outline-offset: 2px; }
+  .button.dark { flex: none; background: var(--navy-900); }
+  .button.dark:hover { background: var(--navy-800); }
+  .field-message { grid-column: 2; min-height: 1.4em; font-size: .82rem; }
+  .upload-panel { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2rem; align-items: center; }
+  .drop-zone { display: grid; place-items: center; min-height: 190px; padding: 1.5rem; border: 2px dashed #aebdcb; border-radius: var(--radius-md); background: var(--mist); color: var(--navy-900); cursor: pointer; text-align: center; transition: border-color .2s, background .2s, transform .2s; }
+  .drop-zone:hover, .drop-zone.is-dragover { border-color: var(--blue-600); background: #e8f2fc; transform: translateY(-2px); }
+  .drop-zone input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .drop-zone strong { font-size: 1.05rem; }
+  .drop-zone span:last-of-type { color: var(--muted); font-size: .88rem; }
+  .drop-icon { display: grid; place-items: center; width: 2.75rem; aspect-ratio: 1; margin-bottom: .45rem; border-radius: 50%; background: var(--navy-900); color: white; font-size: 1.5rem; }
+  .settings-intro, .selection-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: start; }
+  .setting-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-top: 1.2rem; }
+  fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  legend, .range-setting > span { display: block; width: 100%; margin-bottom: .55rem; color: var(--navy-900); font-size: .82rem; font-weight: 800; }
+  .choice { display: flex; gap: .65rem; margin-bottom: .5rem; padding: .75rem; border: 1px solid var(--line); border-radius: .75rem; cursor: pointer; }
+  .choice:has(input:checked) { border-color: #6e9dc9; background: #eef6fd; }
+  .choice input { margin-top: .25rem; accent-color: var(--blue-600); }
+  .choice span, .choice strong, .choice small { display: block; }
+  .choice small, .range-setting small { color: var(--muted); font-size: .76rem; }
+  .range-setting { padding: .8rem; border: 1px solid var(--line); border-radius: .75rem; }
+  .range-setting > span { display: flex; justify-content: space-between; }
+  .range-setting output { color: var(--muted); font-weight: 600; }
+  .range-setting input { width: 100%; accent-color: var(--blue-600); }
+  .text-button { padding: .35rem .1rem; border: 0; background: transparent; color: var(--blue-600); cursor: pointer; font-size: .84rem; font-weight: 800; }
+  .text-button:hover { text-decoration: underline; }
+  .selection-heading p { max-width: 680px; }
+  .selection-actions { display: flex; flex: none; gap: 1rem; }
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-top: 1.5rem; }
+  .photo-card { overflow: hidden; border: 2px solid transparent; border-radius: .8rem; background: var(--mist); cursor: grab; transition: border-color .15s, opacity .15s, transform .15s; }
+  .photo-card.is-selected { border-color: var(--blue-600); }
+  .photo-card.is-dragging { opacity: .45; }
+  .photo-card.is-dragover { transform: translateY(-5px); border-color: var(--red-600); }
+  .photo-preview { position: relative; aspect-ratio: 1.25; background: #dce3eb; }
+  .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .order-number { position: absolute; top: .45rem; left: .45rem; display: grid; place-items: center; min-width: 1.75rem; height: 1.75rem; padding: 0 .3rem; border-radius: 999px; background: rgba(7,24,45,.9); color: white; font-size: .75rem; font-weight: 800; }
+  .select-toggle { position: absolute; top: .45rem; right: .45rem; cursor: pointer; }
+  .select-toggle input { position: absolute; opacity: 0; }
+  .select-toggle span { display: grid; place-items: center; width: 1.9rem; aspect-ratio: 1; border: 2px solid white; border-radius: 50%; background: rgba(7,24,45,.55); color: transparent; box-shadow: 0 2px 9px rgba(0,0,0,.2); }
+  .select-toggle input:checked + span { background: var(--blue-600); color: white; }
+  .photo-meta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .55rem .65rem; }
+  .photo-meta > span { min-width: 0; overflow: hidden; color: var(--muted); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+  .order-buttons { display: flex; flex: none; gap: .15rem; }
+  .order-buttons button { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border: 1px solid var(--line); border-radius: .35rem; background: white; color: var(--navy-900); cursor: pointer; }
+  .order-buttons button:disabled { opacity: .3; cursor: default; }
+  .export-bar { display: grid; grid-template-columns: 1fr auto; gap: 1rem 2rem; align-items: center; margin-top: 1rem; padding: clamp(1.4rem, 4vw, 2.2rem); border-radius: var(--radius-lg); background: var(--navy-900); color: white; box-shadow: var(--shadow); }
+  .export-bar h2 { color: white; }
+  .export-bar p { margin: 0; color: rgba(255,255,255,.72); }
+  .light-step { color: #f2b4bd; }
+  .export-button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+  .export-status { grid-column: 1 / -1; min-height: 1.4em; font-size: .85rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  @media (max-width: 900px) {
+    .dropbox-panel, .upload-panel { grid-template-columns: 1fr; }
+    .field-message { grid-column: 1; }
+    .setting-grid { grid-template-columns: 1fr 1fr; }
+    .range-setting { grid-column: 1 / -1; }
+    .photo-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .prep-shell { padding-top: 2.2rem; }
+    .dropbox-row { flex-direction: column; }
+    .button.dark { width: 100%; }
+    .setting-grid { grid-template-columns: 1fr; }
+    .range-setting { grid-column: auto; }
+    .selection-heading { display: block; }
+    .selection-actions { margin-top: .5rem; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    .export-bar { grid-template-columns: 1fr; }
+    .export-button { width: 100%; }
+  }
+</style>
