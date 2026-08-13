@@ -3,7 +3,7 @@ import type { Tool } from '../data/tools';
 const { tool } = Astro.props as { tool: Tool };
 ---
 
-<article class:list={['tool-card', { featured: tool.featured }]}>
+<article class="tool-card">
   <p class="card-eyebrow">{tool.eyebrow}</p>
   <h3>{tool.title}</h3>
   <p>{tool.description}</p>
@@ -11,15 +11,12 @@ const { tool } = Astro.props as { tool: Tool };
 </article>
 
 <style>
-  .tool-card { min-height: 280px; display: flex; flex-direction: column; padding: clamp(1.4rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); box-shadow: 0 8px 28px rgba(7,24,45,.06); }
-  .tool-card.featured { background: var(--navy-900); border-color: var(--navy-900); color: white; }
-  .card-eyebrow { margin-bottom: 1rem; color: var(--red-600); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-  .featured .card-eyebrow { color: #f29aa6; }
+  .tool-card { min-height: 245px; display: flex; flex-direction: column; padding: clamp(1.35rem, 2.5vw, 1.8rem); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); transition: border-color .2s ease, box-shadow .2s ease; }
+  .tool-card:hover { border-color: #a8a8a8; box-shadow: 0 10px 24px rgba(0,0,0,.045); }
+  .card-eyebrow { margin-bottom: 1.25rem; color: var(--muted); font-size: .66rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
   h3 { margin-bottom: .8rem; }
   .tool-card > p:not(.card-eyebrow) { color: var(--muted); }
-  .featured > p:not(.card-eyebrow) { color: rgba(255,255,255,.72); }
-  a { display: flex; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.5rem; border-top: 1px solid var(--line); color: var(--navy-900); font-weight: 700; text-decoration: none; }
-  .featured a { border-color: rgba(255,255,255,.18); color: white; }
+  a { display: flex; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--ink); font-size: .86rem; font-weight: 600; text-decoration: none; }
   a span { transition: transform .2s ease; }
   a:hover span { transform: translateX(4px); }
 </style>
