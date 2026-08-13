@@ -12,11 +12,12 @@ type Props = {
 
 const { title, description, image = 'https://kvcore-library.s3.amazonaws.com/remax1stchoice8207/images/36e9d94a41744196b10ed128cf51dce2.jpeg', noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title.includes('Jason Kaczmarski') ? title : `${title} | Jason Kaczmarski Team`;
+const fullTitle = title.includes('Jason Kaczmarski') ? title : `${title} | Jason Kaczmarski`;
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'RealEstateAgent',
-  name: 'The Jason Kaczmarski Team',
+  name: 'Jason Kaczmarski',
+  alternateName: 'The Jason Kaczmarski Team',
   url: 'https://jasonknashville.com',
   telephone: '+1-615-384-7355',
   image,
