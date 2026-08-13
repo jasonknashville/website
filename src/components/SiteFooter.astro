@@ -1,8 +1,9 @@
 <footer>
   <div class="container footer-grid">
     <div>
-      <p class="footer-name">Jason Kaczmarski</p>
-      <p>The Jason Kaczmarski Team · RE/MAX 1st Choice</p>
+      <p class="footer-name">RE/MAX 1st Choice</p>
+      <p class="team-name">Jason Kaczmarski · The Jason Kaczmarski Team</p>
+      <p><a href="tel:6153847355">615-384-7355</a></p>
       <p>Serving Nashville and Middle Tennessee</p>
     </div>
     <div class="links">
@@ -11,12 +12,11 @@
       <a href="https://jasonk.remax.com/">Jason's RE/MAX page</a>
       <a href="https://ashlyn-sheppard.remax.com/">Ashlyn's RE/MAX page</a>
       <a href="https://the-jason-kaczmarski-team-springfield-tn.remax.com/">Search homes</a>
-      <a href="tel:6153847355">615-384-7355</a>
     </div>
   </div>
   <div class="container legal">
     <p>Tools and guides are for informational and educational purposes only. Estimates are not an appraisal, loan approval, lending commitment, legal advice, or financial advice. Consult the appropriate licensed professional for advice specific to your situation.</p>
-    <p>Each office independently owned and operated.</p>
+    <p>Each RE/MAX office independently owned and operated.</p>
   </div>
 </footer>
 
@@ -25,6 +25,8 @@
   .footer-grid { display: grid; grid-template-columns: 1fr auto; gap: 3rem; }
   .footer-grid p { margin: .15rem 0; }
   .footer-name { color: white; font-size: 1.3rem; font-weight: 500; letter-spacing: -.02em; }
+  .team-name { font-size: .9rem; }
+  .footer-grid p a { color: white; text-decoration: none; }
   .links { display: grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: .7rem 2rem; }
   .links a { color: white; text-decoration: none; }
   .links a:hover { text-decoration: underline; }
