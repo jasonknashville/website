@@ -7,9 +7,11 @@ import { tools } from '../../data/tools';
 <BaseLayout title="Home Buying & Selling Calculators" description="Free calculators for mortgage terms, home equity, down payments, affordability, commute costs, and planning a move in Middle Tennessee.">
   <section class="tools-hero">
     <div class="container">
-      <span class="eyebrow">The Jason Kaczmarski Team tools</span>
-      <h1>Clear numbers.<br /><em>Better questions.</em></h1>
-      <p>Planning tools for the decisions buyers and homeowners face before they are ready to make a move.</p>
+      <span class="eyebrow">Jason Kaczmarski · Middle Tennessee real estate</span>
+      <div class="hero-row">
+        <h1>Planning tools</h1>
+        <p>Practical calculators and decision guides from The Jason Kaczmarski Team—for buyers and homeowners who want to understand the numbers before making a move.</p>
+      </div>
     </div>
   </section>
   <section class="section">
@@ -24,13 +26,13 @@ import { tools } from '../../data/tools';
 </BaseLayout>
 
 <style>
-  .tools-hero { padding: clamp(5rem, 12vw, 9rem) 0; background: var(--navy-900); color: white; }
-  .tools-hero h1 { margin-bottom: 1.25rem; }
-  .tools-hero h1 em { color: #e5c88f; font-weight: 600; }
-  .tools-hero p { max-width: 660px; color: rgba(255,255,255,.68); font-size: 1.18rem; }
-  .tools-hero .eyebrow { color: #f29aa6; }
+  .tools-hero { padding: clamp(2.25rem, 5vw, 3.75rem) 0; background: var(--navy-900); color: white; }
+  .tools-hero .eyebrow { color: rgba(255,255,255,.62); }
+  .hero-row { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(2rem, 7vw, 7rem); align-items: end; }
+  .tools-hero h1 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.65rem); }
+  .tools-hero p { max-width: 680px; margin: 0; color: rgba(255,255,255,.72); font-size: 1rem; }
   .tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   aside { display: grid; grid-template-columns: .35fr 1fr; gap: 2rem; margin-top: 3rem; padding: 1.4rem 0; border-top: 1px solid var(--line); color: var(--muted); }
   aside strong { color: var(--navy-900); }
-  @media(max-width: 720px) { .tool-grid, aside { grid-template-columns: 1fr; } }
+  @media(max-width: 720px) { .hero-row, .tool-grid, aside { grid-template-columns: 1fr; } .hero-row { gap: 1rem; } }
 </style>
