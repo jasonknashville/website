@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Social Photo Prep" description="A private working tool for preparing listing photos for Instagram." noindex={true}>
+  <section class="prep-shell">
+    <div class="container">
+      <header class="tool-heading">
+        <span class="eyebrow">Unlisted working tool</span>
+        <h1>Social Photo Prep</h1>
+        <p>Paste the photographer’s Dropbox folder. The tool imports the photos, suggests a balanced Instagram carousel, and prepares the selected set for download.</p>
+      </header>
+
+      <div class="privacy-note" role="note">
+        <strong>Original photos stay in your browser.</strong>
+        <span>Reduced thumbnails are sent to Cloudflare AI for recommendations; this tool does not save them.</span>
+      </div>
+
+      <section class="panel import-panel" aria-labelledby="import-heading">
+        <div>
+          <span class="step">Step 1</span>
+          <h2 id="import-heading">Import and review the Dropbox folder</h2>
+          <p>Use a public Dropbox shared-folder link with downloading enabled. Floor-plan folders are skipped automatically.</p>
+        </div>
+        <div class="import-controls">
+          <label class="sr-only" for="dropbox-url">Dropbox shared-folder link</label>
+          <input id="dropbox-url" type="url" inputmode="url" placeholder="Paste the photographer’s Dropbox link" autocomplete="off" />
+          <button class="button dark" id="import-dropbox" type="button"><span>Import &amp; recommend</span></button>
+        </div>
+        <div class="progress-wrap" id="import-progress-wrap" hidden>
+          <progress id="import-progress" max="100" value="0"></progress>
+          <p class="field-message" id="import-message" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <details class="manual-panel panel">
+        <summary>Add photos manually instead</summary>
+        <div class="manual-inner">
+          <p>Choose or drag JPG, PNG, HEIC, or WebP files. You can run recommendations after they load.</p>
+          <label class="drop-zone" id="drop-zone" for="photo-input"><strong>Choose photos</strong><span>or drag a group here</span><input id="photo-input" type="file" accept="image/*,.heic,.heif" multiple /></label>
+        </div>
+      </details>
+
+      <section class="workspace" id="workspace" hidden>
+        <section class="panel settings-panel" aria-labelledby="settings-heading">
+          <div class="settings-intro"><div><span class="step">Step 2</span><h2 id="settings-heading">Choose the Instagram finish</h2></div><button class="text-button" id="clear-all" type="button">Clear all</button></div>
+          <div class="setting-grid">
+            <fieldset><legend>Canvas</legend><label class="choice"><input type="radio" name="format" value="portrait" checked /><span><strong>Portrait 4:5</strong><small>1080 × 1350 · best feed coverage</small></span></label><label class="choice"><input type="radio" name="format" value="square" /><span><strong>Square 1:1</strong><small>1080 × 1080 · SquareFit style</small></span></label></fieldset>
+            <fieldset><legend>Background</legend><label class="choice"><input type="radio" name="background" value="white" checked /><span><strong>White</strong><small>Clean and consistent</small></span></label><label class="choice"><input type="radio" name="background" value="blur" /><span><strong>Soft blur</strong><small>Fills the canvas with the photo</small></span></label><label class="choice"><input type="radio" name="background" value="black" /><span><strong>Black</strong><small>High-contrast border</small></span></label></fieldset>
+            <label class="range-setting" for="padding-range"><span><strong>Photo margin</strong><output id="padding-output">28 px</output></span><input id="padding-range" type="range" min="0" max="80" value="28" step="4" /><small>Use 0 for the largest possible image.</small></label>
+          </div>
+        </section>
+
+        <section class="panel selection-panel" aria-labelledby="selection-heading">
+          <div class="selection-heading"><div><span class="step">Step 3</span><h2 id="selection-heading">Review the recommended carousel</h2><p id="selection-copy">AI recommendations are checked and placed in suggested posting order. Adjust anything before exporting.</p></div><div class="selection-actions"><button class="text-button" id="run-analysis" type="button">Run recommendations</button><button class="text-button" id="select-all" type="button">Select all</button><button class="text-button" id="select-none" type="button">Select none</button></div></div>
+          <div class="analysis-status" id="analysis-status" aria-live="polite"></div>
+          <div class="photo-grid" id="photo-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="export-bar" aria-labelledby="export-heading">
+          <div><span class="step light-step">Step 4</span><h2 id="export-heading">Download the finished set</h2><p id="export-summary">0 photos selected</p></div>
+          <button class="button light export-button" id="download-zip" type="button" disabled><span>Download Instagram ZIP</span></button>
+          <p class="export-status" id="export-status" aria-live="polite"></p>
+        </section>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import JSZip from 'jszip';
+
+  const API_BASE = 'https://jason-social-photo-api.jdkaczmarski.workers.dev';
+  const MAX_RECOMMENDED = 14;
+  type Evaluation = { name: string; category: string; score: number; recommended: boolean; reason: string };
+  type PhotoItem = { id: string; file: File; url: string; selected: boolean; aiScore?: number; category?: string; reason?: string; recommended?: boolean };
+
+  const input = document.querySelector<HTMLInputElement>('#photo-input')!;
+  const dropZone = document.querySelector<HTMLElement>('#drop-zone')!;
+  const workspace = document.querySelector<HTMLElement>('#workspace')!;
+  const grid = document.querySelector<HTMLElement>('#photo-grid')!;
+  const padding = document.querySelector<HTMLInputElement>('#padding-range')!;
+  const paddingOutput = document.querySelector<HTMLOutputElement>('#padding-output')!;
+  const summary = document.querySelector<HTMLElement>('#export-summary')!;
+  const status = document.querySelector<HTMLElement>('#export-status')!;
+  const analysisStatus = document.querySelector<HTMLElement>('#analysis-status')!;
+  const downloadButton = document.querySelector<HTMLButtonElement>('#download-zip')!;
+  const importButton = document.querySelector<HTMLButtonElement>('#import-dropbox')!;
+  const dropboxInput = document.querySelector<HTMLInputElement>('#dropbox-url')!;
+  const importMessage = document.querySelector<HTMLElement>('#import-message')!;
+  const importProgress = document.querySelector<HTMLProgressElement>('#import-progress')!;
+  const progressWrap = document.querySelector<HTMLElement>('#import-progress-wrap')!;
+  let photos: PhotoItem[] = [];
+  let draggedId: string | null = null;
+
+  const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] || character);
+  const selectedCount = () => photos.filter((photo) => photo.selected).length;
+  const naturalSort = (a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+
+  function updateSummary() {
+    const count = selectedCount();
+    summary.textContent = `${count} photo${count === 1 ? '' : 's'} selected`;
+    downloadButton.disabled = count === 0;
+  }
+
+  function renderPhotos() {
+    workspace.hidden = photos.length === 0;
+    grid.innerHTML = photos.map((photo, index) => `
+      <article class="photo-card ${photo.selected ? 'is-selected' : ''}" draggable="true" data-id="${photo.id}">
+        <div class="photo-preview"><img src="${photo.url}" alt="Preview of ${escapeHtml(photo.file.name)}" /><span class="order-number">${index + 1}</span><label class="select-toggle"><input type="checkbox" ${photo.selected ? 'checked' : ''} aria-label="Include ${escapeHtml(photo.file.name)}" /><span aria-hidden="true">✓</span></label>${photo.recommended ? '<span class="ai-pick">AI pick</span>' : ''}</div>
+        <div class="photo-meta"><div><strong title="${escapeHtml(photo.file.name)}">${escapeHtml(photo.file.name)}</strong>${photo.category ? `<small>${escapeHtml(photo.category)} · ${photo.aiScore ?? 0}/100</small>` : ''}${photo.reason ? `<small title="${escapeHtml(photo.reason)}">${escapeHtml(photo.reason)}</small>` : ''}</div><div class="order-buttons"><button type="button" data-move="up" aria-label="Move earlier" ${index === 0 ? 'disabled' : ''}>←</button><button type="button" data-move="down" aria-label="Move later" ${index === photos.length - 1 ? 'disabled' : ''}>→</button></div></div>
+      </article>`).join('');
+    grid.querySelectorAll<HTMLElement>('.photo-card').forEach((card) => {
+      const id = card.dataset.id!;
+      card.querySelector<HTMLInputElement>('input[type="checkbox"]')!.addEventListener('change', (event) => { const photo = photos.find((item) => item.id === id)!; photo.selected = (event.currentTarget as HTMLInputElement).checked; renderPhotos(); });
+      card.querySelectorAll<HTMLButtonElement>('[data-move]').forEach((button) => button.addEventListener('click', () => { const index = photos.findIndex((item) => item.id === id); const target = button.dataset.move === 'up' ? index - 1 : index + 1; if (target < 0 || target >= photos.length) return; [photos[index], photos[target]] = [photos[target], photos[index]]; renderPhotos(); }));
+      card.addEventListener('dragstart', () => { draggedId = id; card.classList.add('is-dragging'); });
+      card.addEventListener('dragend', () => { draggedId = null; card.classList.remove('is-dragging'); });
+      card.addEventListener('dragover', (event) => { event.preventDefault(); card.classList.add('is-dragover'); });
+      card.addEventListener('dragleave', () => card.classList.remove('is-dragover'));
+      card.addEventListener('drop', (event) => { event.preventDefault(); card.classList.remove('is-dragover'); if (!draggedId || draggedId === id) return; const from = photos.findIndex((item) => item.id === draggedId); const to = photos.findIndex((item) => item.id === id); const [moved] = photos.splice(from, 1); photos.splice(to, 0, moved); renderPhotos(); });
+    });
+    updateSummary();
+  }
+
+  function addFiles(fileList: FileList | File[], selected = true) {
+    const imageFiles = Array.from(fileList).filter((file) => file.type.startsWith('image/') || /\.(jpe?g|png|webp|heic|heif)$/i.test(file.name)).sort((a, b) => naturalSort(a.name, b.name));
+    const existing = new Set(photos.map((photo) => `${photo.file.name}:${photo.file.size}`));
+    imageFiles.forEach((file) => { const fingerprint = `${file.name}:${file.size}`; if (!existing.has(fingerprint)) { photos.push({ id: crypto.randomUUID(), file, url: URL.createObjectURL(file), selected }); existing.add(fingerprint); } });
+    renderPhotos();
+  }
+
+  async function readWithProgress(response: Response) {
+    if (!response.body) throw new Error('The Dropbox download did not contain any files.');
+    const total = Number(response.headers.get('Content-Length') || 0);
+    const reader = response.body.getReader();
+    const chunks: Uint8Array[] = [];
+    let received = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.length;
+      if (total) { importProgress.value = Math.min(72, (received / total) * 72); importMessage.textContent = `Downloading photographer folder… ${Math.round(received / total * 100)}%`; }
+    }
+    return new Blob(chunks as BlobPart[], { type: 'application/zip' });
+  }
+
+  async function importDropbox() {
+    const value = dropboxInput.value.trim();
+    if (!value) { progressWrap.hidden = false; importMessage.textContent = 'Paste the Dropbox folder link first.'; return; }
+    try {
+      const url = new URL(value);
+      if (!/(^|\.)dropbox\.com$/i.test(url.hostname) || !url.pathname.startsWith('/scl/fo/')) throw new Error('That does not look like a Dropbox shared-folder link.');
+      progressWrap.hidden = false; importProgress.value = 2; importMessage.textContent = 'Connecting to Dropbox…'; importButton.disabled = true; importButton.querySelector('span')!.textContent = 'Working…';
+      const response = await fetch(`${API_BASE}/api/dropbox?url=${encodeURIComponent(url.toString())}`);
+      if (!response.ok) { const data = await response.json().catch(() => ({})); throw new Error(data.error || 'Dropbox could not provide this folder.'); }
+      const blob = await readWithProgress(response);
+      importProgress.value = 75; importMessage.textContent = 'Opening the folder and finding listing photos…';
+      const archive = await JSZip.loadAsync(blob);
+      const entries = Object.values(archive.files).filter((entry) => !entry.dir && /\.(jpe?g|png|webp)$/i.test(entry.name) && !/(^|\/)(floor[ _-]?plans?|__macosx)(\/|$)/i.test(entry.name) && !entry.name.includes('/')).sort((a, b) => naturalSort(a.name, b.name));
+      if (!entries.length) throw new Error('No main JPG, PNG, or WebP listing photos were found in this folder.');
+      importMessage.textContent = `Loading ${entries.length} listing photos…`;
+      const files: File[] = [];
+      for (let index = 0; index < entries.length; index += 4) {
+        const batch = entries.slice(index, index + 4);
+        const loaded = await Promise.all(batch.map(async (entry) => { const imageBlob = await entry.async('blob'); return new File([imageBlob], entry.name.split('/').pop() || entry.name, { type: imageBlob.type || (/\.png$/i.test(entry.name) ? 'image/png' : 'image/jpeg') }); }));
+        files.push(...loaded); importProgress.value = 75 + (files.length / entries.length) * 13;
+      }
+      photos.forEach((photo) => URL.revokeObjectURL(photo.url)); photos = []; addFiles(files, false);
+      importProgress.value = 89; importMessage.textContent = `Imported ${files.length} photos. AI is choosing a balanced carousel…`;
+      await runRecommendations();
+      importProgress.value = 100; importMessage.textContent = `Done—${files.length} photos imported and ${selectedCount()} recommended for Instagram.`;
+      workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (error) {
+      importProgress.value = 0; importMessage.textContent = error instanceof Error ? error.message : 'The folder could not be imported.';
+    } finally { importButton.disabled = false; importButton.querySelector('span')!.textContent = 'Import & recommend'; }
+  }
+
+  function imageFromUrl(url: string) { return new Promise<HTMLImageElement>((resolve, reject) => { const image = new Image(); image.onload = () => resolve(image); image.onerror = reject; image.src = url; }); }
+  function drawCover(context: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number) { const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight); const drawWidth = image.naturalWidth * scale; const drawHeight = image.naturalHeight * scale; context.drawImage(image, x + (width - drawWidth) / 2, y + (height - drawHeight) / 2, drawWidth, drawHeight); }
+
+  async function makeContactSheet(batch: PhotoItem[]) {
+    const columns = 3, tileWidth = 300, photoHeight = 200, labelHeight = 34;
+    const rows = Math.ceil(batch.length / columns); const canvas = document.createElement('canvas'); canvas.width = columns * tileWidth; canvas.height = rows * (photoHeight + labelHeight); const context = canvas.getContext('2d')!; context.fillStyle = '#fff'; context.fillRect(0, 0, canvas.width, canvas.height); context.textAlign = 'center'; context.textBaseline = 'middle'; context.font = '700 18px sans-serif';
+    for (let index = 0; index < batch.length; index++) { const image = await imageFromUrl(batch[index].url); const x = (index % columns) * tileWidth; const y = Math.floor(index / columns) * (photoHeight + labelHeight); context.save(); context.beginPath(); context.rect(x + 4, y + 4, tileWidth - 8, photoHeight - 8); context.clip(); drawCover(context, image, x + 4, y + 4, tileWidth - 8, photoHeight - 8); context.restore(); context.fillStyle = '#0b2442'; context.fillText(batch[index].file.name.replace(/\.[^.]+$/, ''), x + tileWidth / 2, y + photoHeight + labelHeight / 2); }
+    return canvas.toDataURL('image/jpeg', .72);
+  }
+
+  function chooseBalancedSet() {
+    photos.forEach((photo) => { photo.selected = false; photo.recommended = false; });
+    const ranked = [...photos].sort((a, b) => (b.aiScore ?? 0) - (a.aiScore ?? 0));
+    const order = ['exterior', 'living', 'kitchen', 'dining', 'bedroom', 'bathroom', 'bonus', 'outdoor', 'amenity', 'aerial'];
+    const chosen: PhotoItem[] = [];
+    for (const category of order) { const candidates = ranked.filter((photo) => photo.category === category && !chosen.includes(photo)); const limit = ['living', 'kitchen', 'bedroom', 'outdoor'].includes(category) ? 2 : 1; chosen.push(...candidates.slice(0, limit)); }
+    for (const photo of ranked) { if (chosen.length >= MAX_RECOMMENDED) break; if (!chosen.includes(photo) && (photo.recommended || (photo.aiScore ?? 0) >= 78)) chosen.push(photo); }
+    if (chosen.length < Math.min(10, photos.length)) for (const photo of ranked) { if (chosen.length >= Math.min(10, photos.length)) break; if (!chosen.includes(photo)) chosen.push(photo); }
+    chosen.forEach((photo) => { photo.selected = true; photo.recommended = true; });
+    const unchosen = photos.filter((photo) => !chosen.includes(photo)); photos = [...chosen, ...unchosen];
+  }
+
+  async function runRecommendations() {
+    if (!photos.length) return;
+    analysisStatus.textContent = 'Creating reduced thumbnails for AI review…';
+    photos.forEach((photo) => { photo.aiScore = undefined; photo.category = undefined; photo.reason = undefined; photo.recommended = false; });
+    let completed = 0;
+    for (let index = 0; index < photos.length; index += 9) {
+      const batch = photos.slice(index, index + 9); analysisStatus.textContent = `AI is reviewing photo group ${Math.floor(index / 9) + 1} of ${Math.ceil(photos.length / 9)}…`;
+      try {
+        const image = await makeContactSheet(batch);
+        const response = await fetch(`${API_BASE}/api/analyze`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ image, names: batch.map((photo) => photo.file.name) }) });
+        if (!response.ok) throw new Error('Analysis unavailable');
+        const data = await response.json();
+        for (const evaluation of (data.items || []) as Evaluation[]) { const photo = batch.find((item) => item.file.name === evaluation.name || item.file.name.replace(/\.[^.]+$/, '') === evaluation.name.replace(/\.[^.]+$/, '')); if (photo) { photo.aiScore = evaluation.score; photo.category = evaluation.category; photo.reason = evaluation.reason; photo.recommended = evaluation.recommended; } }
+      } catch { /* A later fallback still produces a reviewable set. */ }
+      completed += batch.length; importProgress.value = Math.max(importProgress.value, 89 + completed / photos.length * 10);
+    }
+    photos.forEach((photo, index) => { if (photo.aiScore === undefined) { photo.aiScore = Math.max(45, 75 - Math.floor(index / 3)); photo.category = 'other'; photo.reason = 'Review manually'; } });
+    chooseBalancedSet(); renderPhotos(); analysisStatus.textContent = `Recommended ${selectedCount()} of ${photos.length} photos. Review the checked set and posting order below.`;
+  }
+
+  input.addEventListener('change', async () => { if (input.files) { addFiles(input.files, false); await runRecommendations(); } input.value = ''; });
+  ['dragenter', 'dragover'].forEach((type) => dropZone.addEventListener(type, (event) => { event.preventDefault(); dropZone.classList.add('is-dragover'); }));
+  ['dragleave', 'drop'].forEach((type) => dropZone.addEventListener(type, (event) => { event.preventDefault(); dropZone.classList.remove('is-dragover'); }));
+  dropZone.addEventListener('drop', async (event: DragEvent) => { if (event.dataTransfer?.files) { addFiles(event.dataTransfer.files, false); await runRecommendations(); } });
+  importButton.addEventListener('click', importDropbox);
+  document.querySelector('#run-analysis')!.addEventListener('click', runRecommendations);
+  padding.addEventListener('input', () => { paddingOutput.value = `${padding.value} px`; });
+  document.querySelector('#select-all')!.addEventListener('click', () => { photos.forEach((photo) => photo.selected = true); renderPhotos(); });
+  document.querySelector('#select-none')!.addEventListener('click', () => { photos.forEach((photo) => photo.selected = false); renderPhotos(); });
+  document.querySelector('#clear-all')!.addEventListener('click', () => { photos.forEach((photo) => URL.revokeObjectURL(photo.url)); photos = []; status.textContent = ''; analysisStatus.textContent = ''; renderPhotos(); });
+
+  function canvasToBlob(canvas: HTMLCanvasElement) { return new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error('Could not create image file.')), 'image/jpeg', .94)); }
+  async function processPhoto(photo: PhotoItem, width: number, height: number, background: string, margin: number) { const image = await imageFromUrl(photo.url); const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height; const context = canvas.getContext('2d')!; context.imageSmoothingEnabled = true; context.imageSmoothingQuality = 'high'; if (background === 'blur') { context.save(); context.filter = 'blur(42px) brightness(.82)'; drawCover(context, image, -60, -60, width + 120, height + 120); context.restore(); } else { context.fillStyle = background === 'black' ? '#050505' : '#fff'; context.fillRect(0, 0, width, height); } const availableWidth = width - margin * 2, availableHeight = height - margin * 2; const scale = Math.min(availableWidth / image.naturalWidth, availableHeight / image.naturalHeight); const drawWidth = image.naturalWidth * scale, drawHeight = image.naturalHeight * scale; context.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight); return canvasToBlob(canvas); }
+
+  downloadButton.addEventListener('click', async () => {
+    const selected = photos.filter((photo) => photo.selected); if (!selected.length) return; downloadButton.disabled = true; const label = downloadButton.querySelector('span')!; label.textContent = 'Preparing…';
+    const format = document.querySelector<HTMLInputElement>('input[name="format"]:checked')!.value; const background = document.querySelector<HTMLInputElement>('input[name="background"]:checked')!.value; const [width, height] = format === 'square' ? [1080, 1080] : [1080, 1350]; const zip = new JSZip();
+    try { for (let index = 0; index < selected.length; index++) { status.textContent = `Preparing ${index + 1} of ${selected.length}: ${selected[index].file.name}`; const blob = await processPhoto(selected[index], width, height, background, Number(padding.value)); zip.file(`${String(index + 1).padStart(2, '0')}-${selected[index].file.name.replace(/\.[^.]+$/, '').replace(/[^a-z0-9-_]+/gi, '-')}.jpg`, blob); } status.textContent = 'Packaging your ZIP…'; const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } }); const url = URL.createObjectURL(zipBlob); const anchor = document.createElement('a'); anchor.href = url; anchor.download = `instagram-listing-photos-${format}.zip`; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 2000); status.textContent = `Done—${selected.length} photos downloaded in posting order.`; }
+    catch (error) { status.textContent = error instanceof Error ? error.message : 'The photos could not be processed.'; }
+    finally { label.textContent = 'Download Instagram ZIP'; downloadButton.disabled = selectedCount() === 0; }
+  });
+</script>
+
+<style>
+  .prep-shell{min-height:80vh;padding:clamp(3.5rem,8vw,6.5rem) 0;background:linear-gradient(180deg,#eef3f8,#fff 38rem)}.tool-heading{max-width:820px;margin-bottom:2rem}.tool-heading h1{margin-bottom:1rem;color:var(--navy-900);font-size:clamp(2.8rem,6vw,5rem)}.tool-heading p{color:var(--muted);font-size:1.1rem}.privacy-note{display:flex;flex-wrap:wrap;gap:.35rem .6rem;margin-bottom:1.2rem;padding:.8rem 1rem;border:1px solid #bfd9cf;border-radius:var(--radius-sm);background:#eff9f5;color:#245e49;font-size:.9rem}.panel{margin-bottom:1rem;padding:clamp(1.25rem,4vw,2rem);border:1px solid var(--line);border-radius:var(--radius-lg);background:#fff;box-shadow:0 12px 36px #07182d12}.panel h2,.export-bar h2{margin-bottom:.45rem;color:var(--navy-900);font-size:clamp(1.55rem,3vw,2.15rem)}.panel p{margin-bottom:0;color:var(--muted)}.step{display:block;margin-bottom:.55rem;color:var(--red-600);font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.import-panel{display:grid;grid-template-columns:.9fr 1.1fr;gap:1.2rem 2rem;align-items:end}.import-controls{display:flex;gap:.6rem}.import-controls input{width:100%;min-height:3.1rem;padding:.75rem 1rem;border:1px solid #bbc7d4;border-radius:999px;background:#fbfcfd}.button.dark{flex:none;background:var(--navy-900)}.button:disabled{opacity:.55;cursor:wait}.progress-wrap{grid-column:1/-1}.progress-wrap progress{width:100%;height:.65rem;accent-color:var(--blue-600)}.field-message{margin-top:.45rem!important;min-height:1.4em;font-size:.86rem}.manual-panel{padding:1rem 1.25rem}.manual-panel summary{cursor:pointer;color:var(--blue-600);font-weight:800}.manual-inner{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:center;margin-top:1rem}.drop-zone{display:grid;place-items:center;min-height:120px;padding:1rem;border:2px dashed #aebdcb;border-radius:var(--radius-md);background:var(--mist);cursor:pointer;text-align:center}.drop-zone input{position:absolute;width:1px;height:1px;opacity:0}.drop-zone span{color:var(--muted);font-size:.85rem}.settings-intro,.selection-heading{display:flex;justify-content:space-between;gap:1rem;align-items:start}.setting-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;margin-top:1.2rem}fieldset{min-width:0;margin:0;padding:0;border:0}legend,.range-setting>span{display:block;width:100%;margin-bottom:.55rem;color:var(--navy-900);font-size:.82rem;font-weight:800}.choice{display:flex;gap:.65rem;margin-bottom:.5rem;padding:.75rem;border:1px solid var(--line);border-radius:.75rem;cursor:pointer}.choice:has(input:checked){border-color:#6e9dc9;background:#eef6fd}.choice input{margin-top:.25rem;accent-color:var(--blue-600)}.choice span,.choice strong,.choice small{display:block}.choice small,.range-setting small{color:var(--muted);font-size:.76rem}.range-setting{padding:.8rem;border:1px solid var(--line);border-radius:.75rem}.range-setting>span{display:flex;justify-content:space-between}.range-setting input{width:100%;accent-color:var(--blue-600)}.text-button{padding:.35rem .1rem;border:0;background:transparent;color:var(--blue-600);cursor:pointer;font-size:.84rem;font-weight:800}.selection-heading p{max-width:680px}.selection-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.7rem}.analysis-status{margin-top:1rem;padding:.7rem .85rem;border-radius:.65rem;background:#eef6fd;color:var(--navy-800);font-size:.86rem}.analysis-status:empty{display:none}.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1.2rem}.photo-card{overflow:hidden;border:2px solid transparent;border-radius:.8rem;background:var(--mist);cursor:grab}.photo-card.is-selected{border-color:var(--blue-600)}.photo-card.is-dragging{opacity:.45}.photo-card.is-dragover{transform:translateY(-5px);border-color:var(--red-600)}.photo-preview{position:relative;aspect-ratio:1.25;background:#dce3eb}.photo-preview img{width:100%;height:100%;object-fit:cover}.order-number{position:absolute;top:.45rem;left:.45rem;display:grid;place-items:center;min-width:1.75rem;height:1.75rem;padding:0 .3rem;border-radius:999px;background:#07182de6;color:#fff;font-size:.75rem;font-weight:800}.select-toggle{position:absolute;top:.45rem;right:.45rem;cursor:pointer}.select-toggle input{position:absolute;opacity:0}.select-toggle span{display:grid;place-items:center;width:1.9rem;aspect-ratio:1;border:2px solid #fff;border-radius:50%;background:#07182d8c;color:transparent}.select-toggle input:checked+span{background:var(--blue-600);color:#fff}.ai-pick{position:absolute;left:.45rem;bottom:.45rem;padding:.22rem .5rem;border-radius:999px;background:#eff9f5eF;color:#245e49;font-size:.67rem;font-weight:800}.photo-meta{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .65rem}.photo-meta>div:first-child{min-width:0}.photo-meta strong,.photo-meta small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.photo-meta strong{font-size:.72rem}.photo-meta small{color:var(--muted);font-size:.66rem}.order-buttons{display:flex;flex:none;gap:.15rem}.order-buttons button{width:1.7rem;height:1.7rem;border:1px solid var(--line);border-radius:.35rem;background:#fff;cursor:pointer}.order-buttons button:disabled{opacity:.3}.export-bar{display:grid;grid-template-columns:1fr auto;gap:1rem 2rem;align-items:center;margin-top:1rem;padding:clamp(1.4rem,4vw,2.2rem);border-radius:var(--radius-lg);background:var(--navy-900);color:#fff}.export-bar h2{color:#fff}.export-bar p{margin:0;color:#ffffffb8}.light-step{color:#f2b4bd}.button.light{background:#fff;color:var(--navy-900)}.export-status{grid-column:1/-1;min-height:1.4em;font-size:.85rem}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:900px){.import-panel,.manual-inner{grid-template-columns:1fr}.setting-grid{grid-template-columns:1fr 1fr}.range-setting{grid-column:1/-1}.photo-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:640px){.prep-shell{padding-top:2.2rem}.import-controls{flex-direction:column}.button.dark{width:100%}.setting-grid{grid-template-columns:1fr}.range-setting{grid-column:auto}.selection-heading{display:block}.selection-actions{justify-content:flex-start;margin-top:.5rem}.photo-grid{grid-template-columns:repeat(2,1fr)}.export-bar{grid-template-columns:1fr}.export-button{width:100%}}
+</style>

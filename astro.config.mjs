@@ -4,5 +4,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://jasonknashville.com',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    filter: (page) => !page.includes('/tools/social-photo-prep/'),
+  })],
 });

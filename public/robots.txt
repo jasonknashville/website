@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /tools/social-photo-prep/
 
 Sitemap: https://jasonknashville.com/sitemap-index.xml

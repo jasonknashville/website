@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.13.0"
+    "astro": "^5.13.0",
+    "jszip": "^3.10.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
