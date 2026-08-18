@@ -1,0 +1,235 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/calculator.css';
+---
+
+<BaseLayout
+  title="Commute Cost Calculator"
+  description="Compare two commutes by time, mileage, fuel, vehicle wear, tolls, parking, and the value of time reclaimed."
+>
+  <section class="calculator-hero commute-hero">
+    <div class="container">
+      <span class="eyebrow">Location tradeoffs</span>
+      <h1>What is your commute really costing?</h1>
+      <p>Compare your current commute with a possible new one—including time, miles, fuel, vehicle wear, tolls, and parking. No addresses are collected or sent anywhere.</p>
+    </div>
+  </section>
+
+  <section class="section calculator-shell">
+    <div class="container commute-layout" id="commuteTool">
+      <div class="calculator-grid">
+        <form class="calculator-card" id="commuteInputs">
+          <section class="input-section">
+            <h2>Compare the two commutes</h2>
+            <p>Enter one-way time and distance. The calculator handles the round trip.</p>
+            <div class="commute-headings" aria-hidden="true"><span></span><strong>Current</strong><strong>Possible new</strong></div>
+            <div class="paired-fields">
+              <span>One-way minutes</span>
+              <div class="field"><label class="sr-only" for="currentMinutes">Current one-way minutes</label><input id="currentMinutes" type="number" min="0" max="300" step="1" value="45" inputmode="numeric" /></div>
+              <div class="field"><label class="sr-only" for="newMinutes">Possible new one-way minutes</label><input id="newMinutes" type="number" min="0" max="300" step="1" value="25" inputmode="numeric" /></div>
+              <span>One-way miles</span>
+              <div class="field"><label class="sr-only" for="currentMiles">Current one-way miles</label><input id="currentMiles" type="number" min="0" max="500" step="0.1" value="30" inputmode="decimal" /></div>
+              <div class="field"><label class="sr-only" for="newMiles">Possible new one-way miles</label><input id="newMiles" type="number" min="0" max="500" step="0.1" value="15" inputmode="decimal" /></div>
+              <span>Daily tolls/parking</span>
+              <div class="field"><label class="sr-only" for="currentDailyFees">Current daily tolls and parking</label><input id="currentDailyFees" type="number" min="0" step="0.5" value="0" inputmode="decimal" /></div>
+              <div class="field"><label class="sr-only" for="newDailyFees">Possible new daily tolls and parking</label><input id="newDailyFees" type="number" min="0" step="0.5" value="0" inputmode="decimal" /></div>
+            </div>
+          </section>
+
+          <section class="input-section">
+            <h2>Your schedule and vehicle</h2>
+            <div class="field-grid">
+              <div class="field">
+                <label for="daysPerWeek">Commute days per week</label>
+                <input id="daysPerWeek" type="number" min="0" max="7" step="1" value="5" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for="weeksPerYear">Commute weeks per year</label>
+                <input id="weeksPerYear" type="number" min="0" max="52" step="1" value="48" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for="mpg">Vehicle fuel economy (MPG)</label>
+                <input id="mpg" type="number" min="1" max="200" step="0.5" value="25" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="fuelPrice">Fuel price per gallon</label>
+                <input id="fuelPrice" type="number" min="0" max="20" step="0.05" value="3.25" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="vehicleCostMile">Maintenance/wear per mile</label>
+                <input id="vehicleCostMile" type="number" min="0" max="5" step="0.01" value="0.25" inputmode="decimal" />
+                <small>Editable allowance for tires, maintenance, and depreciation beyond fuel.</small>
+              </div>
+              <div class="field">
+                <label for="hourlyValue">Value of one hour of your time</label>
+                <input id="hourlyValue" type="number" min="0" max="1000" step="1" value="30" inputmode="decimal" />
+                <small>Use $0 if you only want direct vehicle costs.</small>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <aside class="calculator-card results-panel" aria-live="polite">
+          <span class="eyebrow">Annual difference</span>
+          <h2 id="resultHeading">What the new commute changes</h2>
+          <div class="primary-result">
+            <span id="primaryLabel">Estimated annual savings</span>
+            <strong id="annualSavings">$0</strong>
+          </div>
+          <dl class="result-list">
+            <div class="result-row"><dt>Time reclaimed</dt><dd id="hoursSaved">0 hours</dd></div>
+            <div class="result-row"><dt>Equivalent waking days</dt><dd id="daysSaved">0 days</dd></div>
+            <div class="result-row"><dt>Miles avoided</dt><dd id="milesSaved">0 miles</dd></div>
+            <div class="result-row"><dt>Direct commute-cost change</dt><dd id="directSavings">$0</dd></div>
+            <div class="result-row"><dt>Time-value change</dt><dd id="timeSavings">$0</dd></div>
+            <div class="result-row"><dt>Five-year difference</dt><dd id="fiveYearSavings">$0</dd></div>
+          </dl>
+          <div class="assumption-note" id="takeaway"></div>
+          <div class="result-actions">
+            <button type="button" id="copyScenario">Copy scenario link</button>
+            <a href="https://jasonk.remax.com/contact.php" data-contact="Jason">Compare locations</a>
+          </div>
+          <p class="calculation-disclosure">Planning estimate only—not financial or real-estate advice. It assumes the same commute schedule throughout the year and does not include insurance, financing, taxes, unpredictable traffic, transit costs, or every ownership expense. Values can be negative when the possible commute costs more.</p>
+        </aside>
+      </div>
+
+      <section class="comparison-grid" aria-live="polite">
+        <article class="calculator-card commute-card current-card">
+          <span class="eyebrow">Current commute</span>
+          <h2 id="currentAnnual">$0/year</h2>
+          <dl class="result-list">
+            <div class="result-row"><dt>Hours per year</dt><dd id="currentHours">0</dd></div>
+            <div class="result-row"><dt>Miles per year</dt><dd id="currentAnnualMiles">0</dd></div>
+            <div class="result-row"><dt>Fuel</dt><dd id="currentFuel">$0</dd></div>
+            <div class="result-row"><dt>Wear/maintenance</dt><dd id="currentWear">$0</dd></div>
+            <div class="result-row"><dt>Tolls/parking</dt><dd id="currentFees">$0</dd></div>
+            <div class="result-row"><dt>Time value</dt><dd id="currentTimeValue">$0</dd></div>
+          </dl>
+        </article>
+        <article class="calculator-card commute-card new-card">
+          <span class="eyebrow">Possible new commute</span>
+          <h2 id="newAnnual">$0/year</h2>
+          <dl class="result-list">
+            <div class="result-row"><dt>Hours per year</dt><dd id="newHours">0</dd></div>
+            <div class="result-row"><dt>Miles per year</dt><dd id="newAnnualMiles">0</dd></div>
+            <div class="result-row"><dt>Fuel</dt><dd id="newFuel">$0</dd></div>
+            <div class="result-row"><dt>Wear/maintenance</dt><dd id="newWear">$0</dd></div>
+            <div class="result-row"><dt>Tolls/parking</dt><dd id="newFees">$0</dd></div>
+            <div class="result-row"><dt>Time value</dt><dd id="newTimeValue">$0</dd></div>
+          </dl>
+        </article>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .commute-layout { display: grid; gap: 1.25rem; }
+  .commute-headings, .paired-fields { display: grid; grid-template-columns: minmax(120px,.8fr) 1fr 1fr; gap: .65rem; align-items: center; }
+  .commute-headings { margin-bottom: .4rem; color: var(--navy-900); text-align: center; }
+  .paired-fields > span { color: var(--navy-900); font-size: .86rem; font-weight: 700; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  .results-panel .eyebrow { margin-bottom: .35rem; }
+  .results-panel h2 { font-size: clamp(1.7rem,3vw,2.3rem); }
+  .result-actions { grid-template-columns: 1fr; }
+  .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .commute-card { position: relative; overflow: hidden; }
+  .commute-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--blue-600); }
+  .new-card::before { background: var(--red-600); }
+  .commute-card h2 { margin-bottom: 1rem; font-size: clamp(2rem,4vw,3rem); }
+  @media(max-width:720px){ .comparison-grid { grid-template-columns: 1fr; } }
+  @media(max-width:560px){
+    .commute-headings, .paired-fields { grid-template-columns: minmax(96px,.8fr) 1fr 1fr; gap: .4rem; }
+    .paired-fields .field input { padding-inline: .5rem; }
+  }
+</style>
+
+<script is:inline>
+  const toolId = 'commute-cost';
+  const root = document.getElementById('commuteTool');
+  const form = document.getElementById('commuteInputs');
+  const controls = Array.from(form.querySelectorAll('input'));
+  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const whole = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  let started = false;
+  const num = (id, min = 0, max = Infinity) => {
+    const value = Number(document.getElementById(id)?.value || 0);
+    return Math.min(max, Math.max(min, Number.isFinite(value) ? value : 0));
+  };
+  const setMoney = (id, value) => { document.getElementById(id).textContent = money.format(Number.isFinite(value) ? value : 0); };
+  const track = (event, data = {}) => { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event, tool_id: toolId, ...data }); };
+
+  function commute(prefix) {
+    const workDays = num('daysPerWeek', 0, 7) * num('weeksPerYear', 0, 52);
+    const dailyMinutes = num(`${prefix}Minutes`, 0, 300) * 2;
+    const dailyMiles = num(`${prefix}Miles`, 0, 500) * 2;
+    const hours = dailyMinutes * workDays / 60;
+    const miles = dailyMiles * workDays;
+    const fuel = miles / Math.max(1, num('mpg', 1, 200)) * num('fuelPrice', 0, 20);
+    const wear = miles * num('vehicleCostMile', 0, 5);
+    const fees = num(`${prefix}DailyFees`) * workDays;
+    const timeValue = hours * num('hourlyValue', 0, 1000);
+    const direct = fuel + wear + fees;
+    return { hours, miles, fuel, wear, fees, timeValue, direct, total: direct + timeValue };
+  }
+
+  function display(prefix, result) {
+    setMoney(`${prefix}Annual`, result.total);
+    document.getElementById(`${prefix}Annual`).textContent += '/year';
+    document.getElementById(`${prefix}Hours`).textContent = whole.format(result.hours);
+    document.getElementById(`${prefix}AnnualMiles`).textContent = whole.format(result.miles);
+    setMoney(`${prefix}Fuel`, result.fuel);
+    setMoney(`${prefix}Wear`, result.wear);
+    setMoney(`${prefix}Fees`, result.fees);
+    setMoney(`${prefix}TimeValue`, result.timeValue);
+  }
+
+  function calculate(shouldTrack = false) {
+    const current = commute('current');
+    const next = commute('new');
+    const hours = current.hours - next.hours;
+    const miles = current.miles - next.miles;
+    const direct = current.direct - next.direct;
+    const time = current.timeValue - next.timeValue;
+    const annual = current.total - next.total;
+    document.getElementById('primaryLabel').textContent = annual >= 0 ? 'Estimated annual savings' : 'Estimated added annual cost';
+    setMoney('annualSavings', Math.abs(annual));
+    document.getElementById('hoursSaved').textContent = `${whole.format(hours)} hours`;
+    document.getElementById('daysSaved').textContent = `${(hours / 16).toLocaleString('en-US',{maximumFractionDigits:1})} days`;
+    document.getElementById('milesSaved').textContent = `${whole.format(miles)} miles`;
+    setMoney('directSavings', direct);
+    setMoney('timeSavings', time);
+    setMoney('fiveYearSavings', annual * 5);
+    ['hoursSaved','daysSaved','milesSaved','directSavings','timeSavings','fiveYearSavings'].forEach((id) => document.getElementById(id).classList.toggle('negative', Number.isFinite(annual) && (id === 'fiveYearSavings' ? annual < 0 : false)));
+    document.getElementById('takeaway').textContent = hours >= 0
+      ? `The possible commute returns about ${whole.format(hours)} hours per year—roughly ${(hours/16).toLocaleString('en-US',{maximumFractionDigits:1})} 16-hour waking days—and changes direct driving costs by ${money.format(direct)}.`
+      : `The possible commute adds about ${whole.format(Math.abs(hours))} hours per year and changes direct driving costs by ${money.format(direct)}.`;
+    display('current', current);
+    display('new', next);
+    if (shouldTrack) track('tool_calculate');
+  }
+
+  function query() {
+    const params = new URLSearchParams();
+    controls.forEach((control) => params.set(control.id, control.value));
+    return params;
+  }
+
+  const initial = new URLSearchParams(window.location.search);
+  controls.forEach((control) => { if (initial.has(control.id)) control.value = initial.get(control.id); });
+  controls.forEach((control) => control.addEventListener('input', () => {
+    if (!started) { started = true; track('tool_start'); }
+    calculate(false);
+  }));
+  form.addEventListener('change', () => calculate(true));
+  document.getElementById('copyScenario').addEventListener('click', async () => {
+    const url = `${window.location.origin}${window.location.pathname}?${query()}`;
+    try { await navigator.clipboard.writeText(url); } catch { window.prompt('Copy this link:', url); }
+    document.getElementById('copyScenario').textContent = 'Link copied';
+    setTimeout(() => { document.getElementById('copyScenario').textContent = 'Copy scenario link'; }, 1800);
+    track('tool_share', { tool_action: 'copy_scenario' });
+  });
+  root.querySelector('[data-contact]').addEventListener('click', () => track('tool_contact_click', { contact_destination: 'Jason' }));
+  track('tool_view');
+  calculate(false);
+</script>
