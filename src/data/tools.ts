@@ -25,11 +25,11 @@ export const tools: Tool[] = [
     status: 'live',
   },
   {
-    title: 'Move Now or Wait 12 Months',
-    description: 'Compare the cost of moving today with waiting a year as rates, prices, and equity change.',
-    href: 'https://jasonknashville.github.io/Move-Now-vs-Wait-12-Months/',
+    title: 'Move Now or Wait',
+    description: 'Compare moving now with waiting as rates, prices, rent, and your equity change.',
+    href: '/tools/move-now-or-wait/',
     eyebrow: 'Timing your move',
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: 'Ideal Home Clarity Check',
@@ -42,9 +42,9 @@ export const tools: Tool[] = [
   {
     title: 'Home Affordability Calculator',
     description: 'Estimate a home price and payment range that fits your monthly budget.',
-    href: 'https://jasonknashville.github.io/What-Can-I-Afford-Calc/',
+    href: '/tools/home-affordability/',
     eyebrow: 'Buying power',
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: 'Down Payment & Cash-to-Close Planner',
