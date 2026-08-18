@@ -1,0 +1,588 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import rates from '../../../data/mortgage-rates.json';
+import '../../../styles/calculator.css';
+---
+
+<BaseLayout
+  title="Move Now or Wait Calculator"
+  description="Compare buying or moving now with waiting as mortgage rates, home prices, rent, selling costs, and equity change."
+>
+  <section class="calculator-hero wait-hero">
+    <div class="container">
+      <span class="eyebrow">Timing your move</span>
+      <h1>Move now—or wait?</h1>
+      <p>Waiting can lower a future rate. It can also mean more rent, a higher home price, or a different equity position. Compare the whole tradeoff instead of betting on one number.</p>
+      <div class="rate-note">
+        Default 30-year rate: {rates.thirtyYear.toFixed(2)}% · As of {rates.asOf} ·
+        <a href={rates.sourceUrl} target="_blank" rel="noopener">Freddie Mac PMMS</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section calculator-shell">
+    <div class="container wait-shell">
+      <div class="mode-tabs wait-tabs" role="tablist" aria-label="Choose your current situation">
+        <button class="mode-tab" type="button" role="tab" aria-selected="true" data-mode="renter">I rent now</button>
+        <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="owner">I own now</button>
+      </div>
+
+      <section id="renterPanel" class="mode-panel" aria-label="Renter comparison">
+        <div class="calculator-grid">
+          <form class="calculator-card" id="renterInputs" data-analytics-calculation="manual">
+            <div class="input-section">
+              <span class="eyebrow">Your likely move</span>
+              <h2>What would buying look like?</h2>
+              <p>Start with estimates. The comparison matters more than perfect inputs.</p>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="rHomePrice">Target home price</label>
+                  <input id="rHomePrice" type="number" min="0" step="5000" value="450000" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="rDownPercent">Down payment (%)</label>
+                  <input id="rDownPercent" type="number" min="0" max="100" step="0.5" value="10" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="rRent">Current monthly rent</label>
+                  <input id="rRent" type="number" min="0" step="50" value="2000" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="rWaitMonths">Months you may wait</label>
+                  <input id="rWaitMonths" type="number" min="1" max="120" step="1" value="12" inputmode="numeric" />
+                </div>
+                <div class="field full">
+                  <label for="rTargetRate">Rate you hope to see after waiting</label>
+                  <input id="rTargetRate" type="number" min="0" max="25" step="0.01" value={Math.max(0, rates.thirtyYear - 0.75).toFixed(2)} inputmode="decimal" />
+                  <small>This is a scenario—not a prediction.</small>
+                </div>
+              </div>
+            </div>
+
+            <details class="assumption-drawer">
+              <summary>Change calculation assumptions</summary>
+              <div class="field-grid assumption-fields">
+                <div class="field">
+                  <label for="rCurrentRate">Today’s mortgage rate</label>
+                  <input id="rCurrentRate" type="number" min="0" max="25" step="0.01" value={rates.thirtyYear} inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="rAppreciation">Annual home appreciation</label>
+                  <input id="rAppreciation" type="number" min="-20" max="30" step="0.25" value="3" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="rTerm">Loan term (years)</label>
+                  <input id="rTerm" type="number" min="1" max="50" step="1" value="30" inputmode="numeric" />
+                </div>
+                <div class="field">
+                  <label for="rBudget">Comfortable monthly P&amp;I</label>
+                  <input id="rBudget" type="number" min="0" step="50" value="2800" inputmode="decimal" />
+                </div>
+              </div>
+            </details>
+
+            <button class="calculate-button" type="submit">Compare moving now with waiting</button>
+            <p class="calculation-disclosure">Payments are principal and interest only. Taxes, insurance, mortgage insurance, HOA dues, maintenance, closing costs, and other ownership expenses are not included.</p>
+          </form>
+
+          <div class="results-panel wait-results" id="renterResults" aria-live="polite">
+            <article class="calculator-card takeaway-card">
+              <span class="eyebrow">Your timing snapshot</span>
+              <h2 id="rHeadline">Comparing your options</h2>
+              <p id="rTakeaway"></p>
+            </article>
+
+            <article class="calculator-card">
+              <div class="metric-grid">
+                <div class="metric primary-metric"><span>Buy-now P&amp;I</span><strong id="rBuyNowPayment">$0</strong></div>
+                <div class="metric"><span>Estimated price after waiting</span><strong id="rFuturePrice">$0</strong></div>
+                <div class="metric"><span>Wait-scenario P&amp;I</span><strong id="rBuyLaterPayment">$0</strong></div>
+                <div class="metric"><span>Rent paid while waiting</span><strong id="rRentPaid">$0</strong></div>
+              </div>
+              <dl class="result-list wait-list">
+                <div class="result-row"><dt>Home-price change while waiting</dt><dd id="rPriceChange">$0</dd></div>
+                <div class="result-row"><dt>Additional down payment at the same percentage</dt><dd id="rExtraDown">$0</dd></div>
+                <div class="result-row"><dt>Payment change in your hoped-for rate scenario</dt><dd id="rPaymentChange">$0</dd></div>
+                <div class="result-row"><dt>Buying power today at your comfortable P&amp;I</dt><dd id="rPowerNow">$0</dd></div>
+              </dl>
+            </article>
+          </div>
+        </div>
+
+        <article class="calculator-card scenario-card">
+          <div class="scenario-heading">
+            <div><span class="eyebrow">Do not rely on one forecast</span><h2>Three waiting scenarios</h2></div>
+            <p>Every waiting scenario uses the same future home price and rent paid. Only the future mortgage rate changes.</p>
+          </div>
+          <div class="scenario-grid" id="rScenarioGrid"></div>
+        </article>
+      </section>
+
+      <section id="ownerPanel" class="mode-panel hidden" aria-label="Homeowner comparison">
+        <div class="calculator-grid">
+          <form class="calculator-card" id="ownerInputs" data-analytics-calculation="manual">
+            <div class="input-section">
+              <span class="eyebrow">Your move-up decision</span>
+              <h2>What changes if you wait?</h2>
+              <p>Compare usable sale proceeds—not just gross equity—with the changing price of the next home.</p>
+              <div class="field-grid">
+                <div class="field">
+                  <label for="oCurrentValue">Current home value</label>
+                  <input id="oCurrentValue" type="number" min="0" step="5000" value="500000" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="oBalance">Mortgage balance</label>
+                  <input id="oBalance" type="number" min="0" step="1000" value="280000" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="oTargetPrice">Target home price</label>
+                  <input id="oTargetPrice" type="number" min="0" step="5000" value="750000" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="oWaitYears">Years you may wait</label>
+                  <input id="oWaitYears" type="number" min="0.25" max="20" step="0.25" value="2" inputmode="decimal" />
+                </div>
+                <div class="field full">
+                  <label for="oTargetRate">Rate you hope to see after waiting</label>
+                  <input id="oTargetRate" type="number" min="0" max="25" step="0.01" value={Math.max(0, rates.thirtyYear - 0.75).toFixed(2)} inputmode="decimal" />
+                  <small>This is a scenario—not a prediction.</small>
+                </div>
+              </div>
+            </div>
+
+            <details class="assumption-drawer">
+              <summary>Change calculation assumptions</summary>
+              <div class="field-grid assumption-fields">
+                <div class="field">
+                  <label for="oCurrentRate">Current mortgage rate</label>
+                  <input id="oCurrentRate" type="number" min="0" max="25" step="0.01" value="3" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="oYearsLeft">Years left on current loan</label>
+                  <input id="oYearsLeft" type="number" min="1" max="50" step="1" value="25" inputmode="numeric" />
+                </div>
+                <div class="field">
+                  <label for="oNewRate">Today’s new mortgage rate</label>
+                  <input id="oNewRate" type="number" min="0" max="25" step="0.01" value={rates.thirtyYear} inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="oNewTerm">New loan term (years)</label>
+                  <input id="oNewTerm" type="number" min="1" max="50" step="1" value="30" inputmode="numeric" />
+                </div>
+                <div class="field">
+                  <label for="oAppreciation">Annual appreciation for both homes</label>
+                  <input id="oAppreciation" type="number" min="-20" max="30" step="0.25" value="3" inputmode="decimal" />
+                </div>
+                <div class="field">
+                  <label for="oSellingCosts">Estimated selling costs (%)</label>
+                  <input id="oSellingCosts" type="number" min="0" max="20" step="0.25" value="7" inputmode="decimal" />
+                </div>
+                <div class="field full">
+                  <label for="oReserve">Cash reserve kept after selling</label>
+                  <input id="oReserve" type="number" min="0" step="1000" value="15000" inputmode="decimal" />
+                </div>
+              </div>
+            </details>
+
+            <button class="calculate-button" type="submit">Compare moving now with waiting</button>
+            <p class="calculation-disclosure">New-home payments are principal and interest only. The current payment is estimated from the balance, rate, and remaining term. Taxes, insurance, HOA dues, mortgage insurance, repairs, and other costs are not included.</p>
+          </form>
+
+          <div class="results-panel wait-results" id="ownerResults" aria-live="polite">
+            <article class="calculator-card takeaway-card">
+              <span class="eyebrow">Your move-up snapshot</span>
+              <h2 id="oHeadline">Comparing your options</h2>
+              <p id="oTakeaway"></p>
+            </article>
+
+            <article class="calculator-card">
+              <div class="metric-grid">
+                <div class="metric primary-metric"><span>Usable proceeds today</span><strong id="oUsableNow">$0</strong></div>
+                <div class="metric"><span>Move-now P&amp;I</span><strong id="oMoveNowPayment">$0</strong></div>
+                <div class="metric"><span>Usable proceeds after waiting</span><strong id="oUsableLater">$0</strong></div>
+                <div class="metric"><span>Wait-scenario P&amp;I</span><strong id="oMoveLaterPayment">$0</strong></div>
+              </div>
+              <dl class="result-list wait-list">
+                <div class="result-row"><dt>Target-home price increase</dt><dd id="oPriceIncrease">$0</dd></div>
+                <div class="result-row"><dt>Additional usable proceeds from waiting</dt><dd id="oProceedsGain">$0</dd></div>
+                <div class="result-row"><dt>Change in purchase position</dt><dd id="oPositionChange">$0</dd></div>
+                <div class="result-row"><dt>Payment change in your hoped-for rate scenario</dt><dd id="oPaymentChange">$0</dd></div>
+              </dl>
+            </article>
+          </div>
+        </div>
+
+        <article class="calculator-card scenario-card">
+          <div class="scenario-heading">
+            <div><span class="eyebrow">Rate uncertainty</span><h2>Move now and three waiting scenarios</h2></div>
+            <p>Waiting scenarios include projected values, mortgage paydown, selling costs, and your selected cash reserve.</p>
+          </div>
+          <div class="scenario-grid owner-scenarios" id="oScenarioGrid"></div>
+        </article>
+      </section>
+
+      <div class="result-actions wait-actions">
+        <button type="button" id="copyWaitScenario">Copy scenario link</button>
+        <button type="button" id="emailWaitScenario">Email results</button>
+      </div>
+
+      <aside class="planning-cta">
+        <div>
+          <span class="eyebrow">The useful next question</span>
+          <h2>What would have to be true for moving to make sense?</h2>
+          <p>A calculator can frame the tradeoff. A current home-value range, a real loan estimate, and the homes actually available make it actionable.</p>
+        </div>
+        <div class="planning-actions">
+          <a class="button primary" href="https://jasonk.remax.com/contact.php">Talk with Jason</a>
+          <a class="button secondary" href="https://ashlyn-sheppard.remax.com/contact.php">Talk with Ashlyn</a>
+        </div>
+      </aside>
+
+      <p class="calculation-disclosure final-disclosure">Planning estimates only—not a prediction, appraisal, loan quote, financial recommendation, or guarantee. Appreciation and future rates are unknown. Compare actual selling costs and loan estimates before making a decision.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .wait-hero h1 { max-width: 760px; }
+  .wait-shell { display: grid; gap: 1.25rem; }
+  .wait-tabs { width: min(100%, 560px); margin: 0 auto; background: #e4eaf2; }
+  .mode-panel { display: grid; gap: 1.25rem; }
+  .assumption-drawer { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .assumption-drawer summary { color: var(--blue-600); font-weight: 700; cursor: pointer; }
+  .assumption-fields { margin-top: 1rem; }
+  .calculate-button { width: 100%; min-height: 3.1rem; margin-top: 1.4rem; padding: .75rem 1rem; border: 0; border-radius: 999px; background: var(--red-600); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 7px 18px rgba(194, 35, 51, .18); }
+  .calculate-button:hover { background: #a91e2d; }
+  .wait-results { display: grid; gap: 1.25rem; }
+  .takeaway-card { position: static; background: var(--navy-900); color: white; }
+  .takeaway-card .eyebrow { color: #f2cfd4; }
+  .takeaway-card h2 { margin: .35rem 0 .6rem; }
+  .takeaway-card p { margin: 0; color: rgba(255,255,255,.74); }
+  .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .metric { padding: 1rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--mist); }
+  .metric span { display: block; min-height: 2.5em; color: var(--muted); font-size: .76rem; }
+  .metric strong { display: block; margin-top: .25rem; color: var(--navy-900); font-size: clamp(1.3rem, 3vw, 1.85rem); }
+  .primary-metric { background: #eaf2fb; border-color: #ccdcf0; }
+  .wait-list { margin-top: .9rem; }
+  .scenario-card { overflow: hidden; }
+  .scenario-heading { display: grid; grid-template-columns: 1fr minmax(260px, .65fr); gap: 2rem; align-items: end; }
+  .scenario-heading h2 { margin-top: .3rem; }
+  .scenario-heading p { margin: 0; color: var(--muted); font-size: .86rem; }
+  .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: 1.2rem; }
+  .owner-scenarios { grid-template-columns: repeat(4, 1fr); }
+  .scenario { padding: 1rem; border: 1px solid var(--line); border-radius: .85rem; background: var(--mist); }
+  .scenario[data-tone="now"] { border-top: 4px solid var(--blue-600); }
+  .scenario[data-tone="hope"] { border-top: 4px solid #2f855a; background: #f2faf6; }
+  .scenario[data-tone="hold"] { border-top: 4px solid #d19a33; }
+  .scenario[data-tone="rise"] { border-top: 4px solid var(--red-600); }
+  .scenario h3 { margin-bottom: .15rem; font-family: 'DM Sans', system-ui, sans-serif; font-size: .95rem; }
+  .scenario-rate { color: var(--muted); font-size: .78rem; }
+  .scenario-payment { display: block; margin: .85rem 0 .15rem; color: var(--navy-900); font-size: 1.35rem; }
+  .scenario small { display: block; color: var(--muted); line-height: 1.45; }
+  .wait-actions { width: min(100%, 520px); margin: 0 auto; }
+  .planning-cta { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; margin-top: .75rem; padding: clamp(1.3rem, 4vw, 2.2rem); border-radius: var(--radius-lg); background: white; border: 1px solid var(--line); }
+  .planning-cta h2 { max-width: 760px; margin: .35rem 0 .6rem; }
+  .planning-cta p { max-width: 760px; margin: 0; color: var(--muted); }
+  .planning-actions { display: grid; min-width: 190px; gap: .55rem; }
+  .planning-actions .button { text-align: center; }
+  .final-disclosure { max-width: 900px; margin: .5rem auto 0; text-align: center; }
+  .positive { color: #26734d !important; }
+  @media (max-width: 1050px) {
+    .owner-scenarios { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 760px) {
+    .scenario-heading, .planning-cta { grid-template-columns: 1fr; }
+    .scenario-grid { grid-template-columns: 1fr; }
+    .owner-scenarios { grid-template-columns: 1fr; }
+    .planning-actions { min-width: 0; }
+  }
+  @media (max-width: 520px) {
+    .metric-grid { grid-template-columns: 1fr; }
+    .metric span { min-height: 0; }
+  }
+</style>
+
+<script is:inline>
+  const toolId = 'move-now-or-wait';
+  let mode = 'renter';
+  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const moneyPrecise = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+  const allInputs = Array.from(document.querySelectorAll('.mode-panel input'));
+
+  function numeric(id, minimum = 0, maximum = Infinity) {
+    const raw = Number(document.getElementById(id)?.value || 0);
+    return Math.min(maximum, Math.max(minimum, Number.isFinite(raw) ? raw : 0));
+  }
+
+  function mortgagePayment(principal, annualRate, years) {
+    if (principal <= 0 || years <= 0) return 0;
+    const months = years * 12;
+    const monthlyRate = annualRate / 100 / 12;
+    if (monthlyRate === 0) return principal / months;
+    return principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
+  }
+
+  function remainingBalance(principal, annualRate, years, monthsPaid) {
+    if (principal <= 0 || years <= 0) return 0;
+    const totalMonths = years * 12;
+    const elapsed = Math.min(totalMonths, Math.max(0, monthsPaid));
+    if (elapsed >= totalMonths) return 0;
+    const monthlyRate = annualRate / 100 / 12;
+    if (monthlyRate === 0) return principal * (1 - elapsed / totalMonths);
+    const payment = mortgagePayment(principal, annualRate, years);
+    return Math.max(0, principal * Math.pow(1 + monthlyRate, elapsed) - payment * ((Math.pow(1 + monthlyRate, elapsed) - 1) / monthlyRate));
+  }
+
+  function futureValue(value, annualPercent, months) {
+    return value * Math.pow(1 + annualPercent / 100, months / 12);
+  }
+
+  function purchasingPower(monthlyPayment, annualRate, years, downPercent) {
+    if (monthlyPayment <= 0 || years <= 0 || downPercent >= 100) return 0;
+    const months = years * 12;
+    const monthlyRate = annualRate / 100 / 12;
+    const loan = monthlyRate === 0
+      ? monthlyPayment * months
+      : monthlyPayment * (1 - Math.pow(1 + monthlyRate, -months)) / monthlyRate;
+    return loan / (1 - downPercent / 100);
+  }
+
+  function setMoney(id, value, precise = false) {
+    const element = document.getElementById(id);
+    element.textContent = (precise ? moneyPrecise : money).format(Number.isFinite(value) ? value : 0);
+  }
+
+  function setSignedMoney(id, value, suffix = '') {
+    const element = document.getElementById(id);
+    const sign = value > .005 ? '+' : value < -.005 ? '−' : '';
+    element.textContent = `${sign}${money.format(Math.abs(value))}${suffix}`;
+  }
+
+  function track(event, parameters = {}) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, tool_id: toolId, tool_mode: mode, ...parameters });
+  }
+
+  function scenarioCard({ title, tone, rate, payment, detail, comparison }) {
+    const sign = comparison > .005 ? '+' : comparison < -.005 ? '−' : '';
+    return `<article class="scenario" data-tone="${tone}">
+      <h3>${title}</h3>
+      <div class="scenario-rate">${rate.toFixed(2)}% mortgage rate</div>
+      <strong class="scenario-payment">${moneyPrecise.format(payment)}/mo</strong>
+      <small>${sign}${moneyPrecise.format(Math.abs(comparison))}/mo vs. buying or moving now</small>
+      <small>${detail}</small>
+    </article>`;
+  }
+
+  function calculateRenter(shouldTrack = false) {
+    const price = numeric('rHomePrice');
+    const downPercent = numeric('rDownPercent', 0, 100);
+    const rent = numeric('rRent');
+    const waitMonths = numeric('rWaitMonths', 1, 120);
+    const targetRate = numeric('rTargetRate', 0, 25);
+    const currentRate = numeric('rCurrentRate', 0, 25);
+    const appreciation = numeric('rAppreciation', -20, 30);
+    const term = numeric('rTerm', 1, 50);
+    const budget = numeric('rBudget');
+
+    const downNow = price * downPercent / 100;
+    const buyNowLoan = Math.max(0, price - downNow);
+    const buyNowPayment = mortgagePayment(buyNowLoan, currentRate, term);
+    const futurePrice = futureValue(price, appreciation, waitMonths);
+    const laterDown = futurePrice * downPercent / 100;
+    const futureLoan = Math.max(0, futurePrice - laterDown);
+    const buyLaterPayment = mortgagePayment(futureLoan, targetRate, term);
+    const rentPaid = rent * waitMonths;
+    const priceChange = futurePrice - price;
+    const extraDown = laterDown - downNow;
+    const paymentChange = buyLaterPayment - buyNowPayment;
+
+    setMoney('rBuyNowPayment', buyNowPayment, true);
+    setMoney('rFuturePrice', futurePrice);
+    setMoney('rBuyLaterPayment', buyLaterPayment, true);
+    setMoney('rRentPaid', rentPaid);
+    setSignedMoney('rPriceChange', priceChange);
+    setSignedMoney('rExtraDown', extraDown);
+    setSignedMoney('rPaymentChange', paymentChange, '/mo');
+    setMoney('rPowerNow', purchasingPower(budget, currentRate, term, downPercent));
+
+    const headline = document.getElementById('rHeadline');
+    const takeaway = document.getElementById('rTakeaway');
+    if (paymentChange > 0) {
+      headline.textContent = `Even at ${targetRate.toFixed(2)}%, the projected payment is higher.`;
+      takeaway.textContent = `At the assumptions entered, the home rises by ${money.format(priceChange)} while you wait. The lower-rate scenario still costs ${moneyPrecise.format(paymentChange)} more per month, after ${money.format(rentPaid)} in rent paid during the wait.`;
+    } else {
+      headline.textContent = `Waiting lowers the projected payment by ${moneyPrecise.format(Math.abs(paymentChange))} per month.`;
+      takeaway.textContent = `That lower payment comes after ${money.format(rentPaid)} in rent and requires about ${money.format(Math.max(0, extraDown))} more down to maintain the same down-payment percentage. Whether it is worth waiting depends on how long you keep the next home and what rates and prices actually do.`;
+    }
+
+    const rateScenarios = [
+      { title: 'Rates reach your target', tone: 'hope', rate: targetRate },
+      { title: 'Rates stay near today', tone: 'hold', rate: currentRate },
+      { title: 'Rates rise 0.50%', tone: 'rise', rate: Math.min(25, currentRate + .5) }
+    ];
+    document.getElementById('rScenarioGrid').innerHTML = rateScenarios.map((scenario) => {
+      const payment = mortgagePayment(futureLoan, scenario.rate, term);
+      return scenarioCard({
+        ...scenario,
+        payment,
+        comparison: payment - buyNowPayment,
+        detail: `${money.format(futurePrice)} projected price · ${money.format(rentPaid)} rent paid`
+      });
+    }).join('');
+
+    if (shouldTrack) track('tool_calculate');
+    return { buyNowPayment, buyLaterPayment, futurePrice, rentPaid, priceChange, extraDown, paymentChange };
+  }
+
+  function ownerScenario(rate, months, values) {
+    const currentValue = months === 0 ? values.currentValue : futureValue(values.currentValue, values.appreciation, months);
+    const targetPrice = months === 0 ? values.targetPrice : futureValue(values.targetPrice, values.appreciation, months);
+    const balance = months === 0 ? values.balance : remainingBalance(values.balance, values.currentRate, values.yearsLeft, months);
+    const grossEquity = Math.max(0, currentValue - balance);
+    const sellingCosts = currentValue * values.sellingCosts / 100;
+    const usable = Math.max(0, grossEquity - sellingCosts - values.reserve);
+    const loan = Math.max(0, targetPrice - usable);
+    const payment = mortgagePayment(loan, rate, values.newTerm);
+    return { currentValue, targetPrice, balance, grossEquity, sellingCosts, usable, loan, payment };
+  }
+
+  function calculateOwner(shouldTrack = false) {
+    const values = {
+      currentValue: numeric('oCurrentValue'),
+      balance: numeric('oBalance'),
+      targetPrice: numeric('oTargetPrice'),
+      currentRate: numeric('oCurrentRate', 0, 25),
+      yearsLeft: numeric('oYearsLeft', 1, 50),
+      newRate: numeric('oNewRate', 0, 25),
+      newTerm: numeric('oNewTerm', 1, 50),
+      appreciation: numeric('oAppreciation', -20, 30),
+      sellingCosts: numeric('oSellingCosts', 0, 20),
+      reserve: numeric('oReserve'),
+      targetRate: numeric('oTargetRate', 0, 25),
+      waitYears: numeric('oWaitYears', .25, 20)
+    };
+    const waitMonths = values.waitYears * 12;
+    const now = ownerScenario(values.newRate, 0, values);
+    const hoped = ownerScenario(values.targetRate, waitMonths, values);
+    const held = ownerScenario(values.newRate, waitMonths, values);
+    const risen = ownerScenario(Math.min(25, values.newRate + .5), waitMonths, values);
+    const priceIncrease = hoped.targetPrice - now.targetPrice;
+    const proceedsGain = hoped.usable - now.usable;
+    const positionChange = proceedsGain - priceIncrease;
+    const paymentChange = hoped.payment - now.payment;
+
+    setMoney('oUsableNow', now.usable);
+    setMoney('oMoveNowPayment', now.payment, true);
+    setMoney('oUsableLater', hoped.usable);
+    setMoney('oMoveLaterPayment', hoped.payment, true);
+    setSignedMoney('oPriceIncrease', priceIncrease);
+    setSignedMoney('oProceedsGain', proceedsGain);
+    setSignedMoney('oPositionChange', positionChange);
+    setSignedMoney('oPaymentChange', paymentChange, '/mo');
+
+    const headline = document.getElementById('oHeadline');
+    const takeaway = document.getElementById('oTakeaway');
+    if (positionChange < 0) {
+      headline.textContent = `The next home outpaces your added proceeds by ${money.format(Math.abs(positionChange))}.`;
+      takeaway.textContent = `Waiting adds about ${money.format(proceedsGain)} to usable proceeds, but the target home rises by about ${money.format(priceIncrease)}. At your hoped-for ${values.targetRate.toFixed(2)}% rate, the projected new payment is ${moneyPrecise.format(Math.abs(paymentChange))} ${paymentChange <= 0 ? 'lower' : 'higher'} per month than moving now.`;
+    } else {
+      headline.textContent = `Waiting improves your estimated purchase position by ${money.format(positionChange)}.`;
+      takeaway.textContent = `Your added usable proceeds exceed the projected target-home price increase under these assumptions. At your hoped-for ${values.targetRate.toFixed(2)}% rate, the new payment is ${moneyPrecise.format(Math.abs(paymentChange))} ${paymentChange <= 0 ? 'lower' : 'higher'} per month than moving now.`;
+    }
+
+    const scenarios = [
+      { title: 'Move now', tone: 'now', rate: values.newRate, result: now },
+      { title: 'Wait; rate reaches target', tone: 'hope', rate: values.targetRate, result: hoped },
+      { title: 'Wait; rate stays near today', tone: 'hold', rate: values.newRate, result: held },
+      { title: 'Wait; rate rises 0.50%', tone: 'rise', rate: Math.min(25, values.newRate + .5), result: risen }
+    ];
+    document.getElementById('oScenarioGrid').innerHTML = scenarios.map((scenario) => scenarioCard({
+      title: scenario.title,
+      tone: scenario.tone,
+      rate: scenario.rate,
+      payment: scenario.result.payment,
+      comparison: scenario.result.payment - now.payment,
+      detail: `${money.format(scenario.result.targetPrice)} target price · ${money.format(scenario.result.usable)} usable proceeds`
+    })).join('');
+
+    if (shouldTrack) track('tool_calculate');
+    return { now, hoped, priceIncrease, proceedsGain, positionChange, paymentChange };
+  }
+
+  function calculateActive(shouldTrack = false) {
+    return mode === 'renter' ? calculateRenter(shouldTrack) : calculateOwner(shouldTrack);
+  }
+
+  function switchMode(nextMode, shouldTrack = true) {
+    mode = nextMode;
+    document.querySelectorAll('.mode-tab').forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.mode === mode)));
+    document.getElementById('renterPanel').classList.toggle('hidden', mode !== 'renter');
+    document.getElementById('ownerPanel').classList.toggle('hidden', mode !== 'owner');
+    calculateActive(false);
+    if (shouldTrack) track('tool_mode_change');
+  }
+
+  function scenarioQuery() {
+    const query = new URLSearchParams({ mode });
+    allInputs.forEach((input) => query.set(input.id, input.value));
+    return query;
+  }
+
+  function applyQuery() {
+    const query = new URLSearchParams(window.location.search);
+    allInputs.forEach((input) => {
+      if (query.has(input.id)) input.value = query.get(input.id);
+    });
+    switchMode(query.get('mode') === 'owner' ? 'owner' : 'renter', false);
+  }
+
+  function emailResults() {
+    const results = calculateActive(false);
+    const recipient = window.prompt('What email address should receive a copy?');
+    if (!recipient) return;
+    const link = `${window.location.origin}${window.location.pathname}?${scenarioQuery()}`;
+    const subject = encodeURIComponent(`My Move Now or Wait comparison — ${mode === 'renter' ? 'renter' : 'homeowner'}`);
+    const lines = mode === 'renter'
+      ? [
+          'Here is my Move Now or Wait comparison:', '',
+          `Current situation: Renting`,
+          `Buy-now P&I: ${moneyPrecise.format(results.buyNowPayment)}/month`,
+          `Projected home price after waiting: ${money.format(results.futurePrice)}`,
+          `Wait-scenario P&I: ${moneyPrecise.format(results.buyLaterPayment)}/month`,
+          `Rent paid while waiting: ${money.format(results.rentPaid)}`,
+          `Additional down payment at the same percentage: ${money.format(results.extraDown)}`
+        ]
+      : [
+          'Here is my Move Now or Wait comparison:', '',
+          `Current situation: Homeowner`,
+          `Usable sale proceeds now: ${money.format(results.now.usable)}`,
+          `Move-now P&I: ${moneyPrecise.format(results.now.payment)}/month`,
+          `Usable sale proceeds after waiting: ${money.format(results.hoped.usable)}`,
+          `Wait-scenario P&I: ${moneyPrecise.format(results.hoped.payment)}/month`,
+          `Change in purchase position: ${money.format(results.positionChange)}`
+        ];
+    const body = encodeURIComponent([...lines, '', link, '', 'Planning estimates only. Future rates, prices, costs, and loan terms vary.'].join('\n'));
+    window.location.href = `mailto:jason@jasonknashville.com?cc=${encodeURIComponent(recipient.trim())}&subject=${subject}&body=${body}`;
+    track('tool_email_results');
+  }
+
+  document.querySelectorAll('.mode-tab').forEach((tab) => tab.addEventListener('click', () => switchMode(tab.dataset.mode)));
+  document.getElementById('renterInputs').addEventListener('submit', (event) => { event.preventDefault(); calculateRenter(true); });
+  document.getElementById('ownerInputs').addEventListener('submit', (event) => { event.preventDefault(); calculateOwner(true); });
+
+  document.getElementById('copyWaitScenario').addEventListener('click', async () => {
+    const link = `${window.location.origin}${window.location.pathname}?${scenarioQuery()}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      document.getElementById('copyWaitScenario').textContent = 'Link copied';
+      setTimeout(() => document.getElementById('copyWaitScenario').textContent = 'Copy scenario link', 1800);
+    } catch {
+      window.prompt('Copy this link:', link);
+    }
+    track('tool_share', { tool_action: 'copy_scenario' });
+  });
+
+  document.getElementById('emailWaitScenario').addEventListener('click', emailResults);
+  applyQuery();
+</script>

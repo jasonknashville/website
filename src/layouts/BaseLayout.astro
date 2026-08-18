@@ -48,6 +48,55 @@ const organizationSchema = {
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-MH9X9NGV');
     </script>
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function () {
+        var match = window.location.pathname.match(/^\/tools\/([^/]+)\/?/);
+        if (!match) return;
+
+        var toolId = match[1];
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'tool_view', tool_id: toolId });
+
+        var started = false;
+        var calculated = false;
+        document.addEventListener('input', function (event) {
+          if (started || !event.target.closest('main')) return;
+          if (!event.target.matches('input, select, textarea')) return;
+          started = true;
+          window.dataLayer.push({ event: 'tool_start', tool_id: toolId });
+        }, { passive: true });
+
+        document.addEventListener('change', function (event) {
+          if (calculated || !event.target.closest('main')) return;
+          if (!event.target.matches('input, select, textarea')) return;
+          if (event.target.closest('[data-analytics-calculation="manual"]')) return;
+          calculated = true;
+          window.dataLayer.push({ event: 'tool_calculate', tool_id: toolId });
+        }, { passive: true });
+
+        document.addEventListener('click', function (event) {
+          var tracked = event.target.closest('[data-analytics-event]');
+          if (tracked) {
+            window.dataLayer.push({
+              event: tracked.getAttribute('data-analytics-event'),
+              tool_id: toolId,
+              tool_action: tracked.getAttribute('data-analytics-action') || undefined
+            });
+          }
+
+          var link = event.target.closest('a');
+          if (!link) return;
+          var href = link.getAttribute('href') || '';
+          if (href.startsWith('mailto:') || href.startsWith('tel:') || href.includes('/contact.php')) {
+            window.dataLayer.push({
+              event: 'tool_contact_click',
+              tool_id: toolId,
+              contact_destination: link.textContent.trim().slice(0, 60)
+            });
+          }
+        });
+      });
+    </script>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
   </head>
   <body>

@@ -277,7 +277,7 @@
         },
         'Kids / school timing': {
           reframe: 'Plenty of moves get built around the school calendar. The useful question is what waiting changes financially and logistically.',
-          tool: ['Move Now or Wait 12 Months','https://jasonknashville.github.io/Move-Now-vs-Wait-12-Months/']
+          tool: ['Move Now or Wait','/tools/move-now-or-wait/']
         },
         'Need to sell first': {
           reframe: 'Selling first is the most common path there is. The key is knowing the likely proceeds and choosing a clean sequence.',
@@ -298,6 +298,8 @@
       };
 
       var app = document.getElementById('ihq-app');
+      window.dataLayer=window.dataLayer||[];
+      window.dataLayer.push({event:'tool_view',tool_id:'ideal-home-quiz'});
       var idx = 0;
       var check = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -333,7 +335,10 @@
         app.innerHTML='';
         var node=element('<div class="ihq-step"><div class="ihq-hero"><span class="ihq-eyebrow">A 60-second clarity check</span><h1>How far are you from your <em>ideal</em> home?</h1><p>Not your current home. The one you would choose if you were starting from scratch today.</p><p>Most homeowners are not looking to move—but plenty are not living in the home they would actually pick. This takes about a minute, no pressure, no obligation.</p><div class="ihq-sub">A few quick questions &middot; The money part is optional</div></div><button class="ihq-btn ihq-btn-primary ihq-btn-full" style="margin-top:18px" id="ihq-start">Let\'s get you clarity &rarr;</button></div>');
         app.appendChild(node);
-        document.getElementById('ihq-start').onclick=next;
+        document.getElementById('ihq-start').onclick=function(){
+          window.dataLayer.push({event:'tool_start',tool_id:'ideal-home-quiz'});
+          next();
+        };
       }
       function questionShell(number,title,help,bodyHtml,options){
         options=options||{};
@@ -403,9 +408,10 @@
         var node=element('<div class="ihq-step ihq-result"><div class="ihq-card"><div class="ihq-result-eyebrow">Your clarity check</div><h2>You are not as far as you think</h2><p class="ihq-result-summary">'+escapeHtml(clarityLine())+'</p>'+prioritiesBlock+oneThingBlock+blockerBlocks+equityBlock+'<div class="ihq-reflect"><h3>A few good next steps</h3><p>Start with the question taking up the most space in your head. You do not need to use them all.</p><div class="ihq-tool-list">'+toolsHtml+'</div></div><div class="ihq-optin"><h3>Want the full picture?</h3><p>Talk through your results or get a no-pressure look at what your home could actually sell for today.</p><div class="ihq-contact-actions"><a class="ihq-btn ihq-btn-blue" href="https://jasonk.remax.com/contact.php" data-contact="Jason">Contact Jason</a><a class="ihq-btn ihq-btn-primary" href="https://ashlyn-sheppard.remax.com/contact.php" data-contact="Ashlyn">Contact Ashlyn</a></div><p class="ihq-privacy">Your answers stayed in this browser and were not submitted.</p></div><div class="ihq-result-actions"><button class="ihq-btn ihq-btn-ghost" id="ihq-copy">Copy results</button><button class="ihq-btn ihq-btn-ghost" id="ihq-restart">Start over</button><a class="ihq-btn ihq-btn-ghost" href="/tools/">See all tools</a></div></div></div>');
         app.appendChild(node);
         window.dataLayer=window.dataLayer||[];
-        window.dataLayer.push({event:'ideal_home_quiz_complete',ownership:state.ownRent,priority_count:priorities.length,blocker_count:state.blockers.length,included_numbers:state.wantNumbers===true});
+        window.dataLayer.push({event:'ideal_home_quiz_complete',tool_id:'ideal-home-quiz'});
+        window.dataLayer.push({event:'tool_complete',tool_id:'ideal-home-quiz'});
         app.querySelectorAll('[data-tool]').forEach(function(link){link.onclick=function(){window.dataLayer.push({event:'ideal_home_quiz_recommendation_click',recommendation:link.getAttribute('data-tool')})}});
-        app.querySelectorAll('[data-contact]').forEach(function(link){link.onclick=function(){window.dataLayer.push({event:'ideal_home_quiz_contact_click',contact:link.getAttribute('data-contact')})}});
+        app.querySelectorAll('[data-contact]').forEach(function(link){link.onclick=function(){var contact=link.getAttribute('data-contact');window.dataLayer.push({event:'ideal_home_quiz_contact_click',contact:contact});window.dataLayer.push({event:'tool_contact_click',tool_id:'ideal-home-quiz',contact_destination:contact})}});
         document.getElementById('ihq-copy').onclick=copyResults;
         document.getElementById('ihq-restart').onclick=restart;
         window.scrollTo({top:0,behavior:'smooth'});
