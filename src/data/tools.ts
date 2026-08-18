@@ -62,9 +62,9 @@ export const tools: Tool[] = [
   },
   {
     title: 'Commute Cost Calculator',
-    description: 'Put a dollar value on commute time, mileage, fuel, and a potential move.',
-    href: 'https://jasonknashville.github.io/Commute-Savings-Calculator/',
+    description: 'Compare commute time, mileage, fuel, vehicle wear, tolls, parking, and an optional value for your time.',
+    href: '/tools/commute-cost/',
     eyebrow: 'Location tradeoffs',
-    status: 'migrating',
+    status: 'live',
   },
 ];
