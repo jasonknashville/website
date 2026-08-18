@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/calculator.css';
+---
+
+<BaseLayout
+  title="Home Equity Growth Calculator"
+  description="Estimate how scheduled mortgage principal paydown and possible home-price changes could affect your equity over time."
+>
+  <section class="calculator-hero">
+    <div class="container">
+      <span class="eyebrow">Long-term ownership</span>
+      <h1>How could your equity change over time?</h1>
+      <p>Separate the two big drivers: scheduled mortgage principal paydown and a possible change in home value. Then see estimated usable equity after a selling-cost allowance.</p>
+    </div>
+  </section>
+
+  <section class="section calculator-shell">
+    <div class="container equity-layout" id="equityTool">
+      <div class="calculator-grid">
+        <form class="calculator-card" id="equityInputs">
+          <section class="input-section">
+            <h2>Your home and mortgage today</h2>
+            <p>Use your current estimated value and current principal balance.</p>
+            <div class="field-grid">
+              <div class="field">
+                <label for="currentValue">Current home value</label>
+                <input id="currentValue" type="number" min="0" step="1000" value="450000" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="mortgageBalance">Current mortgage balance</label>
+                <input id="mortgageBalance" type="number" min="0" step="1000" value="300000" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="interestRate">Current mortgage rate</label>
+                <input id="interestRate" type="number" min="0" max="25" step="0.01" value="5.50" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="yearsRemaining">Years remaining on mortgage</label>
+                <input id="yearsRemaining" type="number" min="1" max="50" step="1" value="25" inputmode="numeric" />
+              </div>
+            </div>
+          </section>
+
+          <section class="input-section">
+            <h2>Your planning horizon</h2>
+            <div class="field-grid">
+              <div class="field">
+                <label for="projectionYears">Years from now</label>
+                <input id="projectionYears" type="number" min="1" max="30" step="1" value="5" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for="appreciationRate">Annual value change (%)</label>
+                <input id="appreciationRate" type="number" min="-20" max="30" step="0.25" value="3" inputmode="decimal" />
+                <small>This is a scenario, not a forecast.</small>
+              </div>
+              <div class="field full">
+                <label for="sellingCostRate">Estimated selling costs (% of future value)</label>
+                <input id="sellingCostRate" type="number" min="0" max="20" step="0.25" value="7" inputmode="decimal" />
+                <small>Planning allowance for commission, title/closing charges, transfer taxes, concessions, repairs, and related costs. Actual costs vary.</small>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <aside class="calculator-card results-panel" aria-live="polite">
+          <span class="eyebrow">Future snapshot</span>
+          <h2 id="snapshotHeading">Estimated position in 5 years</h2>
+          <div class="primary-result">
+            <span>Estimated gross equity</span>
+            <strong id="futureEquity">$0</strong>
+          </div>
+          <dl class="result-list">
+            <div class="result-row"><dt>Projected home value</dt><dd id="futureValue">$0</dd></div>
+            <div class="result-row"><dt>Projected mortgage balance</dt><dd id="futureBalance">$0</dd></div>
+            <div class="result-row"><dt>Principal paid down</dt><dd id="principalPaydown">$0</dd></div>
+            <div class="result-row"><dt>Projected value change</dt><dd id="valueChange">$0</dd></div>
+            <div class="result-row"><dt>Estimated selling costs</dt><dd id="sellingCosts">$0</dd></div>
+            <div class="result-row"><dt>Estimated usable sale proceeds</dt><dd id="usableEquity">$0</dd></div>
+            <div class="result-row"><dt>Projected loan-to-value</dt><dd id="futureLtv">0%</dd></div>
+          </dl>
+          <div class="assumption-note" id="takeaway"></div>
+          <div class="result-actions">
+            <button type="button" id="copyScenario">Copy scenario link</button>
+            <a href="https://jasonk.remax.com/contact.php" data-contact="Jason">Discuss your equity</a>
+          </div>
+          <p class="calculation-disclosure">Planning estimate only—not an appraisal, payoff statement, market forecast, or guarantee. It assumes the current mortgage balance amortizes at the entered rate for the entered remaining term, with no refinance, extra payments, missed payments, cash-out borrowing, or property-specific liens.</p>
+        </aside>
+      </div>
+
+      <section class="calculator-card projection-card">
+        <div class="projection-heading">
+          <div><span class="eyebrow">Year-by-year view</span><h2>Where the equity comes from</h2></div>
+          <p>Gross equity equals projected value minus projected mortgage balance. Usable proceeds also subtract the selling-cost allowance.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Year</th><th>Home value</th><th>Mortgage balance</th><th>Gross equity</th><th>Usable proceeds</th></tr></thead>
+            <tbody id="projectionRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .equity-layout { display: grid; gap: 1.25rem; }
+  .results-panel .eyebrow { margin-bottom: .35rem; }
+  .results-panel h2 { font-size: clamp(1.7rem,3vw,2.3rem); }
+  .result-actions { grid-template-columns: 1fr; }
+  .projection-heading { display: grid; grid-template-columns: 1fr minmax(280px,.7fr); gap: 2rem; align-items: end; }
+  .projection-heading h2 { margin-top: .3rem; }
+  .projection-heading p { margin: 0; color: var(--muted); }
+  .table-wrap { margin-top: 1.2rem; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 680px; }
+  th, td { padding: .75rem; border-bottom: 1px solid var(--line); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .06em; }
+  td { color: var(--navy-900); font-weight: 700; }
+  @media(max-width:700px){ .projection-heading { grid-template-columns: 1fr; } }
+</style>
+
+<script is:inline>
+  const toolId = 'home-equity';
+  const root = document.getElementById('equityTool');
+  const form = document.getElementById('equityInputs');
+  const controls = Array.from(form.querySelectorAll('input'));
+  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  let started = false;
+  const num = (id, min = 0, max = Infinity) => {
+    const value = Number(document.getElementById(id)?.value || 0);
+    return Math.min(max, Math.max(min, Number.isFinite(value) ? value : 0));
+  };
+  const setMoney = (id, value) => { document.getElementById(id).textContent = money.format(Number.isFinite(value) ? value : 0); };
+  const track = (event, data = {}) => { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event, tool_id: toolId, ...data }); };
+
+  function payment(principal, annualRate, months) {
+    if (principal <= 0 || months <= 0) return 0;
+    const rate = annualRate / 100 / 12;
+    return rate === 0 ? principal / months : principal * rate / (1 - Math.pow(1 + rate, -months));
+  }
+
+  function remainingBalance(principal, annualRate, totalMonths, monthsPaid) {
+    if (principal <= 0 || totalMonths <= 0) return 0;
+    const elapsed = Math.min(totalMonths, Math.max(0, monthsPaid));
+    if (elapsed >= totalMonths) return 0;
+    const rate = annualRate / 100 / 12;
+    if (rate === 0) return principal * (1 - elapsed / totalMonths);
+    const monthlyPayment = payment(principal, annualRate, totalMonths);
+    const growth = Math.pow(1 + rate, elapsed);
+    return Math.max(0, principal * growth - monthlyPayment * ((growth - 1) / rate));
+  }
+
+  function projection(year) {
+    const currentValue = num('currentValue');
+    const balance = Math.min(num('mortgageBalance'), 1000000000);
+    const appreciation = num('appreciationRate', -20, 30) / 100;
+    const value = currentValue * Math.pow(1 + appreciation, year);
+    const mortgage = remainingBalance(balance, num('interestRate', 0, 25), num('yearsRemaining', 1, 50) * 12, year * 12);
+    const equity = value - mortgage;
+    const costs = value * num('sellingCostRate', 0, 20) / 100;
+    const usable = Math.max(0, value - mortgage - costs);
+    return { year, value, mortgage, equity, costs, usable };
+  }
+
+  function calculate(shouldTrack = false) {
+    const years = Math.round(num('projectionYears', 1, 30));
+    const start = projection(0);
+    const future = projection(years);
+    const paydown = Math.max(0, start.mortgage - future.mortgage);
+    const valueChange = future.value - start.value;
+    document.getElementById('snapshotHeading').textContent = `Estimated position in ${years} ${years === 1 ? 'year' : 'years'}`;
+    setMoney('futureEquity', future.equity);
+    setMoney('futureValue', future.value);
+    setMoney('futureBalance', future.mortgage);
+    setMoney('principalPaydown', paydown);
+    setMoney('valueChange', valueChange);
+    document.getElementById('valueChange').classList.toggle('negative', valueChange < 0);
+    setMoney('sellingCosts', future.costs);
+    setMoney('usableEquity', future.usable);
+    document.getElementById('futureLtv').textContent = `${(future.value > 0 ? future.mortgage / future.value * 100 : 0).toLocaleString('en-US',{maximumFractionDigits:1})}%`;
+    document.getElementById('takeaway').textContent = `${money.format(paydown)} of the change comes from scheduled principal paydown. The value scenario contributes ${valueChange < 0 ? 'a decline of ' : ''}${money.format(Math.abs(valueChange))}.`;
+
+    const rows = [];
+    for (let year = 0; year <= years; year += 1) {
+      const item = projection(year);
+      rows.push(`<tr><td>${year === 0 ? 'Today' : `Year ${year}`}</td><td>${money.format(item.value)}</td><td>${money.format(item.mortgage)}</td><td>${money.format(item.equity)}</td><td>${money.format(item.usable)}</td></tr>`);
+    }
+    document.getElementById('projectionRows').innerHTML = rows.join('');
+    if (shouldTrack) track('tool_calculate');
+  }
+
+  function query() {
+    const params = new URLSearchParams();
+    controls.forEach((control) => params.set(control.id, control.value));
+    return params;
+  }
+
+  const initial = new URLSearchParams(window.location.search);
+  controls.forEach((control) => { if (initial.has(control.id)) control.value = initial.get(control.id); });
+  controls.forEach((control) => control.addEventListener('input', () => {
+    if (!started) { started = true; track('tool_start'); }
+    calculate(false);
+  }));
+  form.addEventListener('change', () => calculate(true));
+  document.getElementById('copyScenario').addEventListener('click', async () => {
+    const url = `${window.location.origin}${window.location.pathname}?${query()}`;
+    try { await navigator.clipboard.writeText(url); } catch { window.prompt('Copy this link:', url); }
+    document.getElementById('copyScenario').textContent = 'Link copied';
+    setTimeout(() => { document.getElementById('copyScenario').textContent = 'Copy scenario link'; }, 1800);
+    track('tool_share', { tool_action: 'copy_scenario' });
+  });
+  root.querySelector('[data-contact]').addEventListener('click', () => track('tool_contact_click', { contact_destination: 'Jason' }));
+  track('tool_view');
+  calculate(false);
+</script>
