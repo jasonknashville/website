@@ -47,11 +47,11 @@ export const tools: Tool[] = [
     status: 'migrating',
   },
   {
-    title: 'Down Payment Calculator',
-    description: 'Compare down-payment options and see how each changes the loan and monthly payment.',
-    href: 'https://jasonknashville.github.io/Down-Payment-Calculator/',
+    title: 'Down Payment & Cash-to-Close Planner',
+    description: 'Compare down-payment options and estimate the cash needed for closing costs, prepaids, reserves, and deposits.',
+    href: '/tools/cash-to-close/',
     eyebrow: 'Cash to close',
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: 'Home Equity Calculator',
