@@ -56,9 +56,9 @@ export const tools: Tool[] = [
   {
     title: 'Home Equity Calculator',
     description: 'Explore how principal paydown and appreciation can change your equity over time.',
-    href: 'https://jasonknashville.github.io/Equity-Calculator/',
+    href: '/tools/home-equity/',
     eyebrow: 'Long-term ownership',
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: 'Commute Cost Calculator',
