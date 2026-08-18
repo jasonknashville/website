@@ -42,9 +42,9 @@ export const tools: Tool[] = [
   {
     title: 'Home Affordability Calculator',
     description: 'Estimate a home price and payment range that fits your monthly budget.',
-    href: 'https://jasonknashville.github.io/What-Can-I-Afford-Calc/',
+    href: '/tools/home-affordability/',
     eyebrow: 'Buying power',
-    status: 'migrating',
+    status: 'live',
   },
   {
     title: 'Down Payment Calculator',

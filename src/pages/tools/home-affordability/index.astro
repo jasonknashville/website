@@ -1,0 +1,271 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import rates from '../../../data/mortgage-rates.json';
+import '../../../styles/calculator.css';
+---
+
+<BaseLayout
+  title="Home Affordability Calculator"
+  description="Estimate a home-price range from a comfortable monthly payment or from household income and monthly debts."
+>
+  <section class="calculator-hero">
+    <div class="container">
+      <span class="eyebrow">Buying power</span>
+      <h1>What home price fits your real monthly budget?</h1>
+      <p>Work backward from a payment you are comfortable with—or use income and debts for a broader planning range. Taxes, insurance, mortgage insurance, and HOA are included.</p>
+      <div class="rate-note">
+        Default 30-year rate: {rates.thirtyYear.toFixed(2)}% · As of {rates.asOf} ·
+        <a href={rates.sourceUrl} target="_blank" rel="noopener">Freddie Mac PMMS</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section calculator-shell">
+    <div class="container affordability-shell" id="affordabilityTool">
+      <div class="mode-tabs" role="tablist" aria-label="Choose an affordability method">
+        <button class="mode-tab" type="button" role="tab" aria-selected="true" data-mode="payment">Start with my payment</button>
+        <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="income">Start with income &amp; debts</button>
+      </div>
+
+      <div class="calculator-grid">
+        <form class="calculator-card" id="affordabilityInputs">
+          <section class="input-section" id="paymentFields">
+            <h2>Your comfortable housing payment</h2>
+            <p>Use the total monthly amount you would be comfortable paying—not the maximum someone might approve.</p>
+            <div class="field-grid">
+              <div class="field full">
+                <label for="monthlyBudget">Total monthly housing budget</label>
+                <input id="monthlyBudget" type="number" min="0" step="50" value="3000" inputmode="decimal" />
+                <small>Includes principal, interest, taxes, insurance, estimated PMI, and HOA.</small>
+              </div>
+            </div>
+          </section>
+
+          <section class="input-section hidden" id="incomeFields">
+            <h2>Your income and monthly debts</h2>
+            <p>The default ratios are a planning framework—not an approval standard.</p>
+            <div class="field-grid">
+              <div class="field">
+                <label for="annualIncome">Gross household income (annual)</label>
+                <input id="annualIncome" type="number" min="0" step="1000" value="120000" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="monthlyDebts">Monthly debt payments</label>
+                <input id="monthlyDebts" type="number" min="0" step="25" value="750" inputmode="decimal" />
+                <small>Car, student, personal, and minimum credit-card payments.</small>
+              </div>
+            </div>
+          </section>
+
+          <section class="input-section">
+            <h2>Loan and property assumptions</h2>
+            <div class="field-grid">
+              <div class="field">
+                <label for="downPercent">Down payment (%)</label>
+                <input id="downPercent" type="number" min="0" max="100" step="0.5" value="10" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="interestRate">Mortgage rate</label>
+                <input id="interestRate" type="number" min="0" max="25" step="0.01" value={rates.thirtyYear} inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="loanTerm">Loan term</label>
+                <select id="loanTerm">
+                  <option value="30">30 years</option>
+                  <option value="20">20 years</option>
+                  <option value="15">15 years</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="taxRate">Property taxes (%/year)</label>
+                <input id="taxRate" type="number" min="0" max="10" step="0.01" value="0.55" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="insuranceAnnual">Homeowners insurance (annual)</label>
+                <input id="insuranceAnnual" type="number" min="0" step="50" value="1800" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="hoaMonthly">HOA dues (monthly)</label>
+                <input id="hoaMonthly" type="number" min="0" step="5" value="0" inputmode="decimal" />
+              </div>
+              <div class="field full">
+                <label for="pmiRate">Estimated mortgage insurance (% of loan/year)</label>
+                <input id="pmiRate" type="number" min="0" max="5" step="0.05" value="0.50" inputmode="decimal" />
+                <small>Applied only when the down payment is below 20%. Actual mortgage-insurance pricing varies.</small>
+              </div>
+            </div>
+          </section>
+
+          <details class="ratio-details">
+            <summary>Change income-method ratios</summary>
+            <div class="field-grid ratio-fields">
+              <div class="field">
+                <label for="housingRatio">Housing ratio (%)</label>
+                <input id="housingRatio" type="number" min="0" max="100" step="1" value="36" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for="totalDebtRatio">Total debt ratio (%)</label>
+                <input id="totalDebtRatio" type="number" min="0" max="100" step="1" value="45" inputmode="decimal" />
+              </div>
+            </div>
+          </details>
+        </form>
+
+        <aside class="calculator-card results-panel" aria-live="polite">
+          <span class="eyebrow">Planning estimate</span>
+          <h2 id="resultHeading">Price at your chosen payment</h2>
+          <p class="results-intro" id="resultIntro"></p>
+          <div class="primary-result">
+            <span>Estimated home price</span>
+            <strong id="homePrice">$0</strong>
+          </div>
+          <dl class="result-list">
+            <div class="result-row"><dt>Total monthly housing</dt><dd id="totalHousing">$0</dd></div>
+            <div class="result-row"><dt>Principal &amp; interest</dt><dd id="principalInterest">$0</dd></div>
+            <div class="result-row"><dt>Property taxes</dt><dd id="taxes">$0</dd></div>
+            <div class="result-row"><dt>Homeowners insurance</dt><dd id="insurance">$0</dd></div>
+            <div class="result-row"><dt>Mortgage insurance</dt><dd id="pmi">$0</dd></div>
+            <div class="result-row"><dt>HOA dues</dt><dd id="hoa">$0</dd></div>
+            <div class="result-row"><dt>Estimated down payment</dt><dd id="downPayment">$0</dd></div>
+            <div class="result-row"><dt>Estimated loan amount</dt><dd id="loanAmount">$0</dd></div>
+          </dl>
+          <div class="assumption-note" id="incomeNote"></div>
+          <div class="result-actions">
+            <button type="button" id="copyScenario">Copy scenario link</button>
+            <a href="https://jasonk.remax.com/contact.php" data-contact="Jason">Ask Jason about the range</a>
+          </div>
+          <p class="calculation-disclosure">Planning estimate only—not a loan preapproval, lending recommendation, or guarantee. It excludes closing costs, utilities, maintenance, and property-specific insurance or tax adjustments. A lender may use different income, debt, reserve, and mortgage-insurance rules.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .affordability-shell { display: grid; gap: 1rem; }
+  .affordability-shell > .mode-tabs { width: min(100%, 720px); margin: 0 auto; }
+  .ratio-details { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .ratio-details summary { color: var(--navy-900); font-weight: 700; cursor: pointer; }
+  .ratio-fields { margin-top: 1rem; }
+  .results-panel .eyebrow { margin-bottom: .35rem; }
+  .results-panel h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+  .result-actions { grid-template-columns: 1fr; }
+</style>
+
+<script is:inline>
+  const toolId = 'home-affordability';
+  const root = document.getElementById('affordabilityTool');
+  const form = document.getElementById('affordabilityInputs');
+  const controls = Array.from(form.querySelectorAll('input, select'));
+  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  let mode = 'payment';
+  let started = false;
+
+  const num = (id, min = 0, max = Infinity) => {
+    const value = Number(document.getElementById(id)?.value || 0);
+    return Math.min(max, Math.max(min, Number.isFinite(value) ? value : 0));
+  };
+  const setMoney = (id, value) => { document.getElementById(id).textContent = money.format(Number.isFinite(value) ? value : 0); };
+  const track = (event, data = {}) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, tool_id: toolId, tool_mode: mode, ...data });
+  };
+
+  function payment(principal, annualRate, years) {
+    if (principal <= 0 || years <= 0) return 0;
+    const months = years * 12;
+    const rate = annualRate / 100 / 12;
+    return rate === 0 ? principal / months : principal * rate / (1 - Math.pow(1 + rate, -months));
+  }
+
+  function costsAtPrice(price) {
+    const downPercent = num('downPercent', 0, 100);
+    const down = price * downPercent / 100;
+    const loan = Math.max(0, price - down);
+    const pi = payment(loan, num('interestRate', 0, 25), num('loanTerm', 1, 50));
+    const taxes = price * num('taxRate', 0, 10) / 100 / 12;
+    const insurance = num('insuranceAnnual') / 12;
+    const hoa = num('hoaMonthly');
+    const pmi = downPercent < 20 ? loan * num('pmiRate', 0, 5) / 100 / 12 : 0;
+    return { price, down, loan, pi, taxes, insurance, hoa, pmi, total: pi + taxes + insurance + hoa + pmi };
+  }
+
+  function priceForBudget(budget) {
+    if (budget <= 0) return costsAtPrice(0);
+    let low = 0;
+    let high = 10000000;
+    for (let i = 0; i < 80; i += 1) {
+      const middle = (low + high) / 2;
+      if (costsAtPrice(middle).total <= budget) low = middle;
+      else high = middle;
+    }
+    return costsAtPrice(low);
+  }
+
+  function calculate(shouldTrack = false) {
+    let budget = num('monthlyBudget');
+    const note = document.getElementById('incomeNote');
+    if (mode === 'income') {
+      const monthlyIncome = num('annualIncome') / 12;
+      const debts = num('monthlyDebts');
+      const housingCap = monthlyIncome * num('housingRatio', 0, 100) / 100;
+      const debtCap = Math.max(0, monthlyIncome * num('totalDebtRatio', 0, 100) / 100 - debts);
+      budget = Math.min(housingCap, debtCap);
+      note.textContent = `Income method: ${money.format(housingCap)} housing-ratio limit versus ${money.format(debtCap)} after monthly debts. The lower amount is used.`;
+    } else {
+      note.textContent = 'This view starts with your comfort level. Keep room in the household budget for utilities, maintenance, savings, and life outside the mortgage.';
+    }
+
+    const result = priceForBudget(budget);
+    document.getElementById('resultHeading').textContent = mode === 'payment' ? 'Price at your chosen payment' : 'Income-and-debt planning range';
+    document.getElementById('resultIntro').textContent = mode === 'payment'
+      ? `Built around a total housing budget of ${money.format(budget)} per month.`
+      : `Built around an estimated housing limit of ${money.format(budget)} per month.`;
+    setMoney('homePrice', result.price);
+    setMoney('totalHousing', result.total);
+    setMoney('principalInterest', result.pi);
+    setMoney('taxes', result.taxes);
+    setMoney('insurance', result.insurance);
+    setMoney('pmi', result.pmi);
+    setMoney('hoa', result.hoa);
+    setMoney('downPayment', result.down);
+    setMoney('loanAmount', result.loan);
+    if (shouldTrack) track('tool_calculate');
+    return result;
+  }
+
+  function switchMode(next, shouldTrack = true) {
+    mode = next;
+    document.querySelectorAll('.mode-tab').forEach((button) => button.setAttribute('aria-selected', String(button.dataset.mode === mode)));
+    document.getElementById('paymentFields').classList.toggle('hidden', mode !== 'payment');
+    document.getElementById('incomeFields').classList.toggle('hidden', mode !== 'income');
+    calculate(false);
+    if (shouldTrack) track('tool_mode_change');
+  }
+
+  function query() {
+    const params = new URLSearchParams({ mode });
+    controls.forEach((control) => params.set(control.id, control.value));
+    return params;
+  }
+
+  const initial = new URLSearchParams(window.location.search);
+  controls.forEach((control) => { if (initial.has(control.id)) control.value = initial.get(control.id); });
+  document.querySelectorAll('.mode-tab').forEach((button) => button.addEventListener('click', () => switchMode(button.dataset.mode)));
+  controls.forEach((control) => control.addEventListener('input', () => {
+    if (!started) { started = true; track('tool_start'); }
+    calculate(false);
+  }));
+  form.addEventListener('change', () => calculate(true));
+  document.getElementById('copyScenario').addEventListener('click', async () => {
+    const url = `${window.location.origin}${window.location.pathname}?${query()}`;
+    try { await navigator.clipboard.writeText(url); }
+    catch { window.prompt('Copy this link:', url); }
+    document.getElementById('copyScenario').textContent = 'Link copied';
+    setTimeout(() => { document.getElementById('copyScenario').textContent = 'Copy scenario link'; }, 1800);
+    track('tool_share', { tool_action: 'copy_scenario' });
+  });
+  root.querySelector('[data-contact]').addEventListener('click', () => track('tool_contact_click', { contact_destination: 'Jason' }));
+  track('tool_view');
+  switchMode(initial.get('mode') === 'income' ? 'income' : 'payment', false);
+</script>
