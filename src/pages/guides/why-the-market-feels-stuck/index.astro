@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'The Market Isn’t Crashing. It’s Stuck.';
+const description = 'Why more inventory, longer days on market, and fewer contracts have not produced a dramatic price drop in Greater Nashville housing.';
+const publishedDate = '2026-08-21';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/why-the-market-feels-stuck/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Greater Nashville market note</span>
+        <h1>{title}</h1>
+        <p class="dek">More homes are for sale. They’re taking longer to sell. Buyers have more leverage. So why haven’t prices fallen much?</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 21, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>5 minute read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">If the housing market feels stagnant right now, you’re not imagining it.</p>
+
+      <p>Homes are sitting longer. Showings are thinner. Buyers are asking for concessions. Sellers are wondering where everybody went. But prices, at least on paper, are still holding up better than many people expected.</p>
+
+      <p>That combination can feel contradictory. I don’t think it is.</p>
+
+      <aside class="thesis">
+        <span class="eyebrow">What I think is happening</span>
+        <p>This does not currently look like a classic falling-price housing crash. It looks more like a <strong>bid/ask standoff.</strong></p>
+      </aside>
+
+      <h2>The local numbers fit that story</h2>
+
+      <p>Greater Nashville REALTORS® reported 15,636 properties in inventory in July 2026, compared with 14,349 in July 2025—an increase of about 9%. Days on market moved from 50 to 54.</p>
+
+      <p>Meanwhile, July closings fell from 3,356 to 3,269, and pending sales fell from 2,562 to 2,454. Yet the median residential price moved from $524,700 to $520,000, a decline of less than 1%.</p>
+
+      <div class="stat-grid" aria-label="Greater Nashville July 2026 compared with July 2025">
+        <div><strong>+9%</strong><span>Total inventory</span></div>
+        <div><strong>+4 days</strong><span>Days on market</span></div>
+        <div><strong>−4.2%</strong><span>Pending sales</span></div>
+        <div><strong>−0.9%</strong><span>Residential median price</span></div>
+      </div>
+
+      <p>In plain English: the market is doing less business, and it is taking longer to do it, without a dramatic reset in headline prices.</p>
+
+      <p>The national backdrop is not helping. The National Association of REALTORS® reported that pending home sales fell 2.3% from June and 2.2% from a year earlier in July 2026.</p>
+
+      <h2>Why volume is taking the hit</h2>
+
+      <p>Sellers are still anchored to the prices they saw from 2022 through 2025. That is understandable. Their neighbor sold for a certain number, they may have spent money improving the home, and many do not have to sell.</p>
+
+      <p>Buyers are looking at the same price through an entirely different lens: the monthly payment.</p>
+
+      <p>The average 30-year fixed mortgage rate was 6.65% as of August 20. At that rate, a price that looked manageable a few years ago can feel very different today—even before taxes, insurance, and maintenance enter the picture.</p>
+
+      <p>So sellers are thinking about value. Buyers are thinking about payment. Neither side feels irrational, but they are often standing too far apart to make a deal.</p>
+
+      <p>Builders can cheat the equation—or at least bend it. They can buy down a mortgage rate, cover closing costs, or package incentives in ways that preserve the advertised price.</p>
+
+      <p>A typical resale seller generally can’t. That seller can reduce the price or offer a concession, but usually cannot subsidize financing at the same scale.</p>
+
+      <p>The result is exactly what we are seeing:</p>
+
+      <ul class="signal-list">
+        <li>More inventory</li>
+        <li>Longer days on market</li>
+        <li>More concessions</li>
+        <li>Fewer showings and contracts</li>
+        <li>Relatively sticky nominal prices</li>
+      </ul>
+
+      <p>Instead of prices absorbing the entire adjustment, transaction volume is absorbing a large part of it.</p>
+
+      <h2>What this means if you’re buying</h2>
+
+      <p>You probably have more room to negotiate than you did a few years ago. That does not mean every seller will accept a low offer, and the best homes can still move quickly. But buyers should look beyond the list price.</p>
+
+      <p>A closing-cost credit, repair allowance, or rate buydown can matter more to your monthly payment and cash position than a small price reduction. The right question is not just, “How much can I get off?” It is, “Which terms improve this purchase the most for me?”</p>
+
+      <h2>What this means if you’re selling</h2>
+
+      <p>The market is not necessarily saying your home has no value. It may be saying your price and terms do not work for today’s payment-sensitive buyer.</p>
+
+      <p>Pricing from a 2022 memory, then waiting for the market to catch up, can cost you the strongest part of your listing window. Presentation matters. Condition matters. And flexibility on terms may help you protect more of the headline price.</p>
+
+      <h2>What breaks the standoff?</h2>
+
+      <p>Usually some combination of lower mortgage rates, slower price growth, higher incomes, seller concessions, or time.</p>
+
+      <p>I would not make a move based on the assumption that one of those changes is guaranteed to arrive on a convenient schedule. I would run the decision using today’s numbers, then test what happens if rates or prices change.</p>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Bottom line</span>
+        <p>This market is slower, more negotiable, and more frustrating than the headline price data alone suggests. But slow is not the same thing as collapsing.</p>
+        <p>Right now, the clearest description is a standoff: sellers are holding onto yesterday’s price expectations, buyers are reacting to today’s payments, and fewer transactions are getting across the gap.</p>
+      </aside>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Make it specific</span>
+          <h2>Run your own move through today’s numbers.</h2>
+          <p>Compare moving now with waiting as rates, prices, and your equity change.</p>
+        </div>
+        <a class="button light" href="/tools/move-now-or-wait/">Use the Move Now or Wait tool</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Greater Nashville comparisons use July 2025 and July 2026 data for Davidson, Cheatham, Dickson, Maury, Robertson, Rutherford, Sumner, Williamson, and Wilson counties. Mortgage-rate and pending-sales figures are national indicators and will vary by borrower and local market.</p>
+        <ul>
+          <li><a href="https://www.greaternashvillerealtors.org/monthly-home-sales-report">Greater Nashville REALTORS® monthly home sales report</a></li>
+          <li><a href="https://www.freddiemac.com/pmms/archive">Freddie Mac Primary Mortgage Market Survey archive</a></li>
+          <li><a href="https://www.nar.realtor/research-and-statistics/housing-statistics/pending-home-sales">National Association of REALTORS® pending home sales</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 12ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p, .article-body > ul { font-size: 1.08rem; }
+  .article-body > p { margin-bottom: 1.5rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--red-600); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .bottom-line { border-left-color: var(--gold-500); background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 2.5rem 0 3rem; border: 1px solid var(--line); }
+  .stat-grid div { min-width: 0; padding: 1.4rem 1rem; border-right: 1px solid var(--line); }
+  .stat-grid div:last-child { border-right: 0; }
+  .stat-grid strong, .stat-grid span { display: block; }
+  .stat-grid strong { margin-bottom: .35rem; color: var(--navy-900); font-size: 1.5rem; font-weight: 500; letter-spacing: -.03em; }
+  .stat-grid span { color: var(--muted); font-size: .72rem; line-height: 1.35; }
+  .signal-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 2rem; margin: 2rem 0 2.5rem; padding: 0; list-style: none; }
+  .signal-list li { padding: .8rem 0 .8rem 1.2rem; border-bottom: 1px solid var(--line); position: relative; }
+  .signal-list li::before { content: ''; position: absolute; top: 1.45rem; left: 0; width: 6px; height: 6px; background: var(--red-600); }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid div:nth-child(2) { border-right: 0; }
+    .stat-grid div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .signal-list, .next-step { grid-template-columns: 1fr; }
+    .next-step { align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>

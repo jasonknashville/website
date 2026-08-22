@@ -1,7 +1,62 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Middle Tennessee Real Estate Guides" description="Practical, locally informed guides for buying, selling, financing, and moving in Nashville and Middle Tennessee.">
-  <section class="section"><div class="container"><span class="eyebrow">Guides</span><h1>Local answers are on the way.</h1><p>This section will connect every calculator with plain-English explanations, transaction examples, sources, and Middle Tennessee context.</p><a class="button" href="/tools/">Use the current tools</a></div></section>
+
+<BaseLayout
+  title="Middle Tennessee Real Estate Guides"
+  description="Practical, locally informed guides for buying, selling, financing, and moving in Nashville and Middle Tennessee."
+>
+  <section class="guide-hero">
+    <div class="container hero-inner">
+      <span class="eyebrow">Guides</span>
+      <h1>Clear context for the decisions behind the numbers.</h1>
+      <p>Plain-English market notes, transaction examples, and Middle Tennessee guidance—without the sales pitch.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Latest</span>
+        <h2>What I’m seeing right now</h2>
+      </div>
+
+      <article class="guide-card">
+        <div class="card-copy">
+          <p class="meta"><time datetime="2026-08-21">August 21, 2026</time> · Market note</p>
+          <h3><a href="/guides/why-the-market-feels-stuck/">The Market Isn’t Crashing. It’s Stuck.</a></h3>
+          <p>More inventory, longer days on market, fewer contracts—and prices that still are not falling very much. Here’s why Greater Nashville looks more like a bid/ask standoff than a classic housing crash.</p>
+          <a class="read-more" href="/guides/why-the-market-feels-stuck/">Read the market note <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="card-signal" aria-label="Market pattern">
+          <span>More inventory</span>
+          <span>Longer DOM</span>
+          <span>Fewer pendings</span>
+          <strong>Sticky prices</strong>
+        </div>
+      </article>
+    </div>
+  </section>
 </BaseLayout>
-<style>.section{min-height:65vh;display:grid;align-items:center;background:var(--mist)}p{max-width:700px;color:var(--muted);font-size:1.15rem;margin-bottom:2rem}</style>
+
+<style>
+  .guide-hero { padding: clamp(5rem, 10vw, 8rem) 0; background: var(--mist); border-bottom: 1px solid var(--line); }
+  .hero-inner { max-width: 920px; margin-left: max(1rem, calc((100% - var(--content)) / 2)); }
+  .guide-hero h1 { max-width: 15ch; margin-bottom: 1.2rem; }
+  .guide-hero p { max-width: 650px; margin: 0; color: var(--muted); font-size: 1.15rem; }
+  .guide-card { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(250px, .65fr); border: 1px solid var(--line); background: white; }
+  .card-copy { padding: clamp(2rem, 5vw, 4rem); }
+  .meta { margin-bottom: .9rem; color: var(--muted); font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .card-copy h3 { max-width: 18ch; margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.25rem); }
+  .card-copy h3 a { text-decoration: none; }
+  .card-copy > p:not(.meta) { max-width: 64ch; color: var(--muted); font-size: 1.05rem; }
+  .read-more { display: inline-flex; gap: .5rem; margin-top: 1rem; font-weight: 700; text-decoration: none; }
+  .read-more:hover { text-decoration: underline; }
+  .card-signal { display: grid; align-content: center; gap: .35rem; padding: clamp(2rem, 5vw, 3.5rem); background: var(--navy-950); color: rgba(255,255,255,.66); }
+  .card-signal span, .card-signal strong { display: block; padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.13); }
+  .card-signal strong { border-bottom: 0; color: white; font-size: 1.3rem; font-weight: 500; }
+  @media (max-width: 760px) {
+    .hero-inner { margin-inline: auto; }
+    .guide-card { grid-template-columns: 1fr; }
+  }
+</style>
