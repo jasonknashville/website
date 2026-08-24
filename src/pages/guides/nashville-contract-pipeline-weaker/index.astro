@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Nashville’s Contract Pipeline Is Getting Weaker.';
+const description = 'A fresh Greater Nashville snapshot shows detached-house contracts under $300,000 down 22% year over year—evidence that buyer participation is weakening before closing data catches up.';
+const publishedDate = '2026-08-24';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/nashville-contract-pipeline-weaker/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Greater Nashville market note</span>
+        <h1>{title}</h1>
+        <p class="dek">The latest contract data shows the slowdown reaching the part of the market that should be most protected by affordability.</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 24, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>4 minute read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">Three days ago, I wrote that Greater Nashville looked stuck rather than crashing. The freshest contract numbers strengthen that view.</p>
+
+      <p>The important change is not a dramatic drop in closed prices. It is happening earlier in the transaction cycle: fewer homes are making it under contract.</p>
+
+      <aside class="thesis">
+        <span class="eyebrow">The new signal</span>
+        <p>Only <strong>154 detached houses under $300,000</strong> are currently under contract across Greater Nashville—down at least 21% from the same week in each of the past three years.</p>
+      </aside>
+
+      <h2>The entry-level house is weakening first</h2>
+
+      <p>A weekly Realtracs-based snapshot published by Nashville Real Estate Data shows under-$300,000 detached-house contracts down 22.2% from the same week in 2025, 21% from 2024, and 24% from 2023. The same snapshot counted 432 active houses in the band on August 22.</p>
+
+      <div class="stat-grid" aria-label="Greater Nashville detached houses under $300,000">
+        <div><strong>154</strong><span>Currently under contract</span></div>
+        <div><strong>−22.2%</strong><span>Versus the same week in 2025</span></div>
+        <div><strong>−21%</strong><span>Versus the same week in 2024</span></div>
+        <div><strong>−24%</strong><span>Versus the same week in 2023</span></div>
+      </div>
+
+      <p>That is notable because detached houses below $300,000 are already scarce in this market. Affordability should make this segment comparatively resilient. Instead, the contract count is falling against every recent comparison year.</p>
+
+      <p>I would not treat one week or one price band as proof of a market-wide collapse. But this is not an isolated print, either.</p>
+
+      <h2>The broader pipeline had already turned</h2>
+
+      <p>On August 18, Greater Nashville had 2,646 single-family homes and condos under contract. That was 7.7% below last year on an August-to-date basis and below the comparable weekly count in 2025, 2024, and 2023.</p>
+
+      <p>The year-over-year weekly reading had been negative for six straight weeks, with the deficit widening over that stretch. Single-family contracts were down 12.3% while condo contracts were up 12.2%—another sign that the weakness was concentrated on the house side.</p>
+
+      <aside class="pipeline-note">
+        <span class="eyebrow">Why contracts matter</span>
+        <p>Closings describe deals negotiated weeks or months ago. Contracts give us a more current look at whether buyers are stepping forward now.</p>
+      </aside>
+
+      <h2>Rates are not providing enough relief</h2>
+
+      <p>The average 30-year fixed mortgage rate was 6.65% on August 20, according to Freddie Mac. That was down slightly from 6.67% the prior week, but still above the 6.58% average from the same week last year.</p>
+
+      <p>National purchase-mortgage activity softened with it. The Mortgage Bankers Association’s seasonally adjusted Purchase Index fell 2% for the week ending August 14; the unadjusted index was 3% lower than a year earlier.</p>
+
+      <p>A two-basis-point weekly rate decline is welcome, but it does not materially change the monthly payment. Buyers still have to reconcile today’s prices with financing costs that remain stubbornly high.</p>
+
+      <h2>What this means if you’re buying</h2>
+
+      <p>More negotiating leverage does not necessarily mean every seller will accept a much lower price. It does mean buyers should pay attention to the full package: closing-cost credits, repairs, rate buydowns, and how long a home has been exposed to the market.</p>
+
+      <p>The best detached houses at attractive prices can still move. The opportunity is greatest where the seller’s expectations have not adjusted to the smaller buyer pool.</p>
+
+      <h2>What this means if you’re selling</h2>
+
+      <p>Closed-sale comparisons can make the market look healthier than the current contract pipeline. Those closings reflect buyers who committed earlier. A seller entering the market now is competing for the buyers who are active now.</p>
+
+      <p>That makes the first two weeks of a listing especially important. Pricing correctly from the beginning, presenting the home well, and offering terms that solve a buyer’s payment problem are more useful than chasing the market with a series of small reductions.</p>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Bottom line</span>
+        <p>The Nashville market appears to have weakened another notch in August.</p>
+        <p>I still would not describe it as a broad price collapse. The clearer picture is low buyer participation, accumulating resale inventory, and sellers who remain reluctant to reset prices. For now, transaction volume is taking more of the adjustment than headline values.</p>
+      </aside>
+
+      <p>The next test is the $300,000-to-$500,000 range—the heart of the mainstream Middle Tennessee resale market. If the current weakness spreads there and persists, it will be a stronger signal that this is more than an entry-level or late-summer pocket.</p>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Make it specific</span>
+          <h2>Run your own move through today’s numbers.</h2>
+          <p>Compare moving now with waiting as rates, prices, and your equity change.</p>
+        </div>
+        <a class="button light" href="/tools/move-now-or-wait/">Use the Move Now or Wait tool</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Greater Nashville figures cover nine counties: Davidson, Williamson, Rutherford, Wilson, Sumner, Maury, Dickson, Cheatham, and Robertson. Contract counts are point-in-time MLS snapshots, not closed sales. Mortgage-rate and application figures are national indicators and will vary by borrower and local market.</p>
+        <ul>
+          <li><a href="https://nashvillerealestatedata.com/blog/nashville-under-300k-house-contracts">Nashville Real Estate Data: under-$300K detached-house contracts</a></li>
+          <li><a href="https://nashvillerealestatedata.com/blog/nashville-vs-nar-south-contracts">Nashville Real Estate Data: Greater Nashville contract pipeline</a></li>
+          <li><a href="https://www.freddiemac.com/pmms">Freddie Mac Primary Mortgage Market Survey</a></li>
+          <li><a href="https://www.mba.org/news-and-research/newsroom/news/2026/08/19/mortgage-applications-decrease-in-latest-mba-weekly-survey">Mortgage Bankers Association weekly applications survey</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 13ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p, .article-body > ul { font-size: 1.08rem; }
+  .article-body > p { margin-bottom: 1.5rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line, .pipeline-note { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--red-600); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .pipeline-note { border-left-color: var(--gold-500); background: var(--mist); }
+  .pipeline-note p { margin: 0; font-size: 1.15rem; }
+  .bottom-line { border-left-color: var(--gold-500); background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 2.5rem 0 3rem; border: 1px solid var(--line); }
+  .stat-grid div { min-width: 0; padding: 1.4rem 1rem; border-right: 1px solid var(--line); }
+  .stat-grid div:last-child { border-right: 0; }
+  .stat-grid strong, .stat-grid span { display: block; }
+  .stat-grid strong { margin-bottom: .35rem; color: var(--navy-900); font-size: 1.5rem; font-weight: 500; letter-spacing: -.03em; }
+  .stat-grid span { color: var(--muted); font-size: .72rem; line-height: 1.35; }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid div:nth-child(2) { border-right: 0; }
+    .stat-grid div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .next-step { grid-template-columns: 1fr; align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>
