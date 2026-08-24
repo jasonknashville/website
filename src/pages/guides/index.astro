@@ -21,20 +21,37 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <h2>What I’m seeing right now</h2>
       </div>
 
-      <article class="guide-card">
-        <div class="card-copy">
-          <p class="meta"><time datetime="2026-08-21">August 21, 2026</time> · Market note</p>
-          <h3><a href="/guides/why-the-market-feels-stuck/">The Market Isn’t Crashing. It’s Stuck.</a></h3>
-          <p>More inventory, longer days on market, fewer contracts—and prices that still are not falling very much. Here’s why Greater Nashville looks more like a bid/ask standoff than a classic housing crash.</p>
-          <a class="read-more" href="/guides/why-the-market-feels-stuck/">Read the market note <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="card-signal" aria-label="Market pattern">
-          <span>More inventory</span>
-          <span>Longer DOM</span>
-          <span>Fewer pendings</span>
-          <strong>Sticky prices</strong>
-        </div>
-      </article>
+      <div class="guide-list">
+        <article class="guide-card">
+          <div class="card-copy">
+            <p class="meta"><time datetime="2026-08-24">August 24, 2026</time> · Market note</p>
+            <h3><a href="/guides/nashville-contract-pipeline-weaker/">Nashville’s Contract Pipeline Is Getting Weaker.</a></h3>
+            <p>Detached-house contracts under $300,000 are down at least 21% from each of the past three years. Here’s why that leading signal matters more than the latest closing data.</p>
+            <a class="read-more" href="/guides/nashville-contract-pipeline-weaker/">Read the market note <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="card-signal" aria-label="Latest contract signals">
+            <span>154 under contract</span>
+            <span>−22.2% vs 2025</span>
+            <span>Six-week negative run</span>
+            <strong>Pipeline weakening</strong>
+          </div>
+        </article>
+
+        <article class="guide-card">
+          <div class="card-copy">
+            <p class="meta"><time datetime="2026-08-21">August 21, 2026</time> · Market note</p>
+            <h3><a href="/guides/why-the-market-feels-stuck/">The Market Isn’t Crashing. It’s Stuck.</a></h3>
+            <p>More inventory, longer days on market, fewer contracts—and prices that still are not falling very much. Here’s why Greater Nashville looks more like a bid/ask standoff than a classic housing crash.</p>
+            <a class="read-more" href="/guides/why-the-market-feels-stuck/">Read the market note <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="card-signal" aria-label="Market pattern">
+            <span>More inventory</span>
+            <span>Longer DOM</span>
+            <span>Fewer pendings</span>
+            <strong>Sticky prices</strong>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -45,6 +62,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .guide-hero h1 { max-width: 15ch; margin-bottom: 1.2rem; }
   .guide-hero p { max-width: 650px; margin: 0; color: var(--muted); font-size: 1.15rem; }
   .guide-card { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(250px, .65fr); border: 1px solid var(--line); background: white; }
+  .guide-list { display: grid; gap: 2rem; }
   .card-copy { padding: clamp(2rem, 5vw, 4rem); }
   .meta { margin-bottom: .9rem; color: var(--muted); font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
   .card-copy h3 { max-width: 18ch; margin-bottom: 1rem; font-size: clamp(2rem, 4vw, 3.25rem); }
