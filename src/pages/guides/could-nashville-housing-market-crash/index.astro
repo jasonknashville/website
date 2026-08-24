@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Could Nashville’s Housing Standoff Turn Into a Crash?';
+const description = 'Florida and Las Vegas share parts of Nashville’s post-boom housing setup. Here are the warning signs that would turn a slow market into a genuine crash risk.';
+const publishedDate = '2026-08-25';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/could-nashville-housing-market-crash/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Greater Nashville market guide</span>
+        <h1>{title}</h1>
+        <p class="dek">Florida and Las Vegas share pieces of Nashville’s post-boom setup. The differences help show what would have to break before “slow” becomes “crash.”</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 25, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>6 minute read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">If Nashville is stuck, the next reasonable question is whether the standoff could become a crash.</p>
+
+      <p>I went looking for parallels in markets that appreciated even faster during the pandemic—especially Florida and Las Vegas. There are real similarities. There are also important differences, and the current numbers do not support the easy version of the story in which every other Sun Belt market is booming while Nashville alone has stalled.</p>
+
+      <aside class="thesis">
+        <span class="eyebrow">My current read</span>
+        <p>Nashville has <strong>fragility</strong>: weak buyer participation, worsening affordability, and more inventory. It does not yet have clear evidence of the forced selling that usually turns a slow adjustment into a broad price crash.</p>
+      </aside>
+
+      <h2>The parallels are real</h2>
+
+      <p>Nashville, Florida, and Las Vegas all experienced some version of the same pandemic-era acceleration: migration, cheap financing, limited inventory, and buyers pulling future demand forward.</p>
+
+      <p>That produced three conditions that matter now:</p>
+
+      <ul class="signal-list">
+        <li>Prices moved faster than local incomes</li>
+        <li>Monthly payments reset when mortgage rates rose</li>
+        <li>Inventory returned after an unusually tight period</li>
+        <li>Buyers regained time and negotiating leverage</li>
+      </ul>
+
+      <p>Those are ingredients for a correction. They are not, by themselves, proof of a crash.</p>
+
+      <h2>The latest numbers tell three different stories</h2>
+
+      <p>Greater Nashville REALTORS® reported July inventory up about 9% from a year earlier, pending sales down 4.2%, and the residential median price down less than 1%. The market is doing less business, but the headline price has barely moved.</p>
+
+      <p>Florida’s statewide single-family market looked stronger in July. Closed sales rose 5.1% from a year earlier, the median price rose 3.7% to $425,000, and supply stood at 4.5 months. That is a recovery in activity—not a new pandemic boom—and Florida’s condo market still carried a much higher 7.8 months of supply.</p>
+
+      <p>Las Vegas is the caution against broad claims. Its July single-family median was $480,000, down 1% from a year earlier. The region had nearly four months of supply, and its 2026 sales pace remained close to 2025, when Las Vegas recorded its lowest annual sales total since 2007.</p>
+
+      <div class="market-grid" aria-label="July 2026 housing market snapshots">
+        <div>
+          <span>Greater Nashville</span>
+          <strong>−0.9%</strong>
+          <p>Residential median price year over year</p>
+        </div>
+        <div>
+          <span>Florida</span>
+          <strong>+3.7%</strong>
+          <p>Single-family median price year over year</p>
+        </div>
+        <div>
+          <span>Las Vegas</span>
+          <strong>−1.0%</strong>
+          <p>Single-family median price year over year</p>
+        </div>
+      </div>
+
+      <p>These are not perfectly interchangeable geographies: Greater Nashville covers nine counties, Florida is statewide, and the Las Vegas figure covers Southern Nevada sales through its local MLS. I use them as directional snapshots, not as a horse race.</p>
+
+      <h2>Nashville’s affordability ceiling is the central risk</h2>
+
+      <p>Nashville’s boom was supported by a powerful value proposition: major-city job growth and amenities without major-city housing costs.</p>
+
+      <p>That advantage narrowed as prices and borrowing costs rose. Metro Nashville’s Unified Housing Strategy estimated that by 2024 only one in three Davidson County home sales was affordable to the median household under its assumptions.</p>
+
+      <p>That does not mean demand disappears. It means demand becomes selective and payment-sensitive. A buyer may still want the house but cannot justify the payment. A seller may still believe in the value but does not have to accept the buyer’s number.</p>
+
+      <p>Volume falls first. That is the standoff we are seeing now.</p>
+
+      <h2>What usually turns a standoff into a crash?</h2>
+
+      <p>A price boom can create vulnerability, but a broad crash usually needs a mechanism that forces more owners to sell than the market can absorb.</p>
+
+      <p>I would become materially more concerned if several of these signals appeared together:</p>
+
+      <ol class="watch-list">
+        <li><strong>Contracts weaken across the middle of the market.</strong> The current softness below $300,000 is notable. A persistent decline across the $300,000-to-$500,000 range would reach a much larger part of Middle Tennessee’s resale market.</li>
+        <li><strong>Inventory keeps rising while listings age.</strong> More choice is healthy. A growing supply of homes that repeatedly cut price and still do not sell is different.</li>
+        <li><strong>Closed-sale prices follow the contract weakness.</strong> Asking-price reductions matter less than the comparable sales created when those homes finally close.</li>
+        <li><strong>Employment or credit stress creates forced sellers.</strong> Job losses, rising delinquencies, foreclosures, or owners who can no longer carry the home would change the market from patient to urgent.</li>
+        <li><strong>Builders reset the resale market.</strong> If incentives and price cuts make new construction consistently cheaper on a payment basis, nearby resale sellers may have to follow.</li>
+      </ol>
+
+      <aside class="pipeline-note">
+        <span class="eyebrow">The distinction that matters</span>
+        <p>A homeowner who would like to sell can wait. A homeowner who has to sell creates price discovery.</p>
+      </aside>
+
+      <h2>Why Florida and Las Vegas can move differently</h2>
+
+      <p>Florida draws retirees, second-home buyers, international purchasers, and luxury buyers across many separate metros. Las Vegas attracts retirees, California movers, investors, and buyers tied to a globally recognized destination economy.</p>
+
+      <p>Those broader buyer pools can support demand when local owner-occupants pull back. They also create different risks. Florida’s condo market is dealing with insurance, assessments, and regulatory pressure. Las Vegas remains exposed to a low-volume market despite its destination appeal.</p>
+
+      <p>Nashville has a diverse economy and continues to attract residents, but its recent housing story leaned heavily on job growth, migration, and relative affordability. Once the affordability advantage weakened, the market lost one of its strongest accelerants.</p>
+
+      <p>That makes Nashville more sensitive to local income and monthly payment than the boom narrative suggested. It does not make a crash automatic.</p>
+
+      <h2>What this means if you are making a move</h2>
+
+      <p><strong>Buyers:</strong> Treat the slower market as leverage, not a guarantee of a future discount. Compare the full payment, negotiate credits or a rate buydown where appropriate, and pay close attention to homes that have been exposed longer than their competition.</p>
+
+      <p><strong>Sellers:</strong> Price to the buyers who exist now. The first two weeks matter more when demand is thin, and a series of small reductions can turn a pricing mistake into a stale-listing problem.</p>
+
+      <p><strong>Investors:</strong> Underwrite the current rent, financing, insurance, taxes, maintenance, and vacancy. Appreciation should improve a sound purchase, not rescue one.</p>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Bottom line</span>
+        <p>Nashville has some of the setup for a correction: affordability is strained, inventory is rebuilding, and contract activity is weak.</p>
+        <p>The missing piece is broad forced selling. Until that appears, the more likely adjustment is the one already underway—fewer transactions, longer market times, more negotiation, and uneven price changes by property type and neighborhood.</p>
+      </aside>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Make it specific</span>
+          <h2>Test the risk against your own move.</h2>
+          <p>Compare moving now with waiting as rates, prices, and your equity change.</p>
+        </div>
+        <a class="button light" href="/tools/move-now-or-wait/">Use the Move Now or Wait tool</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Market snapshots use July 2026 figures. The regions and property categories are labeled because they are not directly interchangeable. This guide uses those figures to compare direction and market mechanics, not to rank cities.</p>
+        <ul>
+          <li><a href="https://www.greaternashvillerealtors.org/monthly-home-sales-report">Greater Nashville REALTORS® monthly home sales report</a></li>
+          <li><a href="https://www.floridarealtors.org/newsroom/flas-housing-market-closed-sales-and-new-pending-sales-rise-july">Florida REALTORS® July 2026 housing report</a></li>
+          <li><a href="https://www.fox5vegas.com/2026/08/06/report-las-vegas-home-prices-pull-back-record-high-july-2026/">FOX5 report citing Las Vegas REALTORS® July 2026 data</a></li>
+          <li><a href="https://www.nashville.gov/sites/default/files/2025-09/UHS-Full-Report.pdf?ct=1759160211">Metro Nashville Unified Housing Strategy</a></li>
+          <li><a href="https://nashvillerealestatedata.com/blog/nashville-under-300k-house-contracts">Nashville Real Estate Data: under-$300K detached-house contracts</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 13ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p, .article-body > ul, .article-body > ol { font-size: 1.08rem; }
+  .article-body > p { margin-bottom: 1.5rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line, .pipeline-note { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--red-600); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .pipeline-note { border-left-color: var(--gold-500); background: var(--mist); }
+  .pipeline-note p { margin: 0; font-size: 1.15rem; }
+  .bottom-line { border-left-color: var(--gold-500); background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .signal-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 2rem; margin: 2rem 0 2.5rem; padding: 0; list-style: none; }
+  .signal-list li { padding: .8rem 0 .8rem 1.2rem; border-bottom: 1px solid var(--line); position: relative; }
+  .signal-list li::before { content: ''; position: absolute; top: 1.45rem; left: 0; width: 6px; height: 6px; background: var(--red-600); }
+  .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin: 2.5rem 0 1.2rem; border: 1px solid var(--line); }
+  .market-grid div { min-width: 0; padding: 1.5rem 1.2rem; border-right: 1px solid var(--line); }
+  .market-grid div:last-child { border-right: 0; }
+  .market-grid span, .market-grid strong { display: block; }
+  .market-grid span { margin-bottom: 1rem; color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .market-grid strong { margin-bottom: .45rem; color: var(--navy-900); font-size: 2rem; font-weight: 500; letter-spacing: -.04em; }
+  .market-grid p { margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.4; }
+  .watch-list { margin: 1.5rem 0 2.5rem; padding-left: 1.35rem; }
+  .watch-list li { margin-bottom: 1.2rem; padding-left: .45rem; }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .signal-list, .market-grid, .next-step { grid-template-columns: 1fr; }
+    .market-grid div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .market-grid div:last-child { border-bottom: 0; }
+    .next-step { align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>
