@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Nashville Homeowners May Have More Options Than They Think';
+const description = 'Mortgage rates can make moving feel like a nonstarter. Record homeowner equity may give some Nashville owners more flexibility than the rate alone suggests.';
+const publishedDate = '2026-08-26';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/nashville-home-equity-options/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Greater Nashville homeowner guide</span>
+        <h1>{title}</h1>
+        <p class="dek">Mortgage rates can make moving feel like a nonstarter. But the old rate is only one number—and equity can materially change the next-home math.</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 26, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>5 minute read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">A 3% mortgage is hard to leave. That does not always mean the homeowner is trapped.</p>
+
+      <p>Freddie Mac’s national average for a 30-year fixed mortgage was 6.65% on August 20. For someone comparing only rates, moving can look like an immediate step backward.</p>
+
+      <p>That comparison leaves out the other side of the balance sheet: the value built in the current home. For many owners, years of appreciation and mortgage paydown created a sizable equity position. That equity does not make a higher rate disappear, but it can reduce the amount that has to be borrowed next.</p>
+
+      <aside class="thesis">
+        <span class="eyebrow">The useful question</span>
+        <p>Instead of asking, “Would I give up my rate?” ask, “What would my <strong>net sale proceeds</strong> let me borrow—or avoid borrowing—on the next home?”</p>
+      </aside>
+
+      <h2>National homeowner equity is at record levels</h2>
+
+      <p>There are two helpful ways to measure the national equity position, and they answer slightly different questions.</p>
+
+      <p>The Federal Reserve estimated the value of owner-occupied real estate at $48.7 trillion in the first quarter of 2026, against $13.8 trillion in one-to-four-family mortgage debt. The difference—about <strong>$34.9 trillion</strong>—is a broad estimate of net homeowner equity across owners with and without mortgages.</p>
+
+      <p>ICE looked specifically at mortgage holders and reported a record <strong>$18 trillion</strong> in mortgage-holder equity in the second quarter. ICE classified $11.7 trillion as tappable equity across 47.5 million borrowers, or approximately $212,000 per borrower in that group.</p>
+
+      <div class="equity-grid" aria-label="National homeowner equity estimates">
+        <div>
+          <span>Broad homeowner equity</span>
+          <strong>$34.9T</strong>
+          <p>Estimated from Federal Reserve home values less mortgage debt</p>
+        </div>
+        <div>
+          <span>Mortgage-holder equity</span>
+          <strong>$18T</strong>
+          <p>ICE’s record Q2 2026 estimate</p>
+        </div>
+        <div>
+          <span>Classified as tappable</span>
+          <strong>$11.7T</strong>
+          <p>Across 47.5 million mortgage holders</p>
+        </div>
+      </div>
+
+      <p>The totals are not interchangeable. The Federal Reserve measure includes mortgage-free owners; ICE’s measure focuses on borrowers. Both point in the same direction: American homeowners collectively hold an unusually large equity cushion.</p>
+
+      <h2>The Nashville estimate is encouraging, with a caveat</h2>
+
+      <p>There is not a timely official estimate for total homeowner equity across the entire Nashville metropolitan area. A current city-level estimate does offer a useful local signal.</p>
+
+      <p>Property Focus’s August 2026 Nashville snapshot estimates that <strong>100,820 of 147,691 residential properties</strong>—68.26%—have more than 50% equity. It also estimates that 44,689 Nashville homes are fully paid off.</p>
+
+      <aside class="local-note">
+        <span class="eyebrow">Keep the geography and source in view</span>
+        <p>This is a third-party model for the city of Nashville, not an official metro-wide count or an appraisal of any individual property. Property Focus says its information may not always be complete or current. I would use it as directional evidence, then calculate from the homeowner’s actual value, payoff, and selling costs.</p>
+      </aside>
+
+      <h2>How equity can create flexibility</h2>
+
+      <p>A higher rate affects the payment on the money borrowed. Equity can affect how much needs to be borrowed in the first place.</p>
+
+      <p>Consider a homeowner whose property may sell for $550,000 with a $250,000 mortgage payoff. That is $300,000 in gross equity, but it is not the same as cash available for the next down payment. Selling costs, repairs, concessions, moving expenses, and the cash the owner wants to keep in reserve all come out first.</p>
+
+      <p>If the homeowner’s usable proceeds are $245,000, that money might create several choices:</p>
+
+      <ul class="option-list">
+        <li><strong>Put more down.</strong> A smaller new loan can offset part of the payment increase caused by a higher rate.</li>
+        <li><strong>Buy closer to cash.</strong> Some downsizers may be able to make a much smaller mortgage—or no mortgage—the center of the plan.</li>
+        <li><strong>Keep a larger reserve.</strong> The best use of equity may be preserving liquidity instead of putting every dollar into the next home.</li>
+        <li><strong>Improve the home instead of moving.</strong> Renovation may solve the space or functionality problem, although borrowing against the home adds debt and puts the property behind that debt.</li>
+        <li><strong>Sequence the move differently.</strong> Strong equity can make a sale-first plan, temporary housing, or other transition strategy more workable.</li>
+      </ul>
+
+      <p>None of those is automatically the right answer. The point is that the low-rate mortgage and the equity position should be evaluated together.</p>
+
+      <h2>Start with usable proceeds, not a Zestimate-sized headline</h2>
+
+      <p>The cleanest planning exercise uses four property-specific inputs:</p>
+
+      <ol class="number-list">
+        <li>A realistic likely sale price—not the highest automated estimate</li>
+        <li>The current mortgage payoff and any other liens</li>
+        <li>A reasonable allowance for selling and transition costs</li>
+        <li>The cash reserve the household wants to keep after the move</li>
+      </ol>
+
+      <p>Subtracting those items produces estimated usable proceeds. Apply that amount to a few next-home price points, then compare the resulting payments. That is more useful than comparing 3% with 6.65% in isolation.</p>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Bottom line</span>
+        <p>Higher mortgage rates are a real constraint, but they are not the whole story.</p>
+        <p>Many Nashville homeowners have accumulated enough equity to create choices: a larger down payment, a smaller next loan, a cash reserve, a renovation, or a different sequence for the move. The opportunity is not “free money.” It is flexibility already sitting inside the current home.</p>
+      </aside>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Run your own numbers</span>
+          <h2>See what your current home could make possible.</h2>
+          <p>The Move-Up Calculator estimates usable sale proceeds and shows how they could change the next-home payment.</p>
+        </div>
+        <a class="button light" href="/tools/move-up-calculator/">Try the Move-Up Calculator</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Figures are estimates, rounded where noted, and describe different populations. The national mortgage rate is an average and is not a quote for any borrower. Local equity is property-specific.</p>
+        <ul>
+          <li><a href="https://www.federalreserve.gov/releases/z1/current/recent_developments.htm">Federal Reserve: Financial Accounts of the United States, June 11, 2026 release</a></li>
+          <li><a href="https://ir.theice.com/press/news-details/2026/ICE-Mortgage-Monitor-Mortgage-Holder-Equity-Climbs-to-Record-18-Trillion-as-Annual-Home-Price-Growth-Reaches-14-Month-High/default.aspx">ICE Mortgage Monitor: Q2 2026 mortgage-holder equity</a></li>
+          <li><a href="https://www.propertyfocus.com/trends/city/tn/nashville">Property Focus: Nashville housing market trends, August 2026</a></li>
+          <li><a href="https://www.freddiemac.com/pmms">Freddie Mac Primary Mortgage Market Survey</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 14ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p, .article-body > ul, .article-body > ol { font-size: 1.08rem; }
+  .article-body > p { margin-bottom: 1.5rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line, .local-note { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--gold-500); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .local-note { background: var(--mist); }
+  .local-note p { margin: 0; font-size: 1rem; }
+  .bottom-line { background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .equity-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin: 2.5rem 0 1.5rem; border: 1px solid var(--line); }
+  .equity-grid div { min-width: 0; padding: 1.5rem 1.2rem; border-right: 1px solid var(--line); }
+  .equity-grid div:last-child { border-right: 0; }
+  .equity-grid span, .equity-grid strong { display: block; }
+  .equity-grid span { min-height: 2.3em; margin-bottom: .8rem; color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .equity-grid strong { margin-bottom: .45rem; color: var(--navy-900); font-size: 2rem; font-weight: 500; letter-spacing: -.04em; }
+  .equity-grid p { margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.4; }
+  .option-list, .number-list { margin: 1.5rem 0 2.5rem; padding-left: 1.35rem; }
+  .option-list li, .number-list li { margin-bottom: 1.2rem; padding-left: .45rem; }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .equity-grid, .next-step { grid-template-columns: 1fr; }
+    .equity-grid div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .equity-grid div:last-child { border-bottom: 0; }
+    .next-step { align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>
