@@ -5,6 +5,12 @@ export const prerender = true;
 const site = 'https://jasonknashville.com';
 const guides = [
   {
+    title: 'Nashville Buyers Have Leverage—Here’s How to Use It',
+    description: 'Seller concessions are unusually common in Nashville. Here is how buyers can compare a price cut, closing-cost credit, rate buydown, and repair credit.',
+    path: '/guides/nashville-seller-concessions-2026/',
+    published: 'Fri, 28 Aug 2026 13:00:00 GMT',
+  },
+  {
     title: 'Nashville Homeowners May Have More Options Than They Think',
     description: 'Mortgage rates can make moving feel like a nonstarter. Record homeowner equity may give some Nashville owners more flexibility than the rate alone suggests.',
     path: '/guides/nashville-home-equity-options/',
