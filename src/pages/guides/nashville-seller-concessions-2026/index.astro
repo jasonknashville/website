@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Nashville Buyers Have Leverage—Here’s How to Use It';
+const description = 'Seller concessions are unusually common in Nashville. Here is how buyers can compare a price cut, closing-cost credit, rate buydown, and repair credit.';
+const publishedDate = '2026-08-28';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/nashville-seller-concessions-2026/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Greater Nashville buyer guide</span>
+        <h1>{title}</h1>
+        <p class="dek">A lower price is not the only way to improve a home purchase. In today’s Nashville market, the right seller concession may do more for a buyer’s immediate budget.</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 28, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>6 minute read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">Nashville buyers have negotiating leverage. The useful question is not simply whether to ask for a discount—it is how to use that leverage where it matters most.</p>
+
+      <p>Redfin reported that seller concessions appeared in <strong>75.5% of Nashville homebuying transactions</strong> in its May 2026 analysis, the highest share among the 28 major metropolitan areas it studied. Nationally, the figure was 46.2%.</p>
+
+      <p>Redfin’s data covers transactions handled by its buyers’ agents over the three months ending May 31. Its definition includes seller help with repairs, closing costs, or mortgage-rate buydowns. It does not count a negotiated price reduction by itself.</p>
+
+      <div class="signal-grid" aria-label="Current buyer negotiation signals">
+        <div>
+          <span>Nashville concessions</span>
+          <strong>75.5%</strong>
+          <p>Highest among 28 metros in Redfin’s May analysis</p>
+        </div>
+        <div>
+          <span>National concessions</span>
+          <strong>46.2%</strong>
+          <p>Highest May share in Redfin’s records</p>
+        </div>
+        <div>
+          <span>30-year mortgage</span>
+          <strong>6.66%</strong>
+          <p>Freddie Mac national weekly average on August 27</p>
+        </div>
+      </div>
+
+      <p>The latest evidence still points in the same direction. Redfin described Nashville as a market that strongly favored buyers this summer, with more time, more choices, and more room to negotiate. Well-priced, move-in-ready homes can still sell quickly, so leverage varies by property. But the broad shift is real.</p>
+
+      <aside class="thesis">
+        <span class="eyebrow">Negotiate the result</span>
+        <p>Price matters. So do the monthly payment, cash due at closing, near-term repair bill, and reserves left afterward.</p>
+      </aside>
+
+      <h2>Price cut or seller credit?</h2>
+
+      <p>A price reduction creates real value. It lowers the loan amount and may also reduce the down payment. But the effect on the monthly payment can be smaller than buyers expect.</p>
+
+      <p>Consider a $500,000 purchase with 10% down. If the price falls by $10,000 and the buyer still puts 10% down, the loan decreases by roughly $9,000. At a 6.66% 30-year fixed rate, that changes principal and interest by approximately <strong>$58 per month</strong>. Taxes, insurance, mortgage insurance, fees, and the buyer’s actual rate are separate.</p>
+
+      <p>A $10,000 seller credit, when the loan program and actual closing expenses allow it, may instead reduce the buyer’s eligible cash due at closing by as much as $10,000. That can preserve money for reserves, moving, improvements, or an emergency fund.</p>
+
+      <p>Neither is universally better. A buyer with ample cash who expects to own the home for many years may prefer the lasting benefit of a lower price. A buyer whose biggest constraint is cash-to-close may place more value on a credit.</p>
+
+      <h2>Four ways to use negotiating leverage</h2>
+
+      <div class="option-list">
+        <section>
+          <span>01</span>
+          <div>
+            <h3>Reduce the purchase price</h3>
+            <p>This lowers the amount financed and builds the discount into the property’s cost. It may be especially useful when the home is simply overpriced or the appraisal presents a concern.</p>
+          </div>
+        </section>
+        <section>
+          <span>02</span>
+          <div>
+            <h3>Cover eligible closing costs</h3>
+            <p>A seller credit can reduce the upfront cash needed for lender, title, escrow, prepaid tax, insurance, and other eligible charges. The exact uses and limits depend on the loan and the buyer’s actual costs.</p>
+          </div>
+        </section>
+        <section>
+          <span>03</span>
+          <div>
+            <h3>Buy down the mortgage rate</h3>
+            <p>Seller funds may pay for discount points or a temporary buydown. A permanent buydown reduces the note rate for the loan term; a temporary buydown only reduces the scheduled payment during its opening years. Pricing and break-even periods must come from the lender.</p>
+          </div>
+        </section>
+        <section>
+          <span>04</span>
+          <div>
+            <h3>Address repairs or improvements</h3>
+            <p>A negotiated repair, allowance, or credit can protect the buyer from inheriting an immediate expense. The contract, lender, appraiser, and closing agent may affect how that concession must be structured.</p>
+          </div>
+        </section>
+      </div>
+
+      <h2>When a rate buydown deserves a closer look</h2>
+
+      <p>Freddie Mac’s 30-year fixed average was 6.66% on August 27, essentially unchanged from the previous week. At that rate level, it is reasonable for buyers to explore whether seller funds could improve the financing.</p>
+
+      <p>But “the seller is buying down the rate” is not enough information. Ask the lender for the cost, resulting rate, monthly savings, break-even period, and what happens if the loan is refinanced or the home is sold earlier than expected. Compare that proposal with using the same credit for closing costs and keeping more cash in reserve.</p>
+
+      <p>A temporary buydown can make the first year or two easier, but the buyer still has to qualify under the lender’s rules and prepare for the full scheduled payment. It should be treated as temporary assistance—not a substitute for long-term affordability.</p>
+
+      <h2>Concessions have limits</h2>
+
+      <p>Seller concessions are negotiated, documented in the purchase agreement, and subject to lending and appraisal rules. Maximum contributions can vary with the loan program, occupancy, down payment, and property type. Credits generally cannot exceed eligible costs or turn into unrestricted cash back to the buyer.</p>
+
+      <p>That is why the best negotiation starts before the offer is written. The buyer’s agent and lender should compare realistic structures using an actual Loan Estimate—not a generic percentage found online.</p>
+
+      <h2>Sellers can use the same information strategically</h2>
+
+      <p>A concession is not automatically a loss. It can be a targeted way to overcome the specific problem keeping qualified buyers from acting.</p>
+
+      <p>For one listing, the obstacle may be cash-to-close. For another, it may be an aging roof, a high first-year payment, or competition from a builder advertising incentives. A well-structured credit may attract more attention while preserving the contract price. An overpriced home, however, usually still needs a price correction.</p>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Bottom line</span>
+        <p>Nashville buyers have more leverage than they did during the bidding-war years. Use it to improve the part of the transaction that actually limits the move.</p>
+        <p>Sometimes that is price. Sometimes it is cash-to-close, financing, or an immediate repair. The strongest offer strategy compares all four before choosing one.</p>
+      </aside>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Compare the cash</span>
+          <h2>See what a seller credit could change at closing.</h2>
+          <p>The Cash-to-Close Planner compares down payments, estimated closing costs, prepaids, deposits, credits, and reserves.</p>
+        </div>
+        <a class="button light" href="/tools/cash-to-close/">Try the Cash-to-Close Planner</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Examples are educational planning estimates, not a loan quote, appraisal, or guarantee that a particular concession will be permitted. Ask the lender and closing professionals to confirm the rules and numbers for a specific transaction.</p>
+        <ul>
+          <li><a href="https://www.redfin.com/news/home-seller-concessions-record-high-rate/">Redfin: seller concessions in May 2026</a></li>
+          <li><a href="https://www.redfin.com/news/summer-housing-market-austin-chicago-nashville-san-diego-july-2026/">Redfin: slower summer market gives buyers negotiating power</a></li>
+          <li><a href="https://www.freddiemac.com/pmms">Freddie Mac Primary Mortgage Market Survey</a></li>
+          <li><a href="https://www.nar.realtor/the-facts/consumer-guide-seller-concessions">National Association of REALTORS: consumer guide to seller concessions</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 14ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p { margin-bottom: 1.5rem; font-size: 1.08rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--gold-500); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .bottom-line { background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .signal-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin: 2.5rem 0 1.5rem; border: 1px solid var(--line); }
+  .signal-grid div { min-width: 0; padding: 1.5rem 1.2rem; border-right: 1px solid var(--line); }
+  .signal-grid div:last-child { border-right: 0; }
+  .signal-grid span, .signal-grid strong { display: block; }
+  .signal-grid span { min-height: 2.3em; margin-bottom: .8rem; color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .signal-grid strong { margin-bottom: .45rem; color: var(--navy-900); font-size: 2rem; font-weight: 500; letter-spacing: -.04em; }
+  .signal-grid p { margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.4; }
+  .option-list { display: grid; gap: 1px; margin: 2rem 0 3rem; background: var(--line); border: 1px solid var(--line); }
+  .option-list section { display: grid; grid-template-columns: 3rem 1fr; gap: 1.1rem; padding: 1.5rem; background: white; }
+  .option-list section > span { color: var(--gold-600); font-size: .78rem; font-weight: 700; letter-spacing: .08em; }
+  .option-list h3 { margin: 0 0 .4rem; font-size: 1.25rem; }
+  .option-list p { margin: 0; color: var(--muted); }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .signal-grid, .next-step { grid-template-columns: 1fr; }
+    .signal-grid div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .signal-grid div:last-child { border-bottom: 0; }
+    .next-step { align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>
