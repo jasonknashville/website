@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Nashville Condos Are Repricing—and Buyers Are Responding';
+const description = 'A recent-buyer resale sample shows Nashville condo sellers increasingly accepting losses while condo contract activity rises. That may be the market’s clearest example of price discovery beginning to work.';
+const publishedDate = '2026-08-31';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/nashville-condos-repricing-buyers-responding/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Greater Nashville market note</span>
+        <h1>{title}</h1>
+        <p class="dek">Condos are showing what can happen when sellers stop waiting for the old market to return and begin meeting today’s buyers.</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 31, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>6 minute read</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">Greater Nashville’s broader housing market has spent much of 2026 stuck between sellers who do not want to reduce prices and buyers who do not feel enough urgency to act. Condos may be the first segment where that standoff is actually breaking.</p>
+
+      <p>A Realtracs-based analysis published August 28 followed 40 Greater Nashville condos that were bought in June 2022 or later and sold again between June 1 and August 26 of this year. Twenty-nine of those resales—<strong>72%</strong>—closed below the seller’s original purchase price.</p>
+
+      <p>The same comparison was 44% last summer and 10% in summer 2024. In other words, recent condo owners who sell today are far more likely to accept that the market value may be below what they paid.</p>
+
+      <div class="stat-grid" aria-label="Greater Nashville condo resale and contract signals">
+        <div><strong>29 of 40</strong><span>Recent-buyer condo resales closed below purchase price</span></div>
+        <div><strong>72%</strong><span>Loss share in the summer resale sample</span></div>
+        <div><strong>+9.0%</strong><span>Condo contracts versus the same week last year</span></div>
+        <div><strong>−11.8%</strong><span>Single-family contracts versus last year</span></div>
+      </div>
+
+      <aside class="thesis">
+        <span class="eyebrow">The important part</span>
+        <p>Condo prices are resetting, but buyer activity is improving. That is what price discovery looks like.</p>
+      </aside>
+
+      <h2>What the 72% figure does—and does not—mean</h2>
+
+      <p>This is not a claim that 72% of every Nashville condo sale is a loss. The analysis is deliberately narrower: it looks at condos purchased after the spring 2022 peak and resold during a specific summer window. The sample includes 40 sales across nine Greater Nashville counties.</p>
+
+      <p>That makes it useful for answering a particular question: what is happening to owners who bought relatively recently and need or choose to sell now?</p>
+
+      <p>The answer is that many are accepting a lower number. Condos bought in 2024 were especially exposed: eight of the nine in the sample sold below their prior purchase price. Townhouses bought in the same post-peak period were less affected, with 48% selling below purchase price, while the figure for single-family houses was 17%.</p>
+
+      <p>The sample is small enough that it should not be treated as a universal valuation rule for a particular building or neighborhood. But the direction is consistent with the larger condo market.</p>
+
+      <h2>Inventory is forcing the conversation</h2>
+
+      <p>The same August 28 snapshot counted <strong>2,684 active condo listings</strong> across Greater Nashville, 16.2% more than the prior year and nearly three times the comparable 2023 count. Forty percent of active condo listings had taken a price cut.</p>
+
+      <p>The median asking price was $370,000, below the same-week level in 2025, 2024, and 2023. The median sale price per square foot for the summer resale sample was $287, down from $335 last summer and $344 in summer 2023.</p>
+
+      <p>Homes.com’s July market report points in the same direction from a broader monthly view: Nashville-area condo prices were down 5.8% year over year, while single-family prices were nearly flat.</p>
+
+      <p>None of those numbers means every condo is interchangeable. Location, building reserves, insurance, rental rules, amenities, parking, dues, and pending assessments can create enormous differences. But when buyers have more than 2,600 choices, an individual seller has less room to insist that a 2022 or 2023 purchase price still defines value.</p>
+
+      <h2>Buyers are responding to lower prices</h2>
+
+      <p>This would be a straightforward distress story if prices were falling and buyers were still disappearing. That is not what the contract data shows.</p>
+
+      <p>Condo contract volume reached 422 in the latest weekly snapshot, <strong>up 9.0% from last year</strong>. It has run ahead of 2025 in six of the past eight weekly readings. Single-family contract volume, meanwhile, was down 11.8% year over year.</p>
+
+      <p>That contrast matters. It suggests that Nashville is not simply short on people willing to buy. It may be short on people willing to buy at the prices sellers want.</p>
+
+      <aside class="market-note">
+        <span class="eyebrow">A possible market lesson</span>
+        <p>Sellers accept today’s value → buyers see a better tradeoff → contract activity improves.</p>
+      </aside>
+
+      <h2>What this means for condo sellers</h2>
+
+      <p>A seller’s purchase price is emotionally important, but it is not a current comparable. Buyers are looking at competing units, monthly dues, condition, financing, and the risks inside the association documents.</p>
+
+      <p>If the data suggests a unit is below the owner’s basis, waiting does not automatically repair that gap. Carrying costs continue, new listings appear, and other sellers may establish lower comparable sales first.</p>
+
+      <p>That does not mean every seller should make a dramatic reduction. It means pricing should begin with the current competition and likely monthly payment—not with the amount needed to avoid a loss. In a building with multiple similar units, small differences in condition, view, parking, or dues may matter more than the seller expects.</p>
+
+      <h2>What this means for condo buyers</h2>
+
+      <p>More negotiating power is valuable, but price is only one part of a condo purchase. A lower price can be erased by rising dues, an underfunded reserve, an upcoming assessment, expensive insurance, or financing restrictions.</p>
+
+      <p>Review the association budget, recent meeting minutes, reserve information, insurance coverage, litigation, rental rules, and known capital projects. Compare the full monthly housing cost—not merely the mortgage payment.</p>
+
+      <p>Buyers should also separate an attractive discount from an attractive property. The strongest opportunity is a condo that is correctly repriced <em>and</em> supported by a financially sound association.</p>
+
+      <h2>What I would watch next</h2>
+
+      <p>The condo market is not healthy simply because contracts are up for a few weeks. Inventory remains elevated, price cuts are common, and contract volume is still below 2023.</p>
+
+      <p>The more important question is whether this same pattern spreads into townhomes and the $300,000-to-$500,000 detached resale market: meaningful price corrections followed by stronger buyer participation.</p>
+
+      <p>If that happens, Nashville may shift from a stagnant market into a price-correcting market. That would be uncomfortable for sellers who bought near the peak, but it would also be the mechanism that restores transaction volume.</p>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Bottom line</span>
+        <p>The Nashville condo market is providing an early example of price discovery beginning to work.</p>
+        <p>Recent sellers are increasingly accepting losses. At the same time, buyers are signing more condo contracts than they were a year ago. The market may not be short on buyers—it may be waiting for prices that make sense again.</p>
+      </aside>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Test the tradeoff</span>
+          <h2>Compare moving now with waiting.</h2>
+          <p>See how a different purchase price, mortgage rate, and timeline could change the numbers for your move. Condo dues and assessments should be evaluated separately.</p>
+        </div>
+        <a class="button light" href="/tools/move-now-or-wait/">Use the Move Now or Wait tool</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Greater Nashville figures cover Davidson, Williamson, Rutherford, Wilson, Sumner, Maury, Dickson, Cheatham, and Robertson counties. The 72% figure is based on 40 condos purchased in June 2022 or later and resold from June 1 through August 26, 2026. Contract and inventory counts are point-in-time MLS snapshots, not seasonally adjusted forecasts.</p>
+        <ul>
+          <li><a href="https://nashvillerealestatedata.com/blog/nashville-condo-resale-losses">Nashville Real Estate Data: condo resale losses and contract activity</a></li>
+          <li><a href="https://www.homes.com/reports/nashville-housing-market/">Homes.com: Nashville housing market report</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 14ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p { margin-bottom: 1.5rem; font-size: 1.08rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line, .market-note { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--gold-500); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .market-note { background: var(--mist); }
+  .market-note p { margin: 0; font-size: 1.15rem; }
+  .bottom-line { background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 2.5rem 0 3rem; border: 1px solid var(--line); }
+  .stat-grid div { min-width: 0; padding: 1.4rem 1rem; border-right: 1px solid var(--line); }
+  .stat-grid div:last-child { border-right: 0; }
+  .stat-grid strong, .stat-grid span { display: block; }
+  .stat-grid strong { margin-bottom: .35rem; color: var(--navy-900); font-size: 1.5rem; font-weight: 500; letter-spacing: -.03em; }
+  .stat-grid span { color: var(--muted); font-size: .72rem; line-height: 1.35; }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid div:nth-child(2) { border-right: 0; }
+    .stat-grid div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .next-step { grid-template-columns: 1fr; align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>
