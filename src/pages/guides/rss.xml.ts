@@ -5,6 +5,12 @@ export const prerender = true;
 const site = 'https://jasonknashville.com';
 const guides = [
   {
+    title: 'Nashville Condos Are Repricing—and Buyers Are Responding',
+    description: 'A recent-buyer resale sample shows Nashville condo sellers increasingly accepting losses while condo contract activity rises. That may be the market’s clearest example of price discovery beginning to work.',
+    path: '/guides/nashville-condos-repricing-buyers-responding/',
+    published: 'Mon, 31 Aug 2026 13:00:00 GMT',
+  },
+  {
     title: 'Nashville Buyers Have Leverage—Here’s How to Use It',
     description: 'Seller concessions are unusually common in Nashville. Here is how buyers can compare a price cut, closing-cost credit, rate buydown, and repair credit.',
     path: '/guides/nashville-seller-concessions-2026/',
