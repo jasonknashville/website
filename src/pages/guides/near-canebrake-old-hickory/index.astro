@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Living Near Canebrake | Old Hickory & Mount Juliet';
+const headline = 'What Is Near Canebrake at Hickory Hills?';
+const description = 'A Canebrake resident’s guide to nearby Old Hickory and Mount Juliet restaurants, shopping, and Old Hickory Lake access.';
+const publishedDate = '2026-08-31';
+const canonical = 'https://jasonknashville.com/guides/near-canebrake-old-hickory/';
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline,
+      description,
+      datePublished: publishedDate,
+      dateModified: publishedDate,
+      mainEntityOfPage: canonical,
+      author: {
+        '@type': 'Person',
+        name: 'Jason Kaczmarski',
+        url: 'https://jasonknashville.com/about/',
+      },
+      publisher: {
+        '@type': 'RealEstateAgent',
+        name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+        url: 'https://jasonknashville.com',
+      },
+      about: [
+        { '@type': 'Place', name: 'Canebrake at Hickory Hills' },
+        { '@type': 'Place', name: 'Old Hickory, Tennessee' },
+        { '@type': 'Place', name: 'Mount Juliet, Tennessee' },
+      ],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Guides', item: 'https://jasonknashville.com/guides/' },
+        { '@type': 'ListItem', position: 2, name: 'Canebrake at Hickory Hills', item: 'https://jasonknashville.com/guides/canebrake-old-hickory-tn/' },
+        { '@type': 'ListItem', position: 3, name: headline, item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/canebrake-old-hickory-tn/">← Canebrake neighborhood guide</a>
+        <span class="eyebrow">Resident recommendations</span>
+        <h1>{headline}</h1>
+        <p class="dek">Local restaurants, Mount Juliet shopping, and a practical way to reach Old Hickory Lake.</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski · Canebrake resident</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 31, 2026</time>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">One of Canebrake’s practical advantages is that daily life can pull from both Old Hickory and Mount Juliet. The neighborhood has an Old Hickory mailing address, sits in Wilson County, and is close to the Lebanon Road corridor, Mount Juliet shopping, and public access to Old Hickory Lake.</p>
+
+      <p>This is not a directory assembled from review scores. I live in Canebrake, and these are places I actually like and recommend.</p>
+
+      <aside class="thesis">
+        <span class="eyebrow">The location in one sentence</span>
+        <p>Canebrake sits between the local character of Old Hickory and the larger shopping-and-services base in Mount Juliet.</p>
+      </aside>
+
+      <h2>Nearby restaurants I return to</h2>
+
+      <div class="place-list">
+        <section>
+          <span>Mexican</span>
+          <h3>Cinco de Mayo</h3>
+          <p>An easy nearby choice for Mexican food and a familiar local standby. It belongs here because it is one of my personal favorites—not because it appears in a sales brochure.</p>
+        </section>
+
+        <section>
+          <span>Asian street food</span>
+          <h3><a href="https://bodhistreeteats.com/">BODHI Asian Street Eats</a></h3>
+          <p>BODHI is at 14801 Lebanon Road in Old Hickory. It is a strong option for Thai and Asian street-food flavors and is close enough to feel like a neighborhood restaurant rather than a special trip.</p>
+        </section>
+
+        <section>
+          <span>Indian</span>
+          <h3><a href="https://sanikasrestaurant.com/">Sanika’s Indian Cuisine</a></h3>
+          <p>Sanika’s is at 12800 Lebanon Road in Mount Juliet. It is one of my preferred nearby choices for Indian food and a good example of why Canebrake’s access to the Lebanon Road corridor matters in everyday life.</p>
+        </section>
+
+        <section>
+          <span>Burgers + live music</span>
+          <h3><a href="https://hillsidehangout0429.s4shops.com/">Hillside Hangout</a></h3>
+          <p>Hillside Hangout is at 12192 Lebanon Road in Mount Juliet. The menu centers on burgers, sandwiches, and casual food, with a laid-back neighborhood-bar atmosphere and live music programming.</p>
+        </section>
+      </div>
+
+      <h2>Old Hickory Lake access</h2>
+
+      <p>Canebrake is close to Old Hickory Lake, but “near the lake” is more useful when it points to an actual public access option.</p>
+
+      <div class="lake-card">
+        <div>
+          <span class="eyebrow">Public recreation</span>
+          <h3>Shutes Branch Recreation Area</h3>
+          <p>Shutes Branch offers a boat launch, fishing platform, picnic sites, and access to the Shutes Branch trail system. The Tennessee Wildlife Resources Agency also lists it among the public fishing and boating access points around Old Hickory Reservoir.</p>
+        </div>
+        <a class="button light" href="https://www.recreation.gov/camping/campgrounds/232705">Check Shutes Branch</a>
+      </div>
+
+      <p>Facility conditions and seasonal access can change, so check current notices before planning a lake day.</p>
+
+      <h2>Shopping and errands in Mount Juliet</h2>
+
+      <p>Mount Juliet provides the larger shopping and service base for Canebrake residents. Providence Marketplace and the surrounding area add big-box shopping, groceries, restaurants, and everyday services without requiring a trip into central Nashville.</p>
+
+      <p>The builder describes downtown Mount Juliet as approximately five minutes away and Providence Marketplace as approximately twelve minutes away. Those are marketing estimates rather than guaranteed drive times; actual travel varies by route and traffic.</p>
+
+      <h2>Schools and neighborhood connections</h2>
+
+      <p>Current published school assignments are Mount Juliet Elementary, Mount Juliet Middle, and Green Hill High School. School zones can change, so verify the assignment for a particular address directly with Wilson County Schools.</p>
+
+      <p>Canebrake also has an active residents-only Facebook group. The group is private, so prospective buyers should not expect access, and public marketing should not reuse private posts, resident names, or photos without permission.</p>
+
+      <h2>The local-living takeaway</h2>
+
+      <p>Canebrake is not in the center of downtown Old Hickory Village or Mount Juliet. Its appeal is the ability to reach both sides of the area: local restaurants along Lebanon Road, broader shopping in Mount Juliet, Wilson County schools, and public recreation on Old Hickory Lake.</p>
+
+      <p>For someone evaluating the neighborhood, I recommend testing those routes in real life. Visit at the time you would normally commute, drive to the grocery store and school area, and stop at one of the nearby restaurants. A map can show mileage; an ordinary Tuesday can show how the location actually feels.</p>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">Start with the neighborhood</span>
+          <h2>Read the complete Canebrake guide.</h2>
+          <p>See the current price range, market history, pool, school assignments, and the questions buyers should ask before signing a builder contract.</p>
+        </div>
+        <a class="button light" href="/guides/canebrake-old-hickory-tn/">Explore Canebrake</a>
+      </div>
+
+      <div class="contact-strip">
+        <p><strong>Want to compare Canebrake with another Wilson County neighborhood?</strong> I can help evaluate the location, homesite, incentives, and total monthly cost.</p>
+        <a class="button" href="https://jasonk.remax.com/contact.php">Talk with Jason</a>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Restaurant selections are Jason’s personal recommendations. Addresses and offerings were checked against the businesses’ public sites on August 31, 2026. Verify current hours directly before visiting.</p>
+        <ul>
+          <li><a href="https://bodhistreeteats.com/">BODHI Asian Street Eats</a></li>
+          <li><a href="https://sanikasrestaurant.com/">Sanika’s Indian Cuisine</a></li>
+          <li><a href="https://hillsidehangout0429.s4shops.com/">Hillside Hangout</a></li>
+          <li><a href="https://www.recreation.gov/camping/campgrounds/232705">Recreation.gov: Shutes Branch</a></li>
+          <li><a href="https://www.tn.gov/content/tn/twra/fishing/where-to-fish/middle-tennessee-r2/old-hickory-reservoir.html">Tennessee Wildlife Resources Agency: Old Hickory Reservoir</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 820px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 13ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p { margin-bottom: 1.5rem; font-size: 1.08rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--gold-500); background: var(--sand); }
+  .thesis p { margin: 0; font-size: clamp(1.3rem, 3vw, 1.8rem); line-height: 1.42; letter-spacing: -.02em; }
+  .place-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 2rem 0 3rem; background: var(--line); border: 1px solid var(--line); }
+  .place-list section { padding: 1.7rem; background: white; }
+  .place-list span { color: var(--gold-500); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .place-list h3 { margin: .7rem 0 .55rem; }
+  .place-list h3 a { text-underline-offset: 3px; }
+  .place-list p { margin: 0; color: var(--muted); }
+  .lake-card { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 2rem 0 1.5rem; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-950); color: white; }
+  .lake-card h3 { margin: 0 0 .7rem; font-size: 1.7rem; }
+  .lake-card p { max-width: 54ch; margin: 0; color: rgba(255,255,255,.72); }
+  .lake-card .eyebrow { color: rgba(255,255,255,.6); }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0 1.5rem; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .contact-strip { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin: 1.5rem 0 4rem; padding: 2rem; border: 1px solid var(--line); }
+  .contact-strip p { max-width: 58ch; margin: 0; }
+  .contact-strip .button { flex: 0 0 auto; }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 820px); }
+    .place-list, .lake-card, .next-step { grid-template-columns: 1fr; }
+    .lake-card, .next-step { align-items: start; }
+    .lake-card .button, .next-step .button { justify-self: start; }
+    .contact-strip { align-items: flex-start; flex-direction: column; }
+  }
+</style>
