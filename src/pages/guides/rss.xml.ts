@@ -5,6 +5,12 @@ export const prerender = true;
 const site = 'https://jasonknashville.com';
 const guides = [
   {
+    title: 'Canebrake at Hickory Hills: A Resident’s Guide',
+    description: 'A firsthand guide to this Old Hickory new-construction neighborhood, including current prices, market history, the pool, Wilson County schools, and what buyers should compare.',
+    path: '/guides/canebrake-old-hickory-tn/',
+    published: 'Mon, 31 Aug 2026 19:00:00 GMT',
+  },
+  {
     title: 'Nashville Condos Are Repricing—and Buyers Are Responding',
     description: 'A recent-buyer resale sample shows Nashville condo sellers increasingly accepting losses while condo contract activity rises. That may be the market’s clearest example of price discovery beginning to work.',
     path: '/guides/nashville-condos-repricing-buyers-responding/',
