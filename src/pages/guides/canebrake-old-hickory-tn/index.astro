@@ -1,0 +1,319 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Canebrake at Hickory Hills | Old Hickory TN Guide';
+const headline = 'Canebrake at Hickory Hills: A Resident’s Guide';
+const description = 'A resident’s guide to Canebrake at Hickory Hills in Old Hickory, TN: current prices, pool, Wilson County schools, lake access, and buyer considerations.';
+const publishedDate = '2026-08-31';
+const canonical = 'https://jasonknashville.com/guides/canebrake-old-hickory-tn/';
+const faq = [
+  {
+    question: 'Where is Canebrake at Hickory Hills?',
+    answer: 'Canebrake is in Old Hickory, Tennessee, within Wilson County and the established Hickory Hills area. The builder’s sales address is 5001 Lawler Lane, Old Hickory, TN 37138.',
+  },
+  {
+    question: 'Who is the builder in Canebrake?',
+    answer: 'Century Communities is the builder in Canebrake at Hickory Hills.',
+  },
+  {
+    question: 'How many homes will Canebrake have?',
+    answer: 'Approximately 250 homes are expected at completion. Realtracs shows 75 MLS-recorded closings through August 11, 2026, plus 10 homes under contract in the August 31 snapshot. The physical number completed or occupied may differ from the MLS count.',
+  },
+  {
+    question: 'Does Canebrake have a pool?',
+    answer: 'Yes. The Canebrake neighborhood pool opened July 1, 2026.',
+  },
+  {
+    question: 'What schools currently serve Canebrake?',
+    answer: 'Current published assignments are Mount Juliet Elementary School, Mount Juliet Middle School, and Green Hill High School. Buyers should verify the assignment for a specific property with Wilson County Schools.',
+  },
+  {
+    question: 'What do homes in Canebrake cost?',
+    answer: 'On August 31, 2026, active listings ranged from $419,990 to $539,990. Prices, incentives, lots, and available plans change frequently.',
+  },
+];
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline,
+      description,
+      datePublished: publishedDate,
+      dateModified: publishedDate,
+      mainEntityOfPage: canonical,
+      author: {
+        '@type': 'Person',
+        name: 'Jason Kaczmarski',
+        url: 'https://jasonknashville.com/about/',
+      },
+      publisher: {
+        '@type': 'RealEstateAgent',
+        name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+        url: 'https://jasonknashville.com',
+      },
+      about: {
+        '@type': 'Place',
+        name: 'Canebrake at Hickory Hills',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Old Hickory',
+          addressRegion: 'TN',
+          postalCode: '37138',
+          addressCountry: 'US',
+        },
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Guides', item: 'https://jasonknashville.com/guides/' },
+        { '@type': 'ListItem', position: 2, name: headline, item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <article>
+    <header class="article-hero">
+      <div class="article-shell">
+        <a class="back-link" href="/guides/">← All guides</a>
+        <span class="eyebrow">Old Hickory neighborhood guide</span>
+        <h1>{headline}</h1>
+        <p class="dek">New construction, a pool, Wilson County schools, nearby Mount Juliet conveniences—and a market entering its second phase.</p>
+        <div class="byline">
+          <span>By Jason Kaczmarski · Canebrake resident</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={publishedDate}>August 31, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>Market data updated August 31, 2026</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-shell article-body">
+      <p class="lead">Canebrake at Hickory Hills is a new single-family neighborhood in Old Hickory, Tennessee, on the Wilson County side of the 37138 ZIP code. Century Communities is building it within the established Hickory Hills area, with roughly 250 homes expected when the community is complete.</p>
+
+      <p>I also live here. That gives me a different perspective than a page assembled from listing descriptions: I see the construction activity, the pool, the resident conversations, the routes into Mount Juliet, and the tradeoffs buyers notice after the model-home visit.</p>
+
+      <p>The all-time Realtracs CMA shows <strong>75 MLS-recorded closings</strong> from November 2024 through August 11, 2026. The neighborhood’s second phase opened during summer 2026, with several presales already pending and the first phase-two completions expected around the end of September. Construction schedules can change, so buyers should confirm the latest estimate for a particular homesite.</p>
+
+      <div class="snapshot" aria-label="Canebrake market snapshot on August 31, 2026">
+        <div><strong>10</strong><span>Active homes</span></div>
+        <div><strong>10</strong><span>Under contract</span></div>
+        <div><strong>$494,990</strong><span>Median active price</span></div>
+        <div><strong>75</strong><span>All-time MLS closings</span></div>
+      </div>
+
+      <aside class="thesis">
+        <span class="eyebrow">Why this micro-market is interesting</span>
+        <p>Canebrake had as many homes under contract as actively listed while much of the existing-home market remained low-velocity.</p>
+      </aside>
+
+      <h2>What is being built in Canebrake?</h2>
+
+      <p>Canebrake consists of detached single-family homes by Century Communities. Current plans generally range from three to five bedrooms. In the August 31 market snapshot, active homes ranged from 1,944 to 2,800 square feet and were offered from <strong>$419,990 to $539,990</strong>.</p>
+
+      <p>The useful comparison is not only base price. Buyers should compare the completed price, homesite, structural options, design selections, estimated closing date, financing incentive, and total monthly payment.</p>
+
+      <h2>Why Canebrake stands out in Wilson County</h2>
+
+      <p>I consider Canebrake one of the stronger new-construction value propositions in Wilson County. That is my opinion, not a universal ranking, and it is based on the combination of price, square footage, a community pool, access to Mount Juliet schools and shopping, and proximity to Old Hickory Lake.</p>
+
+      <p>It occupies an interesting position in the market. Buyers can have an Old Hickory mailing address while remaining in Wilson County and close to Mount Juliet. For people comparing new construction across Lebanon, Mount Juliet, Hermitage, and the outer Nashville suburbs, that combination can make Canebrake worth a closer look.</p>
+
+      <p>Value still depends on the individual house. A less expensive homesite is not automatically the better purchase if another lot, floor plan, completion date, or financing package fits the buyer better.</p>
+
+      <div class="feature-grid">
+        <section>
+          <span>Community</span>
+          <h3>Pool open now</h3>
+          <p>The Canebrake pool opened July 1, 2026—an amenity residents can use rather than one that exists only on a future plan.</p>
+        </section>
+        <section>
+          <span>Location</span>
+          <h3>Old Hickory + Mount Juliet</h3>
+          <p>The neighborhood draws on both areas for dining, shopping, schools, and access to Old Hickory Lake.</p>
+        </section>
+        <section>
+          <span>Neighborhood life</span>
+          <h3>Resident connections</h3>
+          <p>An active residents-only Facebook group provides a private communication channel for people who live here.</p>
+        </section>
+      </div>
+
+      <h2>Current Canebrake school assignments</h2>
+
+      <ul class="school-list">
+        <li>Mount Juliet Elementary School</li>
+        <li>Mount Juliet Middle School</li>
+        <li>Green Hill High School</li>
+      </ul>
+
+      <p>These are the assignments currently published by the builder. School zones can change, and buyers should verify the assignment for a specific address directly with Wilson County Schools before making a decision.</p>
+
+      <h2>Canebrake market snapshot: August 31, 2026</h2>
+
+      <p>The current CMA showed 10 active homes, 10 homes under contract—not showing, and 32 closed sales during the preceding year. The median active asking price was $494,990. The median pending list price was $509,990, and the median pending home reached contract in 28 days.</p>
+
+      <p>Eight of the 10 pending homes contained either 2,282 or 2,400 square feet. That suggests the current contract activity is concentrated in the middle of Canebrake’s size range rather than being distributed evenly across every plan.</p>
+
+      <p>The longer history provides important context. Realtracs records 13 closings in late 2024, 49 in 2025, and 13 through August 11, 2026. Closings slowed during the transition into phase two, while the current pending count shows a new group of contracts working toward completion.</p>
+
+      <div class="history-grid" aria-label="Canebrake closing history">
+        <div><span>Late 2024</span><strong>13 closings</strong></div>
+        <div><span>2025</span><strong>49 closings</strong></div>
+        <div><span>2026 through Aug. 11</span><strong>13 closings</strong></div>
+        <div><span>All-time median sale</span><strong>$494,990</strong></div>
+      </div>
+
+      <p>This is a development-cycle story, not a simple price-appreciation chart. The mix of floor plans changed from year to year, and 2026 had only 13 closings in the dataset. Same-size comparisons were mixed: some plans closed lower, some higher, and the 2,725-square-foot homes remained close to $520,000.</p>
+
+      <p>Recorded sale prices also do not show the complete economics of builder financing. Options, upgrades, lot premiums, closing-cost assistance, and mortgage-rate buydowns can materially change the buyer’s result.</p>
+
+      <aside class="market-note">
+        <span class="eyebrow">Read the snapshot correctly</span>
+        <p>The current pipeline is encouraging. It does not prove that every plan has equal demand or that each pending home will close on its current schedule.</p>
+      </aside>
+
+      <h2>What buyers should compare before signing</h2>
+
+      <ol class="checklist">
+        <li><strong>The complete payment, not only the list price.</strong> A builder financing incentive can be more valuable than a price reduction, but only if its loan terms fit the buyer.</li>
+        <li><strong>Homesite and phase.</strong> Orientation, grade, drainage, traffic pattern, neighboring construction, and future development can matter as much as the floor plan.</li>
+        <li><strong>Included features and upgrades.</strong> Compare the written specification sheet rather than assuming the model-home finish is standard.</li>
+        <li><strong>Completion timing.</strong> Presale timelines are estimates and should be coordinated with a lease, home sale, and rate-lock plan.</li>
+        <li><strong>HOA documents and costs.</strong> Review current dues, restrictions, maintenance responsibilities, and amenity rules before the contract becomes nonrefundable.</li>
+        <li><strong>Independent representation.</strong> The onsite sales representative works for the builder. A buyer can have an agent help compare lots, incentives, contract terms, inspections, and resale alternatives.</li>
+      </ol>
+
+      <h2>What future resale owners should watch</h2>
+
+      <p>Canebrake is still primarily a builder market. Until construction is substantially complete, resale owners may compete directly with new homes, builder warranties, and subsidized financing.</p>
+
+      <p>A resale can still win on its lot, upgrades, window treatments, fencing, completed landscaping, availability, or distance from active construction. But simply matching a builder’s advertised price may not be enough when the builder is also offering financing or closing-cost incentives.</p>
+
+      <h2>Frequently asked questions</h2>
+
+      <div class="faq-list">
+        {faq.map((item) => (
+          <section>
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </section>
+        ))}
+      </div>
+
+      <aside class="bottom-line">
+        <span class="eyebrow">Local perspective</span>
+        <p>Canebrake will not fit every buyer. For people prioritizing new construction, Wilson County schools, a pool, nearby Mount Juliet conveniences, and a competitive price-and-size combination, it deserves serious consideration.</p>
+      </aside>
+
+      <div class="next-step">
+        <div>
+          <span class="eyebrow">See the area around it</span>
+          <h2>Explore what is near Canebrake.</h2>
+          <p>My resident’s guide covers nearby restaurants, Mount Juliet shopping, and a practical public access point on Old Hickory Lake.</p>
+        </div>
+        <a class="button light" href="/guides/near-canebrake-old-hickory/">Read the nearby guide</a>
+      </div>
+
+      <div class="contact-strip">
+        <p><strong>Comparing Canebrake with another Wilson County neighborhood?</strong> I can help evaluate the full price, incentives, homesite, timing, and monthly payment—not just the advertised base price.</p>
+        <div>
+          <a class="button" href="https://jasonk.remax.com/contact.php">Talk with Jason</a>
+          <a class="button outline" href="https://the-jason-kaczmarski-team-springfield-tn.remax.com/">Search homes</a>
+        </div>
+      </div>
+
+      <footer class="sources">
+        <h2>Sources and notes</h2>
+        <p>Market figures are point-in-time MLS snapshots prepared August 31, 2026. Pending prices are list prices, not final sale prices. Pool opening, phase timing, and planned-home count use Jason’s firsthand neighborhood knowledge and should be updated as construction progresses.</p>
+        <ul>
+          <li><a href="https://go.realtracs.com/1kzek38">Realtracs: active, pending, and prior-12-month Canebrake CMA</a></li>
+          <li><a href="https://go.realtracs.com/1kzhwAL">Realtracs: all-time Canebrake CMA</a></li>
+          <li><a href="https://www.centurycommunities.com/find-your-new-home/tennessee/nashville-metro/old-hickory/canebrake-at-hickory-hills/">Century Communities: Canebrake at Hickory Hills</a></li>
+          <li><a href="https://www.tn.gov/content/tn/twra/fishing/where-to-fish/middle-tennessee-r2/old-hickory-reservoir.html">Tennessee Wildlife Resources Agency: Old Hickory Reservoir access</a></li>
+        </ul>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 820px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 14ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 680px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p { margin-bottom: 1.5rem; font-size: 1.08rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .snapshot { display: grid; grid-template-columns: repeat(4, 1fr); margin: 2.5rem 0 3rem; border: 1px solid var(--line); }
+  .snapshot div { min-width: 0; padding: 1.35rem 1rem; border-right: 1px solid var(--line); }
+  .snapshot div:last-child { border-right: 0; }
+  .snapshot strong, .snapshot span { display: block; }
+  .snapshot strong { margin-bottom: .35rem; color: var(--navy-900); font-size: 1.45rem; font-weight: 500; letter-spacing: -.03em; }
+  .snapshot span { color: var(--muted); font-size: .75rem; }
+  .thesis, .market-note, .bottom-line { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--gold-500); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.3rem, 3vw, 1.8rem); line-height: 1.42; letter-spacing: -.02em; }
+  .market-note { background: var(--mist); }
+  .market-note p { margin: 0; font-size: 1.15rem; }
+  .bottom-line { background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 2.5rem 0 3rem; background: var(--line); border: 1px solid var(--line); }
+  .feature-grid section { padding: 1.5rem; background: white; }
+  .feature-grid span { color: var(--gold-500); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .feature-grid h3 { margin: .7rem 0 .5rem; }
+  .feature-grid p { margin: 0; color: var(--muted); font-size: .9rem; }
+  .school-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: 1.5rem 0 2rem; padding: 0; list-style: none; }
+  .school-list li { padding: 1.2rem; border: 1px solid var(--line); background: var(--mist); font-weight: 600; }
+  .history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 2rem 0; background: var(--line); border: 1px solid var(--line); }
+  .history-grid div { padding: 1.25rem; background: white; }
+  .history-grid span, .history-grid strong { display: block; }
+  .history-grid span { margin-bottom: .4rem; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+  .history-grid strong { color: var(--navy-900); font-size: 1.25rem; font-weight: 500; }
+  .checklist { margin: 1.5rem 0 3rem; padding-left: 1.35rem; }
+  .checklist li { margin-bottom: 1.15rem; padding-left: .45rem; }
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq-list section { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+  .faq-list h3 { margin: 0 0 .45rem; font-size: 1.2rem; }
+  .faq-list p { margin: 0; color: var(--muted); }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0 1.5rem; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .contact-strip { margin: 1.5rem 0 4rem; padding: 2rem; border: 1px solid var(--line); }
+  .contact-strip p { margin-bottom: 1.2rem; }
+  .contact-strip div { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .button.outline { border-color: var(--ink); background: transparent; color: var(--ink); }
+  .button.outline:hover { background: var(--mist); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 820px); }
+    .snapshot, .feature-grid, .school-list, .next-step { grid-template-columns: 1fr; }
+    .snapshot div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .snapshot div:last-child { border-bottom: 0; }
+    .next-step { align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+</style>
