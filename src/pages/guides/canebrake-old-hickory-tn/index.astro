@@ -5,7 +5,17 @@ const title = 'Canebrake at Hickory Hills | Old Hickory TN Guide';
 const headline = 'Canebrake at Hickory Hills: A Resident’s Guide';
 const description = 'A resident’s guide to Canebrake at Hickory Hills in Old Hickory, TN: current prices, pool, Wilson County schools, lake access, and buyer considerations.';
 const publishedDate = '2026-08-31';
+const modifiedDate = '2026-09-01';
 const canonical = 'https://jasonknashville.com/guides/canebrake-old-hickory-tn/';
+const heroImage = 'https://jasonknashville.com/images/canebrake/canebrake-entrance-poolhouse.jpg';
+const articleImages = [
+  heroImage,
+  'https://jasonknashville.com/images/canebrake/canebrake-community-pool.jpg',
+  'https://jasonknashville.com/images/canebrake/canebrake-pool-house-front.jpg',
+  'https://jasonknashville.com/images/canebrake/canebrake-main-entrance-sign.jpg',
+  'https://jasonknashville.com/images/canebrake/canebrake-pool-house-covered-area.jpg',
+  'https://jasonknashville.com/images/canebrake/canebrake-pool-street-view.jpg',
+];
 const faq = [
   {
     question: 'Where is Canebrake at Hickory Hills?',
@@ -40,8 +50,9 @@ const schema = {
       headline,
       description,
       datePublished: publishedDate,
-      dateModified: publishedDate,
+      dateModified: modifiedDate,
       mainEntityOfPage: canonical,
+      image: articleImages,
       author: {
         '@type': 'Person',
         name: 'Jason Kaczmarski',
@@ -83,7 +94,7 @@ const schema = {
 };
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} image={heroImage}>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
 
   <article>
@@ -99,9 +110,24 @@ const schema = {
           <time datetime={publishedDate}>August 31, 2026</time>
           <span aria-hidden="true">·</span>
           <span>Market data updated August 31, 2026</span>
+          <span aria-hidden="true">·</span>
+          <span>Original photos added September 1, 2026</span>
         </div>
       </div>
     </header>
+
+    <figure class="hero-media">
+      <img
+        src="/images/canebrake/canebrake-entrance-poolhouse.jpg"
+        alt="Canebrake entrance sign with the neighborhood pool and pool house behind it in Old Hickory, Tennessee"
+        width="1200"
+        height="675"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <figcaption>The Canebrake entrance, community pool, and pool house. Photo by Jason Kaczmarski.</figcaption>
+    </figure>
 
     <div class="article-shell article-body">
       <p class="lead">Canebrake at Hickory Hills is a new single-family neighborhood in Old Hickory, Tennessee, on the Wilson County side of the 37138 ZIP code. Century Communities is building it within the established Hickory Hills area, with roughly 250 homes expected when the community is complete.</p>
@@ -152,6 +178,68 @@ const schema = {
           <h3>Resident connections</h3>
           <p>An active residents-only Facebook group provides a private communication channel for people who live here.</p>
         </section>
+      </div>
+
+      <h2>A firsthand look at Canebrake’s pool and entrance</h2>
+
+      <p>The community pool and pool house opened July 1, 2026. These photos show the completed amenity and entrance area as they appeared on September 1, 2026.</p>
+
+      <div class="photo-grid" aria-label="Canebrake neighborhood photo gallery">
+        <figure class="photo-wide">
+          <img
+            src="/images/canebrake/canebrake-community-pool.jpg"
+            alt="Canebrake community swimming pool with lounge chairs and a shallow entry area"
+            width="960"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>The Canebrake community pool, which opened July 1, 2026.</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/canebrake/canebrake-pool-house-front.jpg"
+            alt="Front exterior of the Canebrake pool house with black-and-white siding"
+            width="960"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>The pool house from the parking area.</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/canebrake/canebrake-main-entrance-sign.jpg"
+            alt="Stone Canebrake subdivision entrance sign beside the sidewalk"
+            width="960"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>The Canebrake entrance monument and landscaping.</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/canebrake/canebrake-pool-house-covered-area.jpg"
+            alt="Covered open-air area inside the Canebrake pool house with ceiling fans and accessible facilities"
+            width="960"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>The pool house’s covered open-air area.</figcaption>
+        </figure>
+        <figure>
+          <img
+            src="/images/canebrake/canebrake-pool-street-view.jpg"
+            alt="Street view of the Canebrake pool house, fenced pool, and surrounding landscaping"
+            width="960"
+            height="720"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>The pool and pool house from the neighborhood street.</figcaption>
+        </figure>
       </div>
 
       <h2>Current Canebrake school assignments</h2>
@@ -260,6 +348,9 @@ const schema = {
   .article-hero h1 { max-width: 14ch; margin-bottom: 1.3rem; }
   .dek { max-width: 680px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
   .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .hero-media { width: min(calc(100% - 2rem), 1200px); margin: clamp(1.5rem, 4vw, 3rem) auto 0; }
+  .hero-media img { display: block; width: 100%; height: auto; border-radius: 2px; }
+  .hero-media figcaption { padding-top: .65rem; color: var(--muted); font-size: .75rem; }
   .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
   .article-body > p { margin-bottom: 1.5rem; font-size: 1.08rem; }
   .article-body .lead { font-size: 1.35rem; font-weight: 500; }
@@ -281,6 +372,12 @@ const schema = {
   .feature-grid span { color: var(--gold-500); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
   .feature-grid h3 { margin: .7rem 0 .5rem; }
   .feature-grid p { margin: 0; color: var(--muted); font-size: .9rem; }
+  .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0 3.5rem; }
+  .photo-grid figure { margin: 0; overflow: hidden; border: 1px solid var(--line); background: var(--mist); }
+  .photo-grid .photo-wide { grid-column: 1 / -1; }
+  .photo-grid img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .photo-grid .photo-wide img { aspect-ratio: 16 / 9; object-position: center 55%; }
+  .photo-grid figcaption { padding: .75rem .85rem; color: var(--muted); font-size: .76rem; line-height: 1.45; }
   .school-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: 1.5rem 0 2rem; padding: 0; list-style: none; }
   .school-list li { padding: 1.2rem; border: 1px solid var(--line); background: var(--mist); font-weight: 600; }
   .history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 2rem 0; background: var(--line); border: 1px solid var(--line); }
@@ -311,6 +408,10 @@ const schema = {
   @media (max-width: 700px) {
     .article-shell { width: min(calc(100% - 1.25rem), 820px); }
     .snapshot, .feature-grid, .school-list, .next-step { grid-template-columns: 1fr; }
+    .hero-media { width: min(calc(100% - 1.25rem), 1200px); }
+    .photo-grid { grid-template-columns: 1fr; }
+    .photo-grid .photo-wide { grid-column: auto; }
+    .photo-grid .photo-wide img { aspect-ratio: 4 / 3; }
     .snapshot div { border-right: 0; border-bottom: 1px solid var(--line); }
     .snapshot div:last-child { border-bottom: 0; }
     .next-step { align-items: start; }
