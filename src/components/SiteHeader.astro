@@ -5,6 +5,7 @@ const nav = [
   { href: '/guides/', label: 'Guides' },
   { href: '/areas/', label: 'Areas' },
   { href: '/about/', label: 'About' },
+  { href: 'https://the-jason-kaczmarski-team-springfield-tn.remax.com/', label: 'Search' },
 ];
 ---
 
@@ -22,7 +23,6 @@ const nav = [
       <summary aria-label="Open navigation">Menu</summary>
       <div>
         {nav.map((item) => <a class:list={{ active: currentPath.startsWith(item.href) }} href={item.href}>{item.label}</a>)}
-        <a href="https://the-jason-kaczmarski-team-springfield-tn.remax.com/">Search homes</a>
       </div>
     </details>
   </div>
