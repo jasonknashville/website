@@ -4,6 +4,7 @@ export const prerender = true;
 
 const site = 'https://jasonknashville.com';
 const guides = [
+{"title": "Mortgage Rates Crossed 7%. What Should Nashville Sellers Do This Fall?", "description": "What higher mortgage rates mean for Nashville pricing, seller concessions, builder competition, and the usual return to activity after Labor Day.", "path": "/guides/nashville-7-percent-mortgage-rates-fall-2026/", "published": "Mon, 14 Sep 2026 14:30:00 GMT"},
   {
     title: 'Canebrake at Hickory Hills: A Resident’s Guide',
     description: 'A firsthand guide to this Old Hickory new-construction neighborhood, including current prices, market history, the pool, Wilson County schools, and what buyers should compare.',
