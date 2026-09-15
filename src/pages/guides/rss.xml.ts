@@ -4,6 +4,7 @@ export const prerender = true;
 
 const site = 'https://jasonknashville.com';
 const guides = [
+{"title": "Wilson Closings Up 15%, Rutherford Down 13%: What the Split Means for Your Next Move", "description": "Closing activity is moving in different directions in Wilson and Rutherford. Here is what the county comparison can—and cannot—tell buyers and sellers.", "path": "/guides/wilson-rutherford-housing-market-split-2026/", "published": "Tue, 15 Sep 2026 13:00:00 GMT"},
 {"title": "Mortgage Rates Crossed 7%. What Should Nashville Sellers Do This Fall?", "description": "What higher mortgage rates mean for Nashville pricing, seller concessions, builder competition, and the usual return to activity after Labor Day.", "path": "/guides/nashville-7-percent-mortgage-rates-fall-2026/", "published": "Mon, 14 Sep 2026 14:30:00 GMT"},
   {
     title: 'Canebrake at Hickory Hills: A Resident’s Guide',

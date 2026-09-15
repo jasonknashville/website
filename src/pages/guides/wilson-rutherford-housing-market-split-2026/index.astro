@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = "Wilson Closings Up 15%, Rutherford Down 13%: What the Split Means for Your Next Move";
+const description = "Closing activity is moving in different directions in Wilson and Rutherford. Here is what the county comparison can—and cannot—tell buyers and sellers.";
+const publishedDate = '2026-09-15';
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedDate,
+  dateModified: publishedDate,
+  mainEntityOfPage: 'https://jasonknashville.com/guides/wilson-rutherford-housing-market-split-2026/',
+  author: {
+    '@type': 'Person',
+    name: 'Jason Kaczmarski',
+    url: 'https://jasonknashville.com/about/',
+  },
+  publisher: {
+    '@type': 'RealEstateAgent',
+    name: 'Jason Kaczmarski · The Jason Kaczmarski Team',
+    url: 'https://jasonknashville.com',
+  },
+};
+---
+<BaseLayout title={title} description={description}>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+<article>
+<header class="article-hero"><div class="article-shell">
+<a class="back-link" href="/guides/">← All guides</a>
+<span class="eyebrow">Middle Tennessee market guide</span>
+<h1>{title}</h1><p class="dek">{description}</p>
+<div class="byline"><span>By Jason Kaczmarski</span><span aria-hidden="true">·</span><time datetime={publishedDate}>September 15, 2026</time><span aria-hidden="true">·</span><span>5 minute read</span></div>
+</div></header>
+<div class="article-shell article-body">
+<p>Two nearby counties. One regional housing market. Very different results.</p>
+<p>That is the useful conversation coming out of the September 14 Nashville Market Watch: how much does a broad Nashville headline really tell you about the house you are trying to buy or sell?</p>
+<p>Before we get into the comparison, one distinction matters: <strong>these percentages describe the number of homes closing, not changes in home values.</strong> A county with more sales has not necessarily become more expensive, and fewer sales do not mean every homeowner has lost that percentage of equity.</p>
+<h2>What the county comparison actually measures</h2>
+<p>Ethan Flynn’s September 10 Realtracs-based analysis compares rolling 31-day closing counts at the same week each year, across all property types:</p>
+<table><thead><tr><th scope="col">County</th><th scope="col">Closings versus the comparable 2025 window</th></tr></thead><tbody><tr><td>Wilson</td><td>+15.4%</td></tr><tr><td>Rutherford</td><td>−13.0%</td></tr></tbody></table>
+<p>Rutherford recorded 441 closings versus 507. Its $300,000–$500,000 band fell from 283 to 223, accounting for 60 of the county’s 66 fewer sales. New construction and resale each contributed 33 fewer closings.</p>
+<p>That rolling window is different from calendar August, when Rutherford’s closings fell 9.5%. The report also shows $300,000–$500,000 active inventory close to last year’s level: 816 versus 829. Contracts in that band were lower, at 235 versus 265.</p>
+<p>Source: <a href="https://nashvillerealestatedata.com/blog/nashville-rutherford-closings">Nashville Real Estate Data, September 10, 2026</a>. New construction and resale classifications follow the MLS. These are the source’s dated figures, rather than a fresh MLS pull performed for this guide.</p>
+<h2>Does Wilson’s gain mean its resale market is taking off?</h2>
+<p>That is the next question I would want answered before making a pricing recommendation.</p>
+<p>A combined closing total can rise for different reasons. More existing homeowners might be selling successfully. A group of new homes might finish construction and close in the same period. Or the market might have some combination of both.</p>
+<p>To distinguish those possibilities, I would want Wilson’s new-construction and resale closing counts for the same dates this year and last year, followed by a breakdown by price range and location. A Mount Juliet subdivision and a rural property outside Lebanon need not attract the same buyers or respond to the same incentives.</p>
+<p><strong>The cited comparison does not give us that Wilson breakdown.</strong> Builder activity is a reasonable question to investigate; it is not an established explanation for the gain. Similar-looking percentages from different datasets would not prove the connection, either.</p>
+<p>For a Wilson seller, I would use the county headline as a reason to investigate where transactions are happening. I would still price the house from comparable properties and the alternatives a buyer can choose today.</p>
+<h2>What should a Rutherford seller do with this information?</h2>
+<p>I would start with the buyer’s actual shopping list.</p>
+<p>Which homes compete with yours on location, size, condition, and total cost? Which have attracted offers? Which have adjusted their price? If buyers keep choosing those properties, what is making the difference?</p>
+<p>A practical review should compare three possible actions: improve the home’s presentation, adjust the asking price, or offer terms that address a buyer’s financing constraints. The right choice depends on the feedback and the numbers. A cosmetic issue, an unrealistic price, and a cash-to-close problem require different responses.</p>
+<p>Where a builder is a direct competitor, include its actual financing terms in that review. Ask a lender to compare the upfront costs and payment over time. An advertised introductory payment alone is not enough to judge the competing offer.</p>
+<h2>Buyers should ask the same specific questions</h2>
+<p>A county-level slowdown is a starting point for negotiation, not a discount schedule.</p>
+<p>A house that is well priced and hard to replace may still attract competition. Another property may offer room to negotiate because its seller’s timing, condition, or price expectations differ. Study the property and the seller’s alternatives before deciding what to offer.</p>
+<p>For anyone moving between Wilson and Rutherford, evaluate the sale and purchase separately. Avoid assuming that the county with stronger closing growth guarantees a better sale result—or that the county with weaker growth guarantees an inexpensive purchase.</p>
+<h2>What I’ll watch next</h2>
+<p>I want to see the Wilson builder-versus-resale split, whether Rutherford’s middle price range begins attracting more contracts, and whether any improvement persists across several readings.</p>
+<p>Those checks would help answer the question that matters for a real transaction: <strong>where are buyers finding a combination of house, price, and terms that works?</strong></p>
+<p>If you are planning a move, let’s narrow the conversation to your neighborhood, your price range, and the homes you would actually compete with. That is where a regional market update becomes a useful decision.</p>
+<div class="next-step"><div><span class="eyebrow">Make it specific</span><h2>Compare your next move.</h2><p>See how rates, prices, and your equity affect moving now versus waiting.</p></div><a class="button light" href="/tools/move-now-or-wait/">Use the planning tool</a></div>
+<p>Related: <a href="/guides/nashville-seller-concessions-2026/">How buyers can compare seller concessions</a></p>
+</div></article></BaseLayout>
+<style>
+  .article-shell { width: min(calc(100% - 2rem), 790px); margin-inline: auto; }
+  .article-hero { padding: clamp(4rem, 9vw, 8rem) 0 clamp(3.5rem, 7vw, 6rem); background: var(--mist); border-bottom: 1px solid var(--line); }
+  .back-link { display: block; width: fit-content; margin-bottom: 3rem; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+  .article-hero h1 { max-width: 13ch; margin-bottom: 1.3rem; }
+  .dek { max-width: 650px; margin-bottom: 1.5rem; color: var(--muted); font-size: clamp(1.12rem, 2vw, 1.35rem); line-height: 1.5; }
+  .byline { display: flex; flex-wrap: wrap; gap: .45rem; color: var(--muted); font-size: .8rem; }
+  .article-body { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .article-body > p, .article-body > ul { font-size: 1.08rem; }
+  .article-body > p { margin-bottom: 1.5rem; }
+  .article-body .lead { font-size: 1.35rem; font-weight: 500; }
+  .article-body h2 { margin: 4rem 0 1.25rem; font-size: clamp(1.8rem, 3.5vw, 2.55rem); }
+  .thesis, .bottom-line, .pipeline-note { margin: 3rem 0; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 4px solid var(--red-600); background: var(--sand); }
+  .thesis p, .bottom-line p { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); line-height: 1.42; letter-spacing: -.02em; }
+  .pipeline-note { border-left-color: var(--gold-500); background: var(--mist); }
+  .pipeline-note p { margin: 0; font-size: 1.15rem; }
+  .bottom-line { border-left-color: var(--gold-500); background: var(--navy-950); color: white; }
+  .bottom-line .eyebrow { color: rgba(255,255,255,.6); }
+  .bottom-line p + p { margin-top: 1.2rem; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin: 2.5rem 0 3rem; border: 1px solid var(--line); }
+  .stat-grid div { min-width: 0; padding: 1.4rem 1rem; border-right: 1px solid var(--line); }
+  .stat-grid div:last-child { border-right: 0; }
+  .stat-grid strong, .stat-grid span { display: block; }
+  .stat-grid strong { margin-bottom: .35rem; color: var(--navy-900); font-size: 1.5rem; font-weight: 500; letter-spacing: -.03em; }
+  .stat-grid span { color: var(--muted); font-size: .72rem; line-height: 1.35; }
+  .next-step { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; margin: 4rem 0; padding: clamp(2rem, 5vw, 3rem); background: var(--navy-900); color: white; }
+  .next-step h2 { max-width: 14ch; margin: 0 0 .7rem; }
+  .next-step p { max-width: 45ch; margin: 0; color: rgba(255,255,255,.72); }
+  .next-step .eyebrow { color: rgba(255,255,255,.6); }
+  .sources { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .sources h2 { margin: 0 0 .8rem; color: var(--ink); font-size: 1.1rem; letter-spacing: 0; }
+  .sources p { margin-bottom: .8rem; }
+  .sources ul { margin: 0; padding-left: 1.1rem; }
+  .sources a { text-underline-offset: 2px; }
+  @media (max-width: 700px) {
+    .article-shell { width: min(calc(100% - 1.25rem), 790px); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid div:nth-child(2) { border-right: 0; }
+    .stat-grid div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .next-step { grid-template-columns: 1fr; align-items: start; }
+    .next-step .button { justify-self: start; }
+  }
+  .article-body h3 { margin: 2.5rem 0 1rem; font-size: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+  th, td { text-align: left; padding: .8rem; border-bottom: 1px solid var(--line); }
+  th { background: var(--mist); }
+</style>
