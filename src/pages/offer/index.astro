@@ -1,0 +1,695 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Preparing Your Offer';
+const description = 'A simple offer-preparation worksheet for buyers working with Jason Kaczmarski in Middle Tennessee.';
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <section class="offer-page">
+    <div class="offer-shell">
+      <div class="offer-intro">
+        <p class="eyebrow">Buyer Offer Worksheet</p>
+        <h1>Preparing Your Offer</h1>
+        <p class="lead">When you're ready to make an offer on a home, there are several decisions we'll make together before I prepare the contract.</p>
+        <p>Don't worry if you aren't sure how to answer everything below. That's what I'm here for. We can talk through the options and decide what makes the most sense based on the property, the market and your particular situation.</p>
+      </div>
+
+      <form id="offer-form" class="offer-form">
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>1</span>
+            <div>
+              <h2>Buyer Information</h2>
+              <p>Please provide the full legal name and email address for each buyer who will be included in the purchase agreement.</p>
+            </div>
+          </div>
+
+          <div class="field-grid two">
+            <label>
+              <span>Buyer name(s)</span>
+              <textarea name="buyer_names" rows="2" placeholder="Full legal name(s)"></textarea>
+            </label>
+            <label>
+              <span>Email address(es)</span>
+              <textarea name="buyer_emails" rows="2" placeholder="Email address(es)"></textarea>
+            </label>
+          </div>
+
+          <label>
+            <span>Property address</span>
+            <input type="text" name="property_address" placeholder="Property you're preparing to offer on" />
+          </label>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>2</span>
+            <div>
+              <h2>Offer Price</h2>
+              <p>Price is only one part of an offer. We'll also consider the property's asking price, comparable sales, market activity, competing offers if we know about them, and the other terms below.</p>
+            </div>
+          </div>
+
+          <label>
+            <span>What price would you like to offer?</span>
+            <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="offer_price" min="0" step="1000" placeholder="0" /></div>
+          </label>
+
+          <div class="info-box">
+            <strong>Something to keep in mind</strong>
+            <p>In a competitive situation, it can be helpful to think about the highest price you would be comfortable paying if another buyer gets the property instead. We should never assume that the seller will counter or give us another opportunity to improve our offer.</p>
+          </div>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>3</span>
+            <div>
+              <h2>Financing</h2>
+              <p>If you are obtaining a mortgage, we'll use the loan terms and lender information appropriate for your offer.</p>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend>How will you be purchasing the property?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="financing" value="Cash" /><span>Cash</span></label>
+              <label class="choice"><input type="radio" name="financing" value="Conventional" /><span>Conventional financing</span></label>
+              <label class="choice"><input type="radio" name="financing" value="FHA" /><span>FHA financing</span></label>
+              <label class="choice"><input type="radio" name="financing" value="VA" /><span>VA financing</span></label>
+              <label class="choice"><input type="radio" name="financing" value="Other" /><span>Other</span></label>
+            </div>
+          </fieldset>
+
+          <label class="narrow">
+            <span>Estimated down payment</span>
+            <div class="percent-field"><input type="number" inputmode="decimal" name="down_payment" min="0" max="100" step="0.5" placeholder="20" /><span>%</span></div>
+          </label>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>4</span>
+            <div>
+              <h2>Appraisal</h2>
+              <p>If you are financing the purchase, we'll discuss whether your offer should be contingent upon the property appraising for at least the purchase price.</p>
+            </div>
+          </div>
+
+          <p>In some competitive situations, buyers may choose to modify or waive appraisal protection. Doing so can increase the buyer's financial risk if the property appraises below the agreed purchase price, so we'll discuss this carefully before writing the offer.</p>
+
+          <fieldset>
+            <legend>For this offer</legend>
+            <div class="choice-stack">
+              <label class="choice"><input type="radio" name="appraisal" value="Keep the standard appraisal contingency" /><span>Keep the standard appraisal contingency</span></label>
+              <label class="choice"><input type="radio" name="appraisal" value="Discuss modifying or waiving the appraisal contingency" /><span>Discuss modifying or waiving the appraisal contingency</span></label>
+              <label class="choice"><input type="radio" name="appraisal" value="Not applicable / cash purchase" /><span>Not applicable / cash purchase</span></label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>5</span>
+            <div>
+              <h2>Closing Date</h2>
+              <p>Closing is when the purchase is finalized, ownership transfers and your remaining down payment and closing funds are due.</p>
+            </div>
+          </div>
+
+          <label class="narrow">
+            <span>Preferred closing date</span>
+            <input type="date" name="closing_date" />
+          </label>
+          <p>We'll also consider the seller's preferred timing, your lender's timeline and when you need possession of the property.</p>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>6</span>
+            <div>
+              <h2>Earnest Money</h2>
+              <p>Earnest money is a good-faith deposit made after an offer becomes a binding contract. It is held in escrow and is credited toward the funds you need at closing.</p>
+            </div>
+          </div>
+
+          <label class="narrow">
+            <span>How much earnest money would you like to offer?</span>
+            <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="earnest_money" min="0" step="100" placeholder="0" /></div>
+          </label>
+
+          <div class="info-box">
+            <p>There are several common circumstances in which your earnest money may be refunded if the contract is terminated under a contingency or other provision written into the agreement. <strong>Terms, details and deadlines apply</strong>, and we'll review those protections with you before you sign the offer.</p>
+          </div>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>7</span>
+            <div>
+              <h2>Buyer Closing Expenses</h2>
+              <p>Buyers normally have their own closing expenses in addition to the down payment. Depending on the loan and transaction, these can include lender charges, title and closing fees, prepaid taxes and insurance, and other expenses related to obtaining the loan and closing the purchase.</p>
+            </div>
+          </div>
+
+          <p>A seller may agree to contribute toward certain buyer expenses as part of the negotiated offer.</p>
+
+          <fieldset>
+            <legend>Would you like to ask the seller to contribute toward your closing expenses?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="seller_expense_contribution" value="No" /><span>No</span></label>
+              <label class="choice"><input type="radio" name="seller_expense_contribution" value="Yes - dollar amount" /><span>Yes — dollar amount</span></label>
+              <label class="choice"><input type="radio" name="seller_expense_contribution" value="Yes - percentage" /><span>Yes — percentage</span></label>
+              <label class="choice"><input type="radio" name="seller_expense_contribution" value="Let's discuss" /><span>Let's discuss</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field-grid two">
+            <label>
+              <span>Dollar amount, if applicable</span>
+              <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="seller_expense_dollars" min="0" step="100" placeholder="0" /></div>
+            </label>
+            <label>
+              <span>Percentage, if applicable</span>
+              <div class="percent-field"><input type="number" inputmode="decimal" name="seller_expense_percent" min="0" max="100" step="0.1" placeholder="0" /><span>%</span></div>
+            </label>
+          </div>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>8</span>
+            <div>
+              <h2>Inspections</h2>
+              <p>The inspection period gives you an opportunity to investigate the condition of the property.</p>
+            </div>
+          </div>
+
+          <label class="narrow">
+            <span>Typical inspection period requested</span>
+            <div class="days-field"><input type="number" inputmode="numeric" name="inspection_days" min="0" max="30" step="1" placeholder="0" /><span>days</span></div>
+          </label>
+
+          <p>Depending upon how we structure the offer, your options following inspections may include:</p>
+          <ol>
+            <li>Accepting the property in its current condition;</li>
+            <li>Requesting agreed repairs or other resolution from the seller; or</li>
+            <li>Terminating the contract within the applicable inspection period if permitted by the terms of the agreement.</li>
+          </ol>
+
+          <div class="info-box">
+            <p>In some competitive situations, a buyer may choose to retain the right to inspect but waive the ability to request repairs. We can discuss whether that strategy makes sense for this particular property.</p>
+          </div>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>9</span>
+            <div>
+              <h2>Items to Remain With the Property</h2>
+              <p>Most permanently attached items are addressed by the purchase agreement. However, if there is personal property you specifically want included, we should identify it.</p>
+            </div>
+          </div>
+
+          <label>
+            <span>Is there anything you would like to remain with the property?</span>
+            <textarea name="items_to_remain" rows="4" placeholder="Examples: refrigerator, washer and dryer, freestanding freezer, patio furniture or other personal property"></textarea>
+          </label>
+
+          <label>
+            <span>Is there anything at the property that you specifically want the seller to remove before closing?</span>
+            <textarea name="items_to_remove" rows="3" placeholder="Items to remove, if any"></textarea>
+          </label>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>10</span>
+            <div>
+              <h2>Home Warranty</h2>
+              <p>A home warranty is optional coverage for certain appliances and home systems after closing. Coverage, service charges, exclusions and limits vary by warranty company and plan.</p>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend>What would you like to do?</legend>
+            <div class="choice-stack">
+              <label class="choice"><input type="radio" name="home_warranty" value="Ask the seller to provide a one-year home warranty" /><span>Ask the seller to provide a one-year home warranty</span></label>
+              <label class="choice"><input type="radio" name="home_warranty" value="Purchase a home warranty myself" /><span>Purchase a home warranty myself</span></label>
+              <label class="choice"><input type="radio" name="home_warranty" value="Decline a home warranty" /><span>Decline a home warranty</span></label>
+              <label class="choice"><input type="radio" name="home_warranty" value="Discuss the options first" /><span>Discuss the options first</span></label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>11</span>
+            <div>
+              <h2>Sale of Your Current Home</h2>
+              <p>If your purchase depends upon selling or closing another property, we'll determine whether an additional contingency needs to be included in the offer.</p>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend>Does your purchase depend upon selling or closing on another property?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="home_sale" value="No" /><span>No</span></label>
+              <label class="choice"><input type="radio" name="home_sale" value="Yes" /><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="home_sale" value="Possibly - let's discuss" /><span>Possibly — let's discuss</span></label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="offer-card">
+          <div class="section-heading">
+            <span>12</span>
+            <div>
+              <h2>Anything Else We Need to Address?</h2>
+              <p>Every property and every transaction is a little different.</p>
+            </div>
+          </div>
+
+          <label>
+            <span>Is there anything about this property or your situation that we need to specifically address in the offer?</span>
+            <textarea name="additional_terms" rows="5" placeholder="Examples: timing, possession, items that need further investigation, an existing lease, septic or well concerns, repairs already discussed, seller occupancy after closing or another condition that is important to you"></textarea>
+          </label>
+        </section>
+
+        <section class="offer-card compact">
+          <div class="section-heading">
+            <span>13</span>
+            <div>
+              <h2>Offer Expiration</h2>
+              <p>We'll also determine how long the seller has to accept or counter your offer. This usually isn't something you need to decide before we talk, but it can be strategically important depending on the circumstances.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="offer-card final-card">
+          <h2>What happens next</h2>
+          <p>Once we have these items worked out, I'll prepare the actual Tennessee purchase and sale documents for your review and signature.</p>
+          <p class="legal-note"><strong>Submitting this information does not create an offer or contract.</strong> Nothing becomes an offer until the appropriate documents are prepared, approved and signed.</p>
+
+          <div class="actions">
+            <button type="button" id="review-button" class="primary">Review my answers</button>
+            <button type="reset" class="secondary">Clear form</button>
+          </div>
+
+          <div id="submission-note" class="submission-note">
+            Online submission to Jason is being connected. For now, use “Review my answers” to generate a clean summary you can copy or save before speaking with Jason.
+          </div>
+        </section>
+      </form>
+
+      <section id="review-panel" class="review-panel" hidden>
+        <div class="review-head">
+          <div>
+            <p class="eyebrow">Offer Details</p>
+            <h2>Review your answers</h2>
+          </div>
+          <button type="button" id="edit-button" class="secondary small">Edit</button>
+        </div>
+        <pre id="review-text"></pre>
+        <div class="actions">
+          <button type="button" id="copy-button" class="primary">Copy summary</button>
+          <span id="copy-status" class="copy-status" aria-live="polite"></span>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var form = document.getElementById('offer-form');
+      var reviewPanel = document.getElementById('review-panel');
+      var reviewText = document.getElementById('review-text');
+      var reviewButton = document.getElementById('review-button');
+      var editButton = document.getElementById('edit-button');
+      var copyButton = document.getElementById('copy-button');
+      var copyStatus = document.getElementById('copy-status');
+
+      function value(name) {
+        var el = form.querySelector('[name="' + name + '"]:checked') || form.querySelector('[name="' + name + '"]');
+        return el && el.value ? el.value.trim() : '';
+      }
+
+      function money(v) {
+        if (!v) return '';
+        var n = Number(v);
+        return Number.isFinite(n) ? '$' + n.toLocaleString('en-US') : v;
+      }
+
+      function add(lines, label, val) {
+        if (val) lines.push(label + ': ' + val);
+      }
+
+      function buildSummary() {
+        var lines = ['PREPARING YOUR OFFER', ''];
+        add(lines, 'Buyer name(s)', value('buyer_names'));
+        add(lines, 'Email address(es)', value('buyer_emails'));
+        add(lines, 'Property address', value('property_address'));
+        add(lines, 'Offer price', money(value('offer_price')));
+        add(lines, 'Financing', value('financing'));
+        add(lines, 'Estimated down payment', value('down_payment') ? value('down_payment') + '%' : '');
+        add(lines, 'Appraisal', value('appraisal'));
+        add(lines, 'Preferred closing date', value('closing_date'));
+        add(lines, 'Earnest money', money(value('earnest_money')));
+        add(lines, 'Seller contribution', value('seller_expense_contribution'));
+        add(lines, 'Seller contribution amount', money(value('seller_expense_dollars')));
+        add(lines, 'Seller contribution percentage', value('seller_expense_percent') ? value('seller_expense_percent') + '%' : '');
+        add(lines, 'Inspection period', value('inspection_days') ? value('inspection_days') + ' days' : '');
+        add(lines, 'Items to remain', value('items_to_remain'));
+        add(lines, 'Items to remove', value('items_to_remove'));
+        add(lines, 'Home warranty', value('home_warranty'));
+        add(lines, 'Sale of current home', value('home_sale'));
+        add(lines, 'Additional items to address', value('additional_terms'));
+        lines.push('', 'This worksheet does not create an offer or contract.');
+        return lines.join('\n');
+      }
+
+      reviewButton.addEventListener('click', function () {
+        reviewText.textContent = buildSummary();
+        form.hidden = true;
+        reviewPanel.hidden = false;
+        reviewPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      editButton.addEventListener('click', function () {
+        reviewPanel.hidden = true;
+        form.hidden = false;
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      copyButton.addEventListener('click', async function () {
+        try {
+          await navigator.clipboard.writeText(reviewText.textContent);
+          copyStatus.textContent = 'Copied.';
+          setTimeout(function () { copyStatus.textContent = ''; }, 2500);
+        } catch (e) {
+          copyStatus.textContent = 'Select the summary above and copy it manually.';
+        }
+      });
+    })();
+  </script>
+
+  <style>
+    .offer-page {
+      background: #f5f7fb;
+      padding: 44px 18px 72px;
+    }
+    .offer-shell {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .offer-intro {
+      background: linear-gradient(135deg, #003da5, #0758c9);
+      color: white;
+      border-radius: 22px;
+      padding: 42px;
+      margin-bottom: 24px;
+      box-shadow: 0 16px 40px rgba(0,61,165,.15);
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: .78rem;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 800;
+      color: #f3cf54;
+    }
+    .offer-intro h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.04;
+    }
+    .offer-intro p {
+      max-width: 68ch;
+      margin: 10px 0 0;
+      color: rgba(255,255,255,.9);
+    }
+    .offer-intro .lead {
+      font-size: 1.12rem;
+      color: white;
+    }
+    .offer-form {
+      display: grid;
+      gap: 18px;
+    }
+    .offer-card,
+    .review-panel {
+      background: white;
+      border: 1px solid #e2e7ef;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(31,48,76,.06);
+    }
+    .offer-card.compact {
+      padding-bottom: 22px;
+    }
+    .section-heading {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 22px;
+    }
+    .section-heading > span {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #eef4ff;
+      color: #003da5;
+      font-weight: 800;
+    }
+    .section-heading h2,
+    .final-card h2,
+    .review-head h2 {
+      margin: 2px 0 7px;
+      color: #172a46;
+      font-size: 1.45rem;
+    }
+    .section-heading p {
+      margin: 0;
+      color: #5f6d80;
+    }
+    .offer-card > p,
+    .offer-card li {
+      color: #4f5d70;
+    }
+    .offer-card ol {
+      margin: 10px 0 18px 1.25rem;
+      padding-left: .6rem;
+    }
+    .offer-card li + li {
+      margin-top: 8px;
+    }
+    label,
+    fieldset {
+      display: block;
+      margin-top: 18px;
+    }
+    label > span,
+    legend {
+      display: block;
+      margin-bottom: 8px;
+      color: #263a57;
+      font-weight: 700;
+      font-size: .94rem;
+    }
+    fieldset {
+      padding: 0;
+      border: 0;
+    }
+    input,
+    textarea {
+      width: 100%;
+      border: 1.5px solid #cfd7e4;
+      border-radius: 11px;
+      background: #fff;
+      padding: 13px 14px;
+      color: #172a46;
+      font: inherit;
+    }
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #003da5;
+      box-shadow: 0 0 0 3px rgba(0,61,165,.08);
+    }
+    textarea {
+      resize: vertical;
+    }
+    .field-grid.two,
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 14px;
+    }
+    .choice-stack {
+      display: grid;
+      gap: 10px;
+    }
+    .choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 0;
+      padding: 13px 14px;
+      border: 1.5px solid #d9e0ea;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+    .choice:hover {
+      background: #f8faff;
+      border-color: #afbdd0;
+    }
+    .choice input {
+      width: auto;
+      margin: 3px 0 0;
+      accent-color: #003da5;
+    }
+    .choice > span {
+      margin: 0;
+      font-weight: 600;
+    }
+    .narrow {
+      max-width: 420px;
+    }
+    .money-field,
+    .percent-field,
+    .days-field {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #cfd7e4;
+      border-radius: 11px;
+      overflow: hidden;
+      background: white;
+    }
+    .money-field:focus-within,
+    .percent-field:focus-within,
+    .days-field:focus-within {
+      border-color: #003da5;
+      box-shadow: 0 0 0 3px rgba(0,61,165,.08);
+    }
+    .money-field > span,
+    .percent-field > span,
+    .days-field > span {
+      padding: 0 13px;
+      color: #657287;
+      font-weight: 700;
+    }
+    .money-field input,
+    .percent-field input,
+    .days-field input {
+      border: 0;
+      box-shadow: none !important;
+      border-radius: 0;
+    }
+    .money-field input {
+      padding-left: 0;
+    }
+    .info-box {
+      margin-top: 20px;
+      padding: 17px 18px;
+      border-left: 4px solid #003da5;
+      border-radius: 10px;
+      background: #f4f7fc;
+      color: #40506a;
+    }
+    .info-box p {
+      margin: 0;
+    }
+    .info-box strong {
+      color: #172a46;
+    }
+    .final-card {
+      border-top: 5px solid #dc1c2e;
+    }
+    .legal-note {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border-radius: 10px;
+      background: #fff7f8;
+      border: 1px solid #f1d5d9;
+      color: #572a31 !important;
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+    button {
+      font: inherit;
+    }
+    .primary,
+    .secondary {
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .primary {
+      border: 1px solid #dc1c2e;
+      background: #dc1c2e;
+      color: white;
+    }
+    .primary:hover {
+      background: #be1626;
+    }
+    .secondary {
+      border: 1px solid #c9d2df;
+      background: white;
+      color: #33465f;
+    }
+    .secondary.small {
+      padding: 9px 13px;
+    }
+    .submission-note {
+      margin-top: 18px;
+      font-size: .86rem;
+      color: #6a7789;
+    }
+    .review-panel {
+      margin-top: 18px;
+    }
+    .review-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .review-panel pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: #f6f8fb;
+      border: 1px solid #e0e5ed;
+      border-radius: 12px;
+      padding: 20px;
+      color: #263a57;
+      font: 500 .93rem/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .copy-status {
+      color: #55667c;
+      font-size: .9rem;
+    }
+    @media (max-width: 680px) {
+      .offer-page { padding: 24px 12px 54px; }
+      .offer-intro,
+      .offer-card,
+      .review-panel { padding: 22px; border-radius: 15px; }
+      .field-grid.two,
+      .choice-grid { grid-template-columns: 1fr; }
+      .section-heading { grid-template-columns: 32px 1fr; gap: 11px; }
+      .section-heading > span { width: 32px; height: 32px; }
+      .section-heading h2 { font-size: 1.25rem; }
+    }
+  </style>
+</BaseLayout>
