@@ -15,7 +15,11 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
         <p>Don't worry if you aren't sure how to answer everything below. That's what I'm here for. We can talk through the options and decide what makes the most sense based on the property, the market and your particular situation.</p>
       </div>
 
-      <form id="offer-form" class="offer-form">
+      <form id="offer-form" class="offer-form" action="https://formsubmit.co/jason@jasonknashville.com" method="POST">
+        <input type="hidden" name="_subject" value="New buyer offer worksheet — Jason K Nashville" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="Offer summary" id="offer-summary" />
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none" />
         <section class="offer-card">
           <div class="section-heading">
             <span>1</span>
@@ -28,11 +32,11 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
           <div class="field-grid two">
             <label>
               <span>Buyer name(s)</span>
-              <textarea name="buyer_names" rows="2" placeholder="Full legal name(s)"></textarea>
+              <textarea name="buyer_names" rows="2" required placeholder="Full legal name(s)"></textarea>
             </label>
             <label>
               <span>Email address(es)</span>
-              <textarea name="buyer_emails" rows="2" placeholder="Email address(es)"></textarea>
+              <textarea name="buyer_emails" rows="2" required placeholder="Email address(es)"></textarea>
             </label>
           </div>
 
@@ -292,13 +296,14 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
           <p>Once we have these items worked out, I'll prepare the actual Tennessee purchase and sale documents for your review and signature.</p>
           <p class="legal-note"><strong>Submitting this information does not create an offer or contract.</strong> Nothing becomes an offer until the appropriate documents are prepared, approved and signed.</p>
 
+          <noscript><p>JavaScript is off. You can still send your completed worksheet directly.</p><button type="submit" class="primary">Send to Jason</button></noscript>
           <div class="actions">
             <button type="button" id="review-button" class="primary">Review my answers</button>
             <button type="reset" class="secondary">Clear form</button>
           </div>
 
           <div id="submission-note" class="submission-note">
-            Online submission to Jason is being connected. For now, use “Review my answers” to generate a clean summary you can copy or save before speaking with Jason.
+            Review your answers, then choose “Send to Jason” to email them to jason@jasonknashville.com. FormSubmit securely processes the submission and may ask you to complete a spam check.
           </div>
         </section>
       </form>
@@ -313,7 +318,9 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
         </div>
         <pre id="review-text"></pre>
         <div class="actions">
-          <button type="button" id="copy-button" class="primary">Copy summary</button>
+          <button type="submit" form="offer-form" id="send-button" class="primary">Send to Jason</button>
+          <button type="button" id="copy-button" class="secondary">Copy summary</button>
+          <span id="send-status" role="status" aria-live="polite"></span>
           <span id="copy-status" class="copy-status" aria-live="polite"></span>
         </div>
       </section>
@@ -331,8 +338,8 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
       var copyStatus = document.getElementById('copy-status');
 
       function value(name) {
-        var el = form.querySelector('[name="' + name + '"]:checked') || form.querySelector('[name="' + name + '"]');
-        return el && el.value ? el.value.trim() : '';
+        var entry = new FormData(form).get(name);
+        return typeof entry === 'string' ? entry.trim() : '';
       }
 
       function money(v) {
@@ -370,6 +377,7 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
       }
 
       reviewButton.addEventListener('click', function () {
+        if (!form.reportValidity()) return;
         reviewText.textContent = buildSummary();
         form.hidden = true;
         reviewPanel.hidden = false;
@@ -380,6 +388,17 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
         reviewPanel.hidden = true;
         form.hidden = false;
         form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      form.addEventListener('submit', function () {
+        document.getElementById('offer-summary').value = buildSummary();
+        document.getElementById('send-button').disabled = true;
+        document.getElementById('send-status').textContent = 'Opening secure submission…';
+      });
+
+      window.addEventListener('pageshow', function () {
+        document.getElementById('send-button').disabled = false;
+        document.getElementById('send-status').textContent = '';
       });
 
       copyButton.addEventListener('click', async function () {
@@ -395,6 +414,8 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
   </script>
 
   <style>
+    [hidden] { display: none !important; }
+    button:disabled { opacity: .6; cursor: wait; }
     .offer-page {
       background: #f5f7fb;
       padding: 44px 18px 72px;
