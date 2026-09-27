@@ -18,6 +18,7 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
       <form id="offer-form" class="offer-form" action="https://formsubmit.co/jason@jasonknashville.com" method="POST">
         <input type="hidden" name="_subject" value="New buyer offer worksheet — Jason K Nashville" />
         <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_next" value="https://jasonknashville.com/offer/thanks/" />
         <input type="hidden" name="Offer summary" id="offer-summary" />
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none" />
         <section class="offer-card">
@@ -57,7 +58,7 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
 
           <label>
             <span>What price would you like to offer?</span>
-            <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="offer_price" min="0" step="1000" placeholder="0" /></div>
+            <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="offer_price" min="0" step="any" placeholder="0" /></div>
           </label>
 
           <div class="info-box">
@@ -88,7 +89,7 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
 
           <label class="narrow">
             <span>Estimated down payment</span>
-            <div class="percent-field"><input type="number" inputmode="decimal" name="down_payment" min="0" max="100" step="0.5" placeholder="20" /><span>%</span></div>
+            <div class="percent-field"><input type="number" inputmode="decimal" name="down_payment" min="0" max="100" step="any" placeholder="20" /><span>%</span></div>
           </label>
         </section>
 
@@ -140,7 +141,7 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
 
           <label class="narrow">
             <span>How much earnest money would you like to offer?</span>
-            <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="earnest_money" min="0" step="100" placeholder="0" /></div>
+            <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="earnest_money" min="0" step="any" placeholder="0" /></div>
           </label>
 
           <div class="info-box">
@@ -172,11 +173,11 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
           <div class="field-grid two">
             <label>
               <span>Dollar amount, if applicable</span>
-              <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="seller_expense_dollars" min="0" step="100" placeholder="0" /></div>
+              <div class="money-field"><span>$</span><input type="number" inputmode="decimal" name="seller_expense_dollars" min="0" step="any" placeholder="0" /></div>
             </label>
             <label>
               <span>Percentage, if applicable</span>
-              <div class="percent-field"><input type="number" inputmode="decimal" name="seller_expense_percent" min="0" max="100" step="0.1" placeholder="0" /><span>%</span></div>
+              <div class="percent-field"><input type="number" inputmode="decimal" name="seller_expense_percent" min="0" max="100" step="any" placeholder="0" /><span>%</span></div>
             </label>
           </div>
         </section>
@@ -308,13 +309,14 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
         </section>
       </form>
 
-      <section id="review-panel" class="review-panel" hidden>
+      <section id="review-panel" class="review-panel" tabindex="-1" hidden>
         <div class="review-head">
           <div>
             <p class="eyebrow">Offer Details</p>
             <h2>Review your answers</h2>
           </div>
-          <button type="button" id="edit-button" class="secondary small">Edit</button>
+          <button type="button" id="edit-button" class="secondary small">Edit answers</button>
+          <button type="button" id="price-button" class="secondary small">Change offer price</button>
         </div>
         <pre id="review-text"></pre>
         <div class="actions">
@@ -376,23 +378,72 @@ const description = 'A simple offer-preparation worksheet for buyers working wit
         return lines.join('\n');
       }
 
-      reviewButton.addEventListener('click', function () {
+      var sendButton = document.getElementById('send-button');
+      var priceInput = form.elements.namedItem('offer_price');
+      var editTarget = null;
+      var reviewKey = 'offerWorksheetReview';
+
+      function showForm(target) {
+        reviewPanel.hidden = true;
+        form.hidden = false;
+        var field = target || form.elements.namedItem('buyer_names');
+        field.focus({ preventScroll: true });
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function showReview() {
         if (!form.reportValidity()) return;
         reviewText.textContent = buildSummary();
         form.hidden = true;
         reviewPanel.hidden = false;
+        copyStatus.textContent = '';
+        reviewPanel.focus({ preventScroll: true });
         reviewPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!history.state || !history.state[reviewKey]) {
+          history.pushState(Object.assign({}, history.state, { [reviewKey]: true }), '');
+        }
+      }
+
+      function editAnswers(target) {
+        showForm(target);
+        if (history.state && history.state[reviewKey]) {
+          editTarget = target;
+          history.back();
+        }
+      }
+
+      reviewButton.addEventListener('click', showReview);
+      editButton.addEventListener('click', function () { editAnswers(null); });
+      document.getElementById('price-button').addEventListener('click', function () {
+        editAnswers(priceInput);
+      });
+      window.addEventListener('popstate', function () {
+        if (history.state && history.state[reviewKey]) showReview();
+        else showForm(editTarget);
+        editTarget = null;
       });
 
-      editButton.addEventListener('click', function () {
-        reviewPanel.hidden = true;
-        form.hidden = false;
-        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      // Reveal invalid controls before native validation attempts to focus them.
+      form.addEventListener('invalid', function (event) {
+        if (form.hidden) editAnswers(event.target);
+      }, true);
 
-      form.addEventListener('submit', function () {
-        document.getElementById('offer-summary').value = buildSummary();
-        document.getElementById('send-button').disabled = true;
+      form.addEventListener('submit', function (event) {
+        // Enter while editing must review, never silently send the worksheet.
+        if (reviewPanel.hidden || event.submitter !== sendButton) {
+          event.preventDefault();
+          showReview();
+          return;
+        }
+        var summary = buildSummary();
+        if (summary !== reviewText.textContent) {
+          event.preventDefault();
+          showReview();
+          document.getElementById('send-status').textContent = 'Answers changed. Please review them, then send again.';
+          return;
+        }
+        document.getElementById('offer-summary').value = summary;
+        sendButton.disabled = true;
         document.getElementById('send-status').textContent = 'Opening secure submission…';
       });
 
