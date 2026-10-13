@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import rates from '../../data/mortgage-rates.json';
+---
+
+<BaseLayout title="Seller-Paid Mortgage Rate Buydown Calculator" description="Compare seller concessions, temporary mortgage rate buydowns, and price reductions for conventional, FHA, and VA home loans in Nashville and Middle Tennessee.">
+  <section class="intro"><div class="container">
+    <span class="eyebrow">Buyer & seller planning tool</span>
+    <h1>Could a seller credit lower your mortgage payment?</h1>
+    <p>Compare a price reduction with a seller-funded mortgage rate buydown. Change the home price, down payment, loan program, and proposed contribution to see the numbers side by side.</p>
+  </div></section>
+  <section class="section"><div class="container">
+    <div class="calculator">
+      <div class="controls">
+        <h2>Your home purchase</h2>
+        <label for="price">Purchase price</label><div class="field money"><span>$</span><input id="price" type="number" min="10000" max="100000000" step="5000" value="427500" /></div>
+        <label for="program">Loan program</label>
+        <select id="program"><option value="conventional">Conventional — primary residence</option><option value="fha">FHA</option><option value="va">VA</option><option value="investment">Conventional — investment property</option></select>
+        <div class="field-head"><label for="down">Down payment</label><div class="mode" role="group" aria-label="Down payment units"><button type="button" class="active" id="down-percent" aria-pressed="true">%</button><button type="button" id="down-dollar" aria-pressed="false">$</button></div></div>
+        <div class="field money" id="down-field"><span id="down-prefix">%</span><input id="down" type="number" min="0" max="100" step=".5" value="5" /></div>
+        <p class="hint" id="down-note"></p>
+        <label for="rate">Mortgage interest rate (note rate)</label><div class="field money"><span>%</span><input id="rate" type="number" min=".1" max="25" step=".05" value={rates.thirtyYear} /></div>
+        <p class="hint">Starts at Freddie Mac's {rates.asOf} 30-year average ({rates.thirtyYear.toFixed(2)}%). Enter your lender's actual quote. This is not a loan offer.</p>
+        <label for="term">Loan term</label><select id="term"><option value="30">30 years</option><option value="15">15 years</option></select>
+        <div class="split-heading"><h2>Proposed seller contribution</h2><strong id="credit-label">$0</strong></div>
+        <label for="credit">Contribution as a percentage of purchase price: <strong id="credit-percent">2.0%</strong></label>
+        <input id="credit" type="range" min="0" max="3" step=".1" value="2" />
+        <div class="range-ends"><span>0%</span><span id="credit-max">3%</span></div>
+        <p class="hint" id="rule-note" aria-live="polite"></p>
+        <label for="other-costs">Other seller-paid financing/closing costs (counted toward applicable limit)</label><div class="field money"><span>$</span><input id="other-costs" type="number" min="0" step="500" value="0" /></div>
+        <p class="hint">The permitted amount available for a rate buydown may be less than the overall seller-contribution limit.</p>
+        <label for="buydown">Temporary buydown scenario</label>
+        <select id="buydown"><option value="2-1">2-1 (2 points lower in year 1; 1 in year 2)</option><option value="1-0">1-0 (1 point lower in year 1)</option><option value="3-2-1">3-2-1 (3, 2, then 1 points lower)</option></select>
+      </div>
+      <div class="results" aria-live="polite">
+        <span class="eyebrow">Estimated principal & interest</span>
+        <h2>What changes with seller help?</h2>
+        <div class="two-cards"><div class="stat"><small>Without incentives</small><strong id="base-payment">—</strong><span>/ month</span></div><div class="stat"><small>With equivalent price cut</small><strong id="cut-payment">—</strong><span>/ month</span></div></div>
+        <div class="saving"><span>Monthly savings from a price reduction</span><strong id="price-savings">—</strong></div>
+        <div class="divider"></div>
+        <div class="split-heading"><h3>Temporary buydown</h3><strong id="buydown-cost">—</strong></div>
+        <p class="subdued">Estimated upfront subsidy required to cover the temporary reduction in scheduled payments. This is not a permanent rate reduction.</p>
+        <div class="payment-rows" id="payment-rows"></div>
+        <div class="notice" id="budget-result"></div>
+        <p class="subdued">All numbers exclude property taxes, homeowners insurance, mortgage insurance, HOA dues, VA funding fees, FHA mortgage insurance, and other closing expenses. Buyers generally must qualify at the full note rate.</p>
+        <a class="cta" href="https://jasonk.remax.com/contact.php" data-analytics-event="tool_contact_click" data-analytics-action="discuss_buydown">Talk through a buyer or seller strategy <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="explain">
+      <h2>How much can a seller contribute?</h2>
+      <p>For a conventional primary residence, Fannie Mae's general financing-concession ceiling is <strong>3%</strong> with less than 10% down, <strong>6%</strong> with 10%–24.99% down, and <strong>9%</strong> with 25% or more down. Conventional investment-property limits are generally 2%. FHA generally permits up to 6% of the sales price in interested-party contributions. These ceilings are not guarantees that a lender will allow or apply every dollar toward a rate buydown.</p>
+      <p><strong>VA is different:</strong> The VA's 4% seller-concession rule applies to certain extras, including temporary buydowns, but normal discount points and ordinary buyer closing costs are generally excluded from that 4% category. The actual VA calculation is based on the property's established reasonable value, not automatically the contract price. This calculator uses the purchase price as a planning proxy; confirm with a VA-experienced lender.</p>
+      <p><strong>Important distinction:</strong> A 2-1 temporary buydown means an illustrative 2-percentage-point lower effective payment in year one and 1-point lower in year two, returning to the original note-rate payment in year three. It does <em>not</em> mean that a 2% seller credit purchases a 2% lower mortgage rate. Permanent rate reductions require a lender-specific discount-points quote and cannot be accurately determined from the credit amount alone.</p>
+      <p>Source guidance: <a href="https://selling-guide.fanniemae.com/sel/b3-4.1-02/interested-party-contributions-ipcs" target="_blank" rel="noopener">Fannie Mae seller contributions</a>, <a href="https://guide-selling.fanniemae.com/sel/b2-1.4-04/temporary-interest-rate-buydowns" target="_blank" rel="noopener">Fannie Mae temporary buydowns</a>, <a href="https://www.hud.gov/sites/default/files/OCHCO/documents/40001-hsgh-Update-17.pdf" target="_blank" rel="noopener">FHA Handbook</a>, <a href="https://www.benefits.va.gov/warms/docs/admin26/m26-07/lender_handbook_va_pamphlet_complete.pdf" target="_blank" rel="noopener">VA Lender's Handbook</a>. Program eligibility, appraisal, actual costs, loan-specific limitations, and lender rules control.</p>
+      <p class="fine">For planning only, not a mortgage quote, lender approval, or commitment. Jason Kaczmarski · RE/MAX 1st Choice · 615-384-7355. Each RE/MAX office independently owned and operated.</p>
+    </div>
+  </div></section>
+</BaseLayout>
+
+<script is:inline>
+(function () {
+  const $ = id => document.getElementById(id);
+  const money = n => Number.isFinite(n) ? n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}) : '—';
+  const pay = (principal, annual, years) => {
+    if (principal <= 0) return 0;
+    const n = years * 12, m = Math.max(0,annual) / 1200;
+    return m === 0 ? principal / n : principal * m / (1 - Math.pow(1 + m,-n));
+  };
+  const value = (id, fallback=0) => { const x=Number($(id).value); return Number.isFinite(x)? x:fallback; };
+  let dollarMode=false, priorPrice=427500;
+  function getDown(price){ return Math.max(0,Math.min(price,dollarMode ? value('down') : price*value('down')/100)); }
+  function render(){
+    const price=Math.max(10000,value('price',427500));
+    const program=$('program').value;
+    const down=getDown(price), downPct=down/price*100;
+    const loan=Math.max(0,price-down);
+    const rate=Math.max(.1,Math.min(25,value('rate',7.4)));
+    const years=Number($('term').value);
+    let cap=program==='investment'?2:program==='fha'?6:program==='va'?4:downPct>=25-1e-8?9:downPct>=10-1e-8?6:3;
+    $('credit').max=cap;
+    if(value('credit')>cap) $('credit').value=cap;
+    const pct=Math.max(0,value('credit'));
+    const credit=price*pct/100;
+    const other=Math.max(0,value('other-costs'));
+    const base=pay(loan,rate,years);
+    const newLoan=Math.max(0,(price-credit)*(1-downPct/100));
+    const reduced=pay(newLoan,rate,years);
+    $('credit-label').textContent=money(credit);
+    $('credit-percent').textContent=pct.toFixed(1)+'%';
+    $('credit-max').textContent=cap+'%';
+    $('base-payment').textContent=money(base);
+    $('cut-payment').textContent=money(reduced);
+    $('price-savings').textContent=money(base-reduced)+'/mo';
+    $('down-note').textContent=money(down)+' down ('+downPct.toFixed(1)+'%) · Estimated loan '+money(loan);
+    $('rule-note').textContent=program==='va'
+      ? 'VA: 4% applies to specific concessions, not all ordinary closing costs or normal discount points. Value-based ceiling is simplified here using purchase price. A lender must verify.'
+      : program==='fha'?'FHA: general 6% ceiling across eligible seller-paid closing costs, discount points, and buydowns.'
+      : program==='investment'?'Conventional investment property: generally 2% seller-financing-concession ceiling.'
+      : 'Conventional primary residence: '+cap+'% general ceiling based on '+downPct.toFixed(1)+'% down. Other financed concessions count toward the same limit.';
+    const reductions=$('buydown').value.split('-').map(Number);
+    let subsidy=0,rows='';
+    for(let i=0;i<reductions.length;i++){
+      const effective=Math.max(0,rate-reductions[i]);
+      const p=pay(loan,effective,years);
+      subsidy+=Math.max(0,base-p)*12;
+      rows+='<div><span>Year '+(i+1)+' · '+effective.toFixed(2)+'% effective</span><strong>'+money(p)+'/mo</strong></div>';
+    }
+    rows+='<div><span>Year '+(reductions.length+1)+' onward · '+rate.toFixed(2)+'% note rate</span><strong>'+money(base)+'/mo</strong></div>';
+    $('payment-rows').innerHTML=rows;
+    $('buydown-cost').textContent=money(subsidy)+' required';
+    const maxContribution=price*cap/100;
+    const allowedBudget=Math.max(0,Math.min(credit,maxContribution-other));
+    const sufficient=allowedBudget+0.01>=subsidy;
+    const budget=$('budget-result');
+    budget.className='notice '+(sufficient?'good':'caution');
+    budget.textContent=sufficient
+      ? 'Estimated buydown subsidy fits within the proposed '+money(credit)+' seller credit after allowing for '+money(other)+' in other counted contributions. Any remaining credit must be applied to eligible costs; it is not cash back.'
+      : 'The proposed credit leaves '+money(allowedBudget)+' available for the buydown, versus '+money(subsidy)+' estimated required. Shortfall: '+money(subsidy-allowedBudget)+'. Choose another buydown, increase the permitted credit, or request lender guidance.';
+    if(rate < Math.max(...reductions)) budget.textContent+=' Effective rates were floored at 0% for illustration.';
+    if(program==='va') budget.textContent+=' The VA 4% proxy is not a total seller-paid-cost cap.';
+  }
+  $('down-percent').addEventListener('click',()=>switchMode(false));
+  $('down-dollar').addEventListener('click',()=>switchMode(true));
+  function switchMode(toDollar){
+    if(dollarMode===toDollar)return;
+    const price=Math.max(10000,value('price',427500)), down=getDown(price);
+    dollarMode=toDollar;
+    $('down').value=toDollar?Math.round(down):Number((down/price*100).toFixed(2));
+    $('down').step=toDollar?'1000':'.5';
+    $('down').max=toDollar?String(price):'100';
+    $('down-prefix').textContent=toDollar?'$':'%';
+    $('down-dollar').classList.toggle('active',toDollar);
+    $('down-percent').classList.toggle('active',!toDollar);
+    $('down-dollar').setAttribute('aria-pressed',String(toDollar));
+    $('down-percent').setAttribute('aria-pressed',String(!toDollar));
+    render();
+  }
+  document.querySelectorAll('.controls input, .controls select').forEach(el=>el.addEventListener('input',render));
+  $('price').addEventListener('input',()=>{if(dollarMode)$('down').max=$('price').value;priorPrice=value('price');});
+  $('program').addEventListener('change',()=>{
+    if($('program').value==='va' && !dollarMode && value('down')===5) $('down').value=0;
+    if($('program').value==='fha' && !dollarMode && value('down')===0) $('down').value=3.5;
+    render();
+  });
+  render();
+})();
+</script>
+
+<style>
+.intro{background:var(--navy-900);color:white;padding:clamp(2.5rem,6vw,5rem) 0}.intro .eyebrow{color:#f2cfd4}.intro h1{max-width:850px;margin:.75rem 0 1rem;font-size:clamp(2.3rem,5vw,4rem)}.intro p{max-width:740px;color:rgba(255,255,255,.75);font-size:1.07rem}.calculator{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1rem,3vw,2rem);align-items:start}.controls,.results{border:1px solid var(--line);border-radius:1rem;padding:clamp(1.25rem,3vw,2rem);background:var(--paper);min-width:0}.controls h2,.results h2{font-size:1.5rem;margin:0 0 1.5rem}.controls label{display:block;font-size:.85rem;font-weight:700;margin:1.25rem 0 .45rem;color:var(--navy-900)}.field{position:relative}.field span{position:absolute;top:50%;left:1rem;transform:translateY(-50%);font-weight:700;color:var(--muted)}.field input{padding-left:2.4rem}.controls input:not([type=range]),.controls select{width:100%;height:3rem;border:1px solid #b7c3cc;border-radius:.55rem;background:white;color:var(--navy-900);padding:0 1rem;font-size:1rem}.controls input:focus-visible,.controls select:focus-visible{outline:3px solid #75b1ce;outline-offset:2px}.controls input[type=range]{width:100%;accent-color:var(--navy-900);margin:.6rem 0}.hint,.subdued{font-size:.77rem;line-height:1.55;color:var(--muted);margin:.45rem 0 0}.field-head,.split-heading,.range-ends,.saving{display:flex;justify-content:space-between;align-items:center;gap:1rem}.field-head label{margin-bottom:.45rem}.mode{display:flex;border:1px solid var(--line);border-radius:.5rem;overflow:hidden}.mode button{background:transparent;border:0;padding:.35rem .7rem;cursor:pointer;color:var(--navy-900)}.mode button.active{background:var(--navy-900);color:white}.split-heading{margin-top:2rem}.split-heading h2,.split-heading h3{margin:0;font-size:1.2rem}.split-heading strong{white-space:nowrap}.range-ends{font-size:.7rem;color:var(--muted)}.two-cards{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.stat{padding:1.1rem;background:var(--mist);border-radius:.75rem}.stat small{display:block;color:var(--muted);margin-bottom:.5rem}.stat strong{font-size:clamp(1.4rem,2.6vw,2rem);display:block;line-height:1.15}.stat span{font-size:.75rem;color:var(--muted)}.saving{padding:1.2rem 0;font-size:.9rem}.saving strong{color:#176a51}.divider{height:1px;background:var(--line);margin:1.25rem 0}.results>.eyebrow{display:block;margin-bottom:.7rem}.payment-rows{margin:1rem 0}.payment-rows>div{display:flex;justify-content:space-between;gap:.5rem;padding:.8rem 0;border-bottom:1px solid var(--line);font-size:.83rem}.payment-rows strong{white-space:nowrap}.notice{border-radius:.65rem;padding:1rem;font-size:.83rem;line-height:1.55;background:var(--mist)}.notice.good{border-left:3px solid #176a51}.notice.caution{border-left:3px solid #ae7332}.cta{margin-top:1.5rem;padding:1rem 1.15rem;background:var(--navy-900);color:white;border-radius:.65rem;display:flex;justify-content:space-between;text-decoration:none;font-weight:700;gap:.8rem}.explain{max-width:920px;margin:3.5rem auto 0}.explain h2{font-size:1.7rem}.explain p{color:var(--muted);line-height:1.75}.explain a{color:var(--navy-900);text-decoration:underline}.fine{font-size:.75rem;border-top:1px solid var(--line);padding-top:1rem}@media(max-width:800px){.calculator{grid-template-columns:1fr}.two-cards{gap:.5rem}.stat{padding:.8rem}.payment-rows>div{flex-wrap:wrap}} 
+</style>
