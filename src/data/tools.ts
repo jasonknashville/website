@@ -9,6 +9,14 @@ export type Tool = {
 
 export const tools: Tool[] = [
   {
+    title: 'Mortgage Rate Buydown Calculator',
+    description: 'Compare seller-funded temporary rate buydowns, price reductions, and seller-contribution limits for conventional, FHA, and VA loans.',
+    href: '/tools/rate-buydown-calculator/',
+    eyebrow: 'Seller incentives & payments',
+    featured: true,
+    status: 'live',
+  },
+  {
     title: 'Move-Up Mortgage Calculator',
     description: 'Estimate net sale proceeds, compare selling with keeping your current home, and see the effect on your next payment.',
     href: '/tools/move-up-calculator/',
