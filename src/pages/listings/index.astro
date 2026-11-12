@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { activeListings } from '../../data/listings';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Nashville Homes for Sale & Property Tours',
+  url: 'https://jasonknashville.com/listings/',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: activeListings.length,
+    itemListElement: activeListings.map((listing, index) => ({
+      '@type': 'ListItem', position: index + 1,
+      name: listing.linkText,
+      url: new URL(listing.href, 'https://jasonknashville.com').href,
+    })),
+  },
+};
+---
+<BaseLayout title="Nashville Homes for Sale & Property Tours" description="Explore current Nashville listings with The Jason Kaczmarski Team. Browse photos and interactive floor plan tours in Bluefields and East Nashville." image="https://jasonknashville.com/227-cumberland-cir/photos/02.webp">
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="intro">
+    <div class="container">
+      <span class="eyebrow">The Jason Kaczmarski Team · RE/MAX 1st Choice</span>
+      <h1>Nashville homes.<br />A closer look.</h1>
+      <p>Explore our current listings with property tours that put every room in context. Browse photos, follow the floor plans, and get a feel for each home before you visit.</p>
+      <a class="intro-link" href="#property-tours">Explore the homes <span aria-hidden="true">↓</span></a>
+    </div>
+  </section>
+  <section class="section tours" id="property-tours" aria-labelledby="tours-heading">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Current listings</span>
+        <h2 id="tours-heading">Find your next place.</h2>
+        <p>From a character-filled ranch in Bluefields to a rooftop perspective on East Nashville, take a closer look at the details that make each home its own.</p>
+      </div>
+      <div class="listing-grid">
+        {activeListings.map((listing, index) => (
+          <article class="listing-card">
+            <a class="photo-link" href={listing.href} aria-label={`Explore ${listing.linkText}`}>
+              <img src={listing.image} alt={listing.imageAlt} width="1200" height="800" loading={index === 0 ? 'eager' : 'lazy'} />
+              <span class="tour-label">Interactive property tour</span>
+            </a>
+            <div class="listing-copy">
+              <p class="location">{listing.location}</p>
+              <h3><a href={listing.href}>{listing.linkText}</a></h3>
+              <p class="highlights">{listing.highlights}</p>
+              <p class="description">{listing.description}</p>
+              <a class="tour-link" href={listing.href}>Explore {listing.address} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="availability">A selection of our listings with dedicated property tours. Contact Jason for current pricing, availability, and showing details.</p>
+    </div>
+  </section>
+  <section class="next-step">
+    <div class="container next-inner">
+      <div><span class="eyebrow">See it in person</span><h2>Let’s show you around.</h2><p>Have a question about a home or want to schedule a private tour?</p></div>
+      <div class="actions"><a class="button" href="https://jasonk.remax.com/contact.php">Contact Jason</a><a class="search-link" href="https://the-jason-kaczmarski-team-springfield-tn.remax.com/">Search all area homes <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .intro { padding: clamp(3.5rem, 7vw, 6rem) 0; background: var(--sand); border-bottom: 1px solid var(--line); }
+  .intro h1 { max-width: 850px; margin-bottom: 1.4rem; }
+  .intro p { max-width: 690px; color: var(--muted); font-size: 1.15rem; }
+  .intro-link { display: inline-flex; gap: 1rem; margin-top: .5rem; font-size: .9rem; font-weight: 600; text-decoration: none; }
+  .listing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+  .listing-card { min-width: 0; border: 1px solid var(--line); background: white; }
+  .photo-link { display: block; position: relative; overflow: hidden; }
+  .photo-link img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; transition: transform .25s ease; }
+  .photo-link:hover img { transform: scale(1.025); }
+  .tour-label { position: absolute; bottom: 1rem; left: 1rem; padding: .35rem .65rem; background: white; color: var(--ink); font-size: .72rem; font-weight: 600; }
+  .listing-copy { padding: clamp(1.25rem, 3vw, 2rem); }
+  .location { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; }
+  .listing-copy h3 { font-size: clamp(1.35rem, 2.5vw, 1.9rem); line-height: 1.2; margin-bottom: .8rem; }
+  .listing-copy h3 a { text-decoration: none; }
+  .listing-copy h3 a:hover, .tour-link:hover, .search-link:hover { text-decoration: underline; }
+  .highlights { font-size: .82rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+  .description { color: var(--muted); font-size: .95rem; }
+  .tour-link { display: inline-flex; align-items: center; gap: .7rem; font-size: .9rem; font-weight: 600; text-decoration: none; }
+  .availability { margin: 1.5rem 0 0; color: var(--muted); font-size: .82rem; }
+  .next-step { background: var(--mist); padding: 3.5rem 0; }
+  .next-inner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
+  .next-inner h2 { margin-bottom: .8rem; }
+  .next-inner p { color: var(--muted); margin-bottom: 0; }
+  .actions { display: grid; gap: 1rem; flex-shrink: 0; }
+  .search-link { font-size: .85rem; text-align: center; }
+  a:focus-visible { outline: 3px solid var(--blue-600); outline-offset: 4px; }
+  @media(max-width: 700px) { .listing-grid { grid-template-columns: 1fr; } .next-inner { flex-direction: column; align-items: flex-start; } }
+</style>

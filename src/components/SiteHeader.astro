@@ -1,6 +1,7 @@
 ---
 const currentPath = Astro.url.pathname;
 const nav = [
+  { href: '/listings/', label: 'Listings' },
   { href: '/tools/', label: 'Tools' },
   { href: '/guides/', label: 'Guides' },
   { href: '/areas/', label: 'Areas' },
@@ -46,7 +47,7 @@ const nav = [
   .mobile-menu div { position: absolute; right: 0; top: 2rem; min-width: 210px; padding: .6rem; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; box-shadow: var(--shadow); }
   .mobile-menu a { display: block; padding: .7rem .8rem; border-radius: .5rem; color: var(--muted); font-size: .9rem; font-weight: 700; text-decoration: none; }
   .mobile-menu a:hover, .mobile-menu a.active { color: var(--navy-900); background: var(--mist); }
-  @media (max-width: 880px) {
+  @media (max-width: 1080px) {
     .header-inner { grid-template-columns: 1fr auto auto; }
     nav { display: none; }
     .mobile-menu { display: block; }
