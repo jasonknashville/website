@@ -1,8 +1,8 @@
 {
   "source": "Freddie Mac Primary Mortgage Market Survey",
   "sourceUrl": "https://www.freddiemac.com/pmms",
-  "asOf": "2026-11-12",
-  "thirtyYear": 7.11,
-  "fifteenYear": 6.45,
-  "updatedAt": "2026-11-12T23:35:17.661Z"
+  "asOf": "2026-11-19",
+  "thirtyYear": 7.28,
+  "fifteenYear": 6.66,
+  "updatedAt": "2026-11-20T00:35:05.826Z"
 }
