@@ -45,5 +45,16 @@ export const listings = [
     description: 'A custom home with a private courtyard, a main-level guest suite with its own entrance, and finished flex space above the detached garage. Explore the main house, outdoor spaces, and garage and flex area through photos and interactive floor plans.',
     status: 'active',
   },
+  {
+    address: '2343 Fairchild Cir #102',
+    location: 'Carothers Farms · Nolensville, TN 37135',
+    linkText: '2343 Fairchild Cir #102 in Carothers Farms',
+    href: '/2343-fairchild-cir-102/',
+    image: '/2343-fairchild-cir-102/photos/01.webp',
+    imageAlt: 'Front exterior of 2343 Fairchild Circle in Carothers Farms',
+    highlights: 'Single-level condo · 2 bedrooms · 2 full baths',
+    description: 'A Carothers Farms condo with a covered front porch, an open kitchen and living area, and breezeway access from the primary suite. Explore the photos and interactive floor plan.',
+    status: 'active',
+  },
 ];
 export const activeListings = listings.filter((listing) => listing.status === 'active');
