@@ -4,6 +4,7 @@ export const prerender = true;
 
 const site = 'https://jasonknashville.com';
 const guides = [
+{"title":"Nashville Builders Are Cutting Prices. Resale Sellers Should Pay Attention.","description":"Builder price cuts and incentives are becoming more common as buyer traffic weakens. Here is what Nashville-area resale sellers should watch heading into winter 2026.","path":"/guides/nashville-builder-price-cuts-november-2026/","published":"Fri, 20 Nov 2026 20:00:00 GMT"},
 {"title":"Mortgage Rates Hit 7.4%. You May Not Have to Settle for That.","description":"Some Nashville-area builders offer mortgage rate incentives on select homes. Find out what to compare and request a list.","path":"/guides/nashville-builder-mortgage-rate-incentives-october-2026/","published":"Wed, 14 Oct 2026 18:00:00 GMT"},
 {"title": "63% of Nashville Sales Include Seller Concessions. Plan for the Whole Deal.", "description": "What Nashville\u2019s 63.1% seller-concession rate means for pricing, negotiating offers, and protecting your net proceeds this fall.", "path": "/guides/nashville-seller-concessions-september-2026/", "published": "Sat, 19 Sep 2026 13:00:00 GMT"},
 {"title": "Wilson Closings Up 15%, Rutherford Down 13%: What the Split Means for Your Next Move", "description": "Closing activity is moving in different directions in Wilson and Rutherford. Here is what the county comparison can—and cannot—tell buyers and sellers.", "path": "/guides/wilson-rutherford-housing-market-split-2026/", "published": "Tue, 15 Sep 2026 13:00:00 GMT"},
