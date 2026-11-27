@@ -4,6 +4,7 @@ export const prerender = true;
 
 const site = 'https://jasonknashville.com';
 const guides = [
+{"title":"Builders May Be Finding the Buyers. Here’s Why Nashville Resale Sellers Should Care.","description":"New-home sales jumped even as builder sentiment stayed weak. Price cuts, incentives, and financing help may be converting buyers that resale sellers are struggling to capture.","path":"/guides/builders-finding-buyers-november-2026/","published":"Fri, 27 Nov 2026 15:00:00 GMT"},
 {"title":"Nashville Builders Are Cutting Prices. Resale Sellers Should Pay Attention.","description":"Builder price cuts and incentives are becoming more common as buyer traffic weakens. Here is what Nashville-area resale sellers should watch heading into winter 2026.","path":"/guides/nashville-builder-price-cuts-november-2026/","published":"Fri, 20 Nov 2026 20:00:00 GMT"},
 {"title":"Mortgage Rates Hit 7.4%. You May Not Have to Settle for That.","description":"Some Nashville-area builders offer mortgage rate incentives on select homes. Find out what to compare and request a list.","path":"/guides/nashville-builder-mortgage-rate-incentives-october-2026/","published":"Wed, 14 Oct 2026 18:00:00 GMT"},
 {"title": "63% of Nashville Sales Include Seller Concessions. Plan for the Whole Deal.", "description": "What Nashville\u2019s 63.1% seller-concession rate means for pricing, negotiating offers, and protecting your net proceeds this fall.", "path": "/guides/nashville-seller-concessions-september-2026/", "published": "Sat, 19 Sep 2026 13:00:00 GMT"},
